@@ -4,7 +4,13 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 local config = {
-	font = wezterm.font("MesloLGS Nerd Font Mono"),
+	font = wezterm.font_with_fallback({
+		"JetBrains Mono",
+		"Hack",
+		"Fira Code",
+		"MesloLGS Nerd Font Mono",
+	}),
+
 	font_size = 14.0,
 	color_scheme = "catppuccin-mocha",
 	enable_tab_bar = false,
