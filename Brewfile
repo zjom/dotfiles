@@ -26,6 +26,7 @@ brew "tmux"
 brew "opam"
 brew "flyctl"
 brew "zsh-autosuggestions"
+brew "zig"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
