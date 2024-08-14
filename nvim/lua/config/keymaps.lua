@@ -1,6 +1,9 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Set jk to esc insert
+vim.keymap.set("i", "jk", "<Esc>")
+
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = true
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
@@ -29,5 +32,7 @@ vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower win
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- Buffer navigation
-vim.keymap.set("n", "<leader>bp", ":b# <CR>", { desc = "Go to previous buffer", silent = true })
-vim.keymap.set("n", "<leader>bd", ":bd <CR>", { desc = "Delete current buffer", silent = true })
+vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer [P]revious", silent = true })
+vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "[B]uffer [N]ext", silent = true })
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "[B]uffer [D]elete current", silent = true })
+vim.keymap.set("n", "<leader>bc", ":vs and new_window<CR>", { desc = "[B]uffer [C]reate ", silent = true })
