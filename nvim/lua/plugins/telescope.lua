@@ -100,7 +100,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
 		-- Shortcut for searching your neovim configuration files
 		vim.keymap.set("n", "<leader>sc", function()
-			builtin.find_files({ cwd = "~/.config/" })
+			builtin.find_files({ cwd = "~/dotfiles/" })
 		end, { desc = "[S]earch [C]onfig" })
 	end,
 }
