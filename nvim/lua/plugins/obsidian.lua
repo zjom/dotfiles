@@ -109,12 +109,6 @@ return {
 				opts = { buffer = true, desc = "[S]earch [T]ags" },
 			},
 
-			-- Open telescope for headings of current file
-			["<leader>sc"] = {
-				action = ":ObsidianTOC<cr>",
-				opts = { buffer = true, desc = "[S]earch [C]urrent file headings" },
-			},
-
 			-- Smart action depending on context, either follow link or toggle checkbox.
 			["<cr>"] = {
 				action = function()
