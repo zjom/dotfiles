@@ -18,7 +18,7 @@ local config = {
 		left = "1cell",
 		right = "1cell",
 		top = "0.5cell",
-		bottom = "0.5cell",
+		bottom = "0cell",
 	},
 	window_decorations = "RESIZE",
 	initial_rows = 36,
