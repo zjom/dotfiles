@@ -10,7 +10,7 @@ return {
 			["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
 			["<C-p>"] = "actions.preview",
 			["<C-c>"] = "actions.close",
-			-- ["<C-l>"] = "actions.refresh",
+			["<C-r>"] = "actions.refresh",
 			["-"] = "actions.parent",
 			["_"] = "actions.open_cwd",
 			["`"] = "actions.cd",
@@ -22,5 +22,5 @@ return {
 		},
 	},
 	dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-	vim.keymap.set("n", "<leader>o", "<cmd>Oil<CR>", { desc = "[O]pen parent directory" }),
+	vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "[-]oil" }),
 }

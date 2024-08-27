@@ -14,8 +14,5 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{ import = "plugins" },
 })
-require("telekasten").setup({
-	home = vim.fn.expand("~/notes"), -- Put the name of your notes directory here
-})
 
 require("config.after.rust")
