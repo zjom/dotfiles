@@ -24,5 +24,3 @@ source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 # This section can be safely removed at any time if needed.
 [[ ! -r '/Users/zihanjin/.opam/opam-init/init.zsh' ]] || source '/Users/zihanjin/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
 # END opam configuration
-
-eval "$(direnv hook zsh)"
