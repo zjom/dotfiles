@@ -1,0 +1,22 @@
+[[search_dirs]]
+path = "/Users/zihanjin/go/src"
+depth = 10
+
+[[search_dirs]]
+path = "/Users/zihanjin/code"
+depth = 10
+
+
+[[search_dirs]]
+path = "/Users/zihanjin/dotfiles/"
+depth = 10
+
+
+[[search_dirs]]
+path = "/Users/zihanjin/Exercism/"
+depth = 10
+
+
+[[search_dirs]]
+path = "/Users/zihanjin/notes/"
+depth = 10
