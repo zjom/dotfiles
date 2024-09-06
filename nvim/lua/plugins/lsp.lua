@@ -220,4 +220,6 @@ return { -- LSP Configuration & Plugins
 			},
 		})
 	end,
+
+	require("lspconfig").gleam.setup({}),
 }
