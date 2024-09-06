@@ -18,8 +18,8 @@ return {
 	opts = {
 		workspaces = {
 			{
-				name = "default",
-				path = "/Users/zihanjin/Library/Mobile Documents/iCloud~md~obsidian/Documents/Default/",
+				name = "Obsidian",
+				path = "/Users/zihanjin/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian/",
 			},
 		},
 
