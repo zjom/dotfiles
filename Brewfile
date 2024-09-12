@@ -28,6 +28,7 @@ brew "flyctl"
 brew "zsh-autosuggestions"
 brew "zig"
 brew "nb"
+brew "pandoc"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
