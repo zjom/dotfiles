@@ -72,3 +72,5 @@ vim.opt.conceallevel = 2
 
 -- Make vim recognise templ files
 vim.filetype.add({ extension = { templ = "templ" } })
+
+vim.g.python3_host_prog = "/Users/zihanjin/py3nvim/bin/python"

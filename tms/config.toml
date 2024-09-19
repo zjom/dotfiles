@@ -13,10 +13,5 @@ depth = 10
 
 
 [[search_dirs]]
-path = "/Users/zihanjin/Exercism/"
-depth = 10
-
-
-[[search_dirs]]
-path = "/Users/zihanjin/notes/"
+path = "/Users/zihanjin/.nb/"
 depth = 10

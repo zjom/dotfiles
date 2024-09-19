@@ -29,6 +29,7 @@ brew "zsh-autosuggestions"
 brew "zig"
 brew "nb"
 brew "pandoc"
+brew "pipx"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
@@ -43,6 +44,8 @@ cask "font-meslo-lg-nerd-font"
 cask "font-hack"
 cask "font-fira-code"
 cask "font-jetbrains-mono"
+cask "basictex"
+cask "zotero"
 
 mas "Microsoft PowerPoint", id: 462062816
 mas "Microsoft Word", id: 462054704

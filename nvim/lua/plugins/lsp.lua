@@ -142,7 +142,7 @@ return { -- LSP Configuration & Plugins
 			pyright = {},
 			nil_ls = {},
 			eslint = {},
-			tsserver = {
+			ts_ls = {
 				settings = {
 					implicitProjectConfiguration = {
 						checkJs = true,
