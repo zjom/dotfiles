@@ -38,5 +38,3 @@ export PATH="$PATH:/Users/zihanjin/.local/bin"
 
 setopt EXTENDED_GLOB
 
-
-[ -f "/Users/zihanjin/.ghcup/env" ] && . "/Users/zihanjin/.ghcup/env" # ghcup-env

@@ -138,6 +138,7 @@ return { -- LSP Configuration & Plugins
 					"--compile-commands-dir=.",
 				},
 			},
+			marksman = {},
 			gopls = {},
 			pyright = {},
 			nil_ls = {},
@@ -159,7 +160,20 @@ return { -- LSP Configuration & Plugins
 				filetypes = { "htmx", "html", "templ" },
 			},
 			emmet_ls = {},
-
+			ocamllsp = {
+				manual_install = true,
+				settings = {
+					codelens = { enable = true },
+					inlayHints = { enable = true },
+				},
+				filetypes = {
+					"ocaml",
+					"ocaml.interface",
+					"ocaml.menhir",
+					"ocaml.cram",
+				},
+			},
+			hls = {},
 			lua_ls = {
 				-- cmd = {...},
 				-- filetypes { ...},
