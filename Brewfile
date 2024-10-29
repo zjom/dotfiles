@@ -31,6 +31,7 @@ brew "nb"
 brew "pandoc"
 brew "pipx"
 brew "wget"
+brew "deno"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
@@ -48,6 +49,8 @@ cask "font-jetbrains-mono"
 cask "basictex"
 cask "zotero"
 cask "gimp"
+cask "anki"
 
 mas "Microsoft Word", id: 462054704
 mas "Microsoft Excel", id: 462058435
+mas "Microsoft PowerPoint", id: 462062816

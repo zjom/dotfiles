@@ -9,6 +9,19 @@ alias q='exit'
 alias lg='lazygit'
 alias vim='nvim'
 alias tm='tmux -2'
+alias cat='bat'
+
+open_in_nvim() {
+  local result=$(fzf)
+
+  if [[ -n "$result" ]]; then
+    nvim "$result"
+  else
+    echo "No file selected."
+  fi
+}
+
+alias nf='open_in_nvim'
 
 
 if type brew &>/dev/null
@@ -19,7 +32,7 @@ then
   compinit
 fi
 
-export PATH=$PATH:~/go/bin
+export PATH=$PATH:~/code/go/bin
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -40,3 +53,4 @@ setopt EXTENDED_GLOB
 
 
 [ -f "/Users/zihanjin/.ghcup/env" ] && . "/Users/zihanjin/.ghcup/env" # ghcup-env
+export PATH=/Users/zihanjin/edirect:${PATH}

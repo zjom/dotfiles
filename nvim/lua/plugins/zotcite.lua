@@ -8,6 +8,7 @@ return {
 	},
 	config = function()
 		require("zotcite").setup({
+			open_in_zotero = true,
 			-- your options here (see doc/zotcite.txt)
 		})
 

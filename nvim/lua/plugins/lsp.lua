@@ -47,14 +47,14 @@ return { -- LSP Configuration & Plugins
 				-- to define small helper and utility functions so you don't have to repeat yourself
 				-- many times.
 				--
-				-- In this case, we create a function that lets us more easily define mappings specific
+				-- In this case, we create a fn that lets us more easily define mappings specific
 				-- for LSP related items. It sets the mode, buffer and description for us each time.
 				local map = function(keys, func, desc)
 					vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
 				end
 
 				-- Jump to the definition of the word under your cursor.
-				--  This is where a variable was first declared, or where a function is defined, etc.
+				--  This is where a variable was first declared, or where a fn is defined, etc.
 				--  To jump back, press <C-T>.
 				map("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
 
@@ -149,6 +149,11 @@ return { -- LSP Configuration & Plugins
 						checkJs = true,
 					},
 				},
+				root_dir = require("lspconfig").util.root_pattern("package.json"),
+				single_file_support = false,
+			},
+			denols = {
+				root_dir = require("lspconfig").util.root_pattern("deno.json", "deno.jsonc"),
 			},
 			templ = {
 				filetypes = { "templ" },
@@ -235,5 +240,5 @@ return { -- LSP Configuration & Plugins
 		})
 	end,
 
-	require("lspconfig").gleam.setup({}),
+	-- require("lspconfig").gleam.setup({}),
 }

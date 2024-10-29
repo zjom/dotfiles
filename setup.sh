@@ -1,6 +1,5 @@
 #!/bin/bash
 ln -sf ~/dotfiles/.zshrc ~/.zshrc
-ln -sf ~/dotfiles/aerospace/aerospace.toml ~/.aerospace.toml
 
 ln -sf ~/dotfiles/nvim/ ~/.config/nvim
 ln -sf ~/dotfiles/wezterm/ ~/.config/wezterm
