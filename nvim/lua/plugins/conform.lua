@@ -8,11 +8,10 @@ return { -- Autoformat
 		},
 		formatters_by_ft = {
 			lua = { "stylua" },
-			python = { "isort", "black" },
-			go = { "golines", "gofumt", "goimports" },
-			javascript = { "deno_fmt", "prettierd", "prettier", stop_after_first = true },
+			python = { "ruff" },
+			go = { "crlfmt", "gofumt" },
+			javascript = { "prettierd", "prettier", stop_after_first = true },
 			json = { "jq" },
-			markdown = { "deno_fmt" },
 		},
 	},
 }

@@ -10,8 +10,8 @@ vim.g.maplocalleader = " "
 --  For more options, you can see `:help option-list`
 
 -- Set tab size to 2
-vim.opt.tabstop = 2
-vim.opt.shiftwidth = 2
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 -- Make line numbers default

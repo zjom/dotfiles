@@ -1,17 +1,17 @@
 [[search_dirs]]
 path = "/Users/zihanjin/go/src"
-depth = 10
+depth = 1
 
 [[search_dirs]]
 path = "/Users/zihanjin/code"
-depth = 10
+depth = 1
 
 
 [[search_dirs]]
 path = "/Users/zihanjin/dotfiles/"
-depth = 10
+depth = 1
 
 
 [[search_dirs]]
 path = "/Users/zihanjin/.nb/"
-depth = 10
+depth = 1

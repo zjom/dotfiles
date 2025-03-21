@@ -1,5 +1,8 @@
 return { -- Highlight, edit, and navigate code
 	"nvim-treesitter/nvim-treesitter",
+	dependencies = {
+		"nvim-treesitter/nvim-treesitter-context",
+	},
 	build = ":TSUpdate",
 	config = function()
 		-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
@@ -24,7 +27,20 @@ return { -- Highlight, edit, and navigate code
 			auto_install = true,
 			highlight = { enable = true },
 			indent = { enable = true },
+			incremental_selection = {
+				enable = true,
+				keymaps = {
+					init_selection = "<C-n>",
+					node_incremental = "<C-n>",
+					scope_incremental = "<C-s>",
+					node_decremental = "<C-p>",
+				},
+			},
 		})
+		vim.treesitter.language.register("html", "gohtmltmpl")
+		vim.keymap.set("n", "[c", function()
+			require("treesitter-context").go_to_context(vim.v.count1)
+		end, { silent = true })
 
 		-- There are additional nvim-treesitter modules that you can use to interact
 		-- with nvim-treesitter. You should go explore a few and see what interests you:

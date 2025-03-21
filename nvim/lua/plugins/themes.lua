@@ -6,14 +6,24 @@ return {
 		-- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`
 		"catppuccin/nvim",
 		name = "catppuccin",
-		lazy = false, -- make sure we load this during startup if it is your main colorscheme
-		priority = 1000, -- make sure to load this before all the other start plugins
+		lazy = false,
+		priority = 1000,
 		config = function()
-			-- Load the colorscheme here
-			vim.cmd.colorscheme("catppuccin-mocha")
-
-			-- You can configure highlights by doing something like
-			-- vim.cmd.hi("Comment gui=none")
+			vim.cmd.colorscheme("catppuccin")
+		end,
+	},
+	{
+		"sainnhe/gruvbox-material",
+	},
+	{
+		"nuvic/flexoki-nvim",
+		name = "flexoki",
+	},
+	{
+		"sainnhe/everforest",
+		config = function()
+			vim.g.everforest_background = "hard"
+			vim.g.everforest_better_performance = 1
 		end,
 	},
 }

@@ -1,7 +1,6 @@
 tap "homebrew/bundle"
 tap "libsql/sqld"
 tap "tursodatabase/tap"
-tap "oven-sh/bun"
 tap "nikitabobko/tap"
 tap "xwmx/taps"
 
@@ -32,10 +31,13 @@ brew "pandoc"
 brew "pipx"
 brew "wget"
 brew "deno"
+brew "uv"
+brew "elixir"
+brew "caddy"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
-cask "wezterm"
+cask "wezterm@nightly"
 cask "iina"
 cask "pdf-expert"
 cask "spotify"
@@ -51,6 +53,6 @@ cask "zotero"
 cask "gimp"
 cask "anki"
 
-mas "Microsoft Word", id: 462054704
-mas "Microsoft Excel", id: 462058435
-mas "Microsoft PowerPoint", id: 462062816
+### mas "Microsoft Word", id: 462054704
+### mas "Microsoft Excel", id: 462058435
+### mas "Microsoft PowerPoint", id: 462062816

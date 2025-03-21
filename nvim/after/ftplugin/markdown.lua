@@ -1,10 +1,11 @@
 ------ opts
 vim.opt_local.spell = true
 vim.opt_local.signcolumn = "no"
+vim.g.markdown_fenced_languages = { "javascript", "typescript", "bash", "lua", "go", "rust", "c", "cpp" }
 
 ------ plugins
 -- Prose writing convenience
-vim.cmd("Pencil")
+-- vim.cmd("Pencil")
 
 ------ misc
 -- Toggle unordered list for selected lines
@@ -116,3 +117,5 @@ map("n", "<leader>bc", CompileAndOpen, "[B]uffer [C]ompile")
 map("n", "<C-k>", "z=", "Spell Suggest")
 
 map("n", "<leader>tp", ":PencilToggle<cr>", "[T]oggle [P]encil")
+
+map("n", "<leader>to", require("otter").activate, "[T]oggle [Otter]")

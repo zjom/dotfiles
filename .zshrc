@@ -3,6 +3,7 @@ eval "$(starship init zsh)"
 source <(fzf --zsh)
 
 alias ls='eza --icons'
+alias tree='eza --icons --tree'
 alias t='touch'
 alias c='clear'
 alias q='exit'
@@ -12,7 +13,8 @@ alias tm='tmux -2'
 alias cat='bat'
 
 open_in_nvim() {
-  local result=$(fzf)
+  local query="${1:-}"
+  local result=$(fzf --walker-skip=.git,node_modules,.venv,venv --query "$query")
 
   if [[ -n "$result" ]]; then
     nvim "$result"
@@ -32,7 +34,7 @@ then
   compinit
 fi
 
-export PATH=$PATH:~/code/go/bin
+export PATH=$PATH:~/go/bin
 
 source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -54,3 +56,10 @@ setopt EXTENDED_GLOB
 
 [ -f "/Users/zihanjin/.ghcup/env" ] && . "/Users/zihanjin/.ghcup/env" # ghcup-env
 export PATH=/Users/zihanjin/edirect:${PATH}
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
+
+# Composer installed (Laravel) global executables
+export PATH="$PATH:/Users/zihanjin/.composer/vendor/bin"
+export PATH="/Users/zihanjin/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/Users/zihanjin/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
