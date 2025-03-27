@@ -14,7 +14,7 @@ alias cat='bat'
 
 open_in_nvim() {
   local query="${1:-}"
-  local result=$(fzf --walker-skip=.git,node_modules,.venv,venv --query "$query")
+  local result=$(fzf --walker-skip=.git,node_modules,.venv,venv --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
 
   if [[ -n "$result" ]]; then
     nvim "$result"
@@ -25,6 +25,16 @@ open_in_nvim() {
 
 alias nf='open_in_nvim'
 
+open_in_nvim_rg() {
+  local query="${1:-}"
+  local result=$(rg -l --smart-case "$query" | fzf -m --walker-skip=.git,node_modules,.venv,venv --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+  if [[ -n "$result" ]]; then
+    nvim "$result"
+  else
+    echo "No file selected."
+  fi
+}
+alias nr='open_in_nvim_rg'
 
 if type brew &>/dev/null
 then
