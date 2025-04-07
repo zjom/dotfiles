@@ -1,0 +1,5 @@
+{
+  "menus.power.lowBatteryNotification": true,
+  "bar.workspaces.show_icons": false,
+  "menus.dashboard.shortcuts.enabled": false
+}

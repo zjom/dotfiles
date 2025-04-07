@@ -1,0 +1,7 @@
+[[search_dirs]]
+path = "/home/zjom/Projects"
+depth = 10
+
+[[search_dirs]]
+path = "/home/zjom/dotfiles"
+depth = 10
