@@ -15,6 +15,7 @@ alias tm='tmux -2'
 alias ls='exa --color=auto --icons'
 alias cat='bat'
 alias vim='nvim'
+alias rm='rm -i'
 
 
 ###############
@@ -51,13 +52,12 @@ alias nr='open_in_nvim_rg'
 export PATH="$HOME/go/bin/:$PATH"
 export PATH="$HOME/bin/:$PATH"
 export PATH="$HOME/.cargo/bin/:$PATH"
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-
+export PATH="$HOME/.dotnet/tool/:$PATH"
+export PATH="/home/zjom/.local/bin:$PATH" #uv
 
 ##############
 ###  Eval  ###
 ##############
-. <(asdf completion bash)
 eval "$(fzf --bash)"
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"

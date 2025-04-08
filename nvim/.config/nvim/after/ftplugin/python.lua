@@ -16,7 +16,7 @@ iron.setup({
 				command = { "bash" },
 			},
 			python = {
-				command = { "uvx", " ipython", "--no-autoindent" },
+				command = { "ipython", "--no-autoindent" },
 				format = common.bracketed_paste_python,
 				block_deviders = { "# %%", "#%%" },
 			},
