@@ -9,7 +9,7 @@ return { -- Autoformat
 		formatters_by_ft = {
 			lua = { "stylua" },
 			python = { "ruff" },
-			go = { "crlfmt", "gofumt" },
+			go = { "goimports", "gofumt" },
 			javascript = { "prettierd", "prettier", stop_after_first = true },
 			json = { "jq" },
 		},

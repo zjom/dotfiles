@@ -1,3 +1,5 @@
+default_session = "default"
+
 [[search_dirs]]
 path = "/home/zjom/Projects"
 depth = 10
@@ -5,3 +7,7 @@ depth = 10
 [[search_dirs]]
 path = "/home/zjom/dotfiles"
 depth = 10
+
+[[search_dirs]]
+path = "/home/zjom/.nb"
+depth = 2
