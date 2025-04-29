@@ -58,6 +58,7 @@ export PATH="/home/zjom/.local/bin:$PATH" #uv
 ##############
 ###  Eval  ###
 ##############
+eval $(opam env)
 eval "$(fzf --bash)"
 eval "$(starship init bash)"
 eval "$(zoxide init bash)"
