@@ -1,5 +1,3 @@
-vim.keymap.set("n", "<F5>", ":w<CR>:vs | terminal uv run %<CR>", { noremap = true, silent = true })
-
 local iron = require("iron.core")
 local view = require("iron.view")
 local common = require("iron.fts.common")
