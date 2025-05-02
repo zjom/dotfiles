@@ -2,8 +2,8 @@ eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 source <(fzf --zsh)
 
-alias ls='eza --icons'
-alias tree='eza --icons --tree'
+alias ls='eza --icons always'
+alias tree='eza --icons always --tree '
 alias t='touch'
 alias c='clear'
 alias q='exit'
