@@ -144,6 +144,7 @@ return { -- LSP Configuration & Plugins
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
+			clojure_lsp = {},
 			clangd = {
 				cmd = {
 					"clangd",
@@ -241,6 +242,7 @@ return { -- LSP Configuration & Plugins
 			"stylua", -- Used to format lua code
 			"eslint", -- Used to lint JavaScript and TypeScript
 			"prettierd",
+			"cljfmt",
 		})
 		vim.list_extend(ensure_installed, servers_to_install)
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })

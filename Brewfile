@@ -32,6 +32,7 @@ brew "uv"
 brew "caddy"
 brew "stow"
 brew "sesh"
+brew "clojure/tools/clojure"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
@@ -51,6 +52,7 @@ cask "zotero"
 cask "gimp"
 cask "anki"
 cask "kitty"
+cask "temurin@21" # opensource java
 
 ### mas "Microsoft Word", id: 462054704
 ### mas "Microsoft Excel", id: 462058435
