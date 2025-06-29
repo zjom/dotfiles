@@ -1,0 +1,12 @@
+[tools]
+dotnet = "9"
+elixir = "latest"
+erlang = "latest"
+go = "latest"
+python = "latest"
+rebar = "latest"
+uv = "latest"
+
+
+[env]
+ERL_AFLAGS="-kernel shell_history enabled"
