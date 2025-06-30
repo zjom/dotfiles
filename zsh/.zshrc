@@ -14,7 +14,7 @@ alias cat='bat'
 
 open_in_nvim() {
   local query="${1:-}"
-  local result=$(fzf --walker-skip=.git,node_modules,.venv,venv --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+  local result=$(fzf --walker-skip=.git,node_modules,.venv,venv,.jj --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
 
   if [[ -n "$result" ]]; then
     nvim "$result"
@@ -27,7 +27,7 @@ alias nf='open_in_nvim'
 
 open_in_nvim_rg() {
   local query="${1:-}"
-  local result=$(rg -l --smart-case "$query" | fzf -m --walker-skip=.git,node_modules,.venv,venv --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+  local result=$(rg -l --smart-case "$query" | fzf -m --walker-skip=.git,node_modules,.venv,venv,.jj --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
   if [[ -n "$result" ]]; then
     nvim "$result"
   else
@@ -72,7 +72,31 @@ function sesh-sessions() {
   }
 }
 
+function sesh-all() {
+  {
+sesh connect "$(
+  sesh list --icons | fzf-tmux -p 80%,70% \
+    --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+    --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+    --bind 'tab:down,btab:up' \
+    --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+    --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+    --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+    --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+    --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+    --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+    --preview-window 'right:55%' \
+    --preview 'sesh preview {}'
+)"
+  }
+}
+
 zle     -N             sesh-sessions
 bindkey -M emacs '\es' sesh-sessions
 bindkey -M vicmd '\es' sesh-sessions
 bindkey -M viins '\es' sesh-sessions
+
+zle     -N             sesh-all
+bindkey -M emacs '\eS' sesh-all
+bindkey -M vicmd '\eS' sesh-all
+bindkey -M viins '\eS' sesh-all

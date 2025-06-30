@@ -30,6 +30,7 @@ brew "glow" # terminal markdown renderer
 brew "jj"
 brew "mise"
 brew "fd"
+brew "tldr"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
