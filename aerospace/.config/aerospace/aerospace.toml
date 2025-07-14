@@ -53,12 +53,12 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 [gaps]
-inner.horizontal = 8
-inner.vertical =   8
-outer.left =       8
-outer.bottom =     8
-outer.top =        8
-outer.right =      8
+inner.horizontal = 12
+inner.vertical =   12
+outer.left =       12
+outer.bottom =     12
+outer.top =        12
+outer.right =      12
 
 
 # 'main' binding mode declaration
@@ -83,7 +83,7 @@ outer.right =      8
 
 alt-q = 'exec-and-forget wezterm start -- sh -c "tmux attach -t default || tmux new -s default"'
 alt-n = 'exec-and-forget open -a mail'
-alt-b = 'exec-and-forget open -a arc'
+alt-b = 'exec-and-forget open -a safari'
 alt-m = 'exec-and-forget open -a messages'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
