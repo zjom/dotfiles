@@ -1,7 +1,7 @@
 return {
 	"tadmccorkle/markdown.nvim",
 	ft = "markdown", -- or 'event = "VeryLazy"'
-	{
+	opts = {
 		-- Disable all keymaps by setting mappings field to 'false'.
 		-- Selectively disable keymaps by setting corresponding field to 'false'.
 		mappings = {
