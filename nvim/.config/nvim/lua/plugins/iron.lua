@@ -1,3 +1,0 @@
-return {
-	"Vigemus/iron.nvim",
-}

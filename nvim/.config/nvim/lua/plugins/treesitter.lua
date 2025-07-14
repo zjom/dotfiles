@@ -21,7 +21,6 @@ return { -- Highlight, edit, and navigate code
 				"gomod",
 				"gowork",
 				"python",
-				"nix",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
@@ -37,7 +36,6 @@ return { -- Highlight, edit, and navigate code
 				},
 			},
 		})
-		vim.treesitter.language.register("html", "gohtmltmpl")
 		vim.keymap.set("n", "[c", function()
 			require("treesitter-context").go_to_context(vim.v.count1)
 		end, { silent = true })
