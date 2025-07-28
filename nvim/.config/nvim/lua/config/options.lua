@@ -74,5 +74,3 @@ vim.o.conceallevel = 2
 
 -- Disable swapfile
 vim.o.swapfile = false
-
-vim.g.python3_host_prog = "/Users/zihanjin/py3nvim/bin/python"
