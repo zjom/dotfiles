@@ -122,5 +122,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		vim.keymap.set("n", "<leader>sc", function()
 			builtin.find_files({ cwd = "~/dotfiles/" })
 		end, { desc = "[S]earch [C]onfig" })
+
+		vim.keymap.set("n", "<leader>sn", function()
+			builtin.find_files({ cwd = "~/.nb/" })
+		end, { desc = "[S]earch [N]otes" })
+		vim.keymap.set("n", "<leader>sN", function()
+			builtin.live_grep({ cwd = "~/.nb/" })
+		end, { desc = "[S]earch [N]otes (grep)" })
 	end,
 }

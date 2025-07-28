@@ -12,7 +12,9 @@ local config = {
 	}),
 
 	font_size = 14.0,
-	color_scheme = "catppuccin-mocha",
+	color_scheme = "CutiePro",
+	-- color_scheme = "Bleh-1 (terminal.sexy)",
+	-- color_scheme = "catppuccin-mocha",
 	-- color_scheme = "Everforest Dark (Hard)",
 	enable_tab_bar = false,
 	window_padding = {
