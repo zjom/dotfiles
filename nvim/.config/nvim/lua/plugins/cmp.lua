@@ -87,6 +87,7 @@ return { -- Autocompletion
 				{ name = "luasnip" },
 				{ name = "path" },
 				{ name = "cmp_zotcite" },
+				{ name = "vim-dadbod-completion" },
 			},
 		})
 	end,
