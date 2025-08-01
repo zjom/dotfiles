@@ -13,6 +13,7 @@ return { -- Autoformat
 			javascript = { "dprint", "prettierd", "prettier", stop_after_first = true },
 			json = { "jq" },
 			typst = { "typstyle" },
+			sql = { "sleek" },
 		},
 	},
 }
