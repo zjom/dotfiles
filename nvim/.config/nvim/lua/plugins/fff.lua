@@ -14,5 +14,12 @@ return {
 			end,
 			desc = "Open file picker",
 		},
+		{
+			"fF", -- try it if you didn't it is a banger keybinding for a picker
+			function()
+				require("fff").find_in_git_root() -- or find_in_git_root() if you only want git files
+			end,
+			desc = "Open file picker in git root",
+		},
 	},
 }
