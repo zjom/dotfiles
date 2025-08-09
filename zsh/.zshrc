@@ -24,6 +24,7 @@ open_in_nvim() {
 }
 
 alias nf='open_in_nvim'
+alias ff='open_in_nvim'
 
 open_in_nvim_rg() {
   local query="${1:-}"
