@@ -172,16 +172,6 @@ local config = {
 		{ key = "DownArrow", mods = "SHIFT|ALT|CTRL", action = act.AdjustPaneSize({ "Down", 1 }) },
 		{ key = "Copy", mods = "NONE", action = act.CopyTo("Clipboard") },
 		{ key = "Paste", mods = "NONE", action = act.PasteFrom("Clipboard") },
-		{
-			key = "g",
-			mods = "LEADER",
-			action = wezterm.action_callback(function(window, pane)
-				local tab, pane, window = window:mux_window():spawn_tab({
-					args = { os.getenv("SHELL"), "-c", "lazygit" },
-				})
-				tab:set_title("lazygit")
-			end),
-		},
 	},
 
 	key_tables = {
