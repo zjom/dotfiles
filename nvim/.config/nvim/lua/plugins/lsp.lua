@@ -241,17 +241,9 @@ return { -- LSP Configuration & Plugins
 					},
 				},
 			},
-			tailwindcss = { filetypes = { "html", "gohtmltmpl", "astro" } },
+			tailwindcss = {},
 			eslint = {},
-			templ = {
-				filetypes = { "templ" },
-			},
-			html = {
-				filetypes = { "templ", "html", "gohtmltmpl" },
-			},
-			-- htmx = {
-			-- 	filetypes = { "htmx", "html", "templ", "gohtmltmpl" },
-			-- },
+			html = {},
 			emmet_ls = {},
 			ocamllsp = {
 				manual_install = true,
