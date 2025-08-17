@@ -16,7 +16,6 @@ local config = {
 	color_scheme = "Wombat",
 	-- color_scheme = "Bleh-1 (terminal.sexy)",
 	-- color_scheme = "catppuccin-mocha",
-	-- color_scheme = "Everforest Dark (Hard)",
 	enable_tab_bar = false,
 	window_padding = {
 		left = "1cell",
