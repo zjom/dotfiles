@@ -246,19 +246,19 @@ return { -- LSP Configuration & Plugins
 			eslint = {},
 			html = {},
 			emmet_ls = {},
-			ocamllsp = {
-				manual_install = true,
-				settings = {
-					codelens = { enable = true },
-					inlayHints = { enable = true },
-				},
-				filetypes = {
-					"ocaml",
-					"ocaml.interface",
-					"ocaml.menhir",
-					"ocaml.cram",
-				},
-			},
+			-- ocamllsp = {
+			-- 	manual_install = true,
+			-- 	settings = {
+			-- 		codelens = { enable = true },
+			-- 		inlayHints = { enable = true },
+			-- 	},
+			-- 	filetypes = {
+			-- 		"ocaml",
+			-- 		"ocaml.interface",
+			-- 		"ocaml.menhir",
+			-- 		"ocaml.cram",
+			-- 	},
+			-- },
 			lua_ls = {
 				-- cmd = {...},
 				-- filetypes { ...},
