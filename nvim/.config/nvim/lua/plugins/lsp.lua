@@ -6,7 +6,7 @@ return { -- LSP Configuration & Plugins
 			"mason-org/mason.nvim",
 			opts = {
 
-				log_level = vim.log.levels.DEBUG,
+				log_level = vim.log.levels.INFO,
 				pip = {
 					---@since 1.0.0
 					-- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
