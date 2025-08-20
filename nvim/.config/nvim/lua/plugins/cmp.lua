@@ -40,6 +40,14 @@ return {
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
 			default = { "lsp", "path" },
+			per_filetype = {
+				sql = { "dadbod" },
+				markdown = { inherit_defaults = true, "buffer" },
+			},
+
+			providers = {
+				dadbod = { module = "vim_dadbod_completion.blink" },
+			},
 		},
 
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
