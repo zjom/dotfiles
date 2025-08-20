@@ -1,7 +1,32 @@
 return {
 	"saghen/blink.cmp",
 	-- optional: provides snippets for the snippet source
-	-- dependencies = { "rafamadriz/friendly-snippets" },
+	dependencies = {
+		"L3MON4D3/LuaSnip",
+		version = "2.*",
+		build = (function()
+			-- Build Step is needed for regex support in snippets.
+			-- This step is not supported in many windows environments.
+			-- Remove the below condition to re-enable on windows.
+			if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
+				return
+			end
+			return "make install_jsregexp"
+		end)(),
+		dependencies = {
+			-- `friendly-snippets` contains a variety of premade snippets.
+			--    See the README about individual language/framework/plugin snippets:
+			--    https://github.com/rafamadriz/friendly-snippets
+			-- {
+			--   'rafamadriz/friendly-snippets',
+			--   config = function()
+			--     require('luasnip.loaders.from_vscode').lazy_load()
+			--   end,
+			-- },
+		},
+		opts = {},
+	},
+	"folke/lazydev.nvim",
 
 	-- use a release tag to download pre-built binaries
 	version = "1.*",
@@ -33,22 +58,24 @@ return {
 			nerd_font_variant = "mono",
 		},
 
-		-- (Default) Only show the documentation popup when manually triggered
-		completion = { documentation = { auto_show = false } },
+		completion = { documentation = { auto_show = false, auto_show_delay_ms = 500 } },
 
 		-- Default list of enabled providers defined so that you can extend it
 		-- elsewhere in your config, without redefining it, due to `opts_extend`
 		sources = {
-			default = { "lsp", "path" },
+			default = { "lsp", "path", "snippets" },
 			per_filetype = {
-				sql = { "dadbod" },
+				sql = { inherit_defaults = true, "dadbod" },
 				markdown = { inherit_defaults = true, "buffer" },
+				lua = { inherit_defaults = true, "lazydev" },
 			},
 
 			providers = {
 				dadbod = { module = "vim_dadbod_completion.blink" },
+				lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
 			},
 		},
+		snippets = { preset = "luasnip" },
 
 		-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
 		-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
@@ -56,6 +83,7 @@ return {
 		--
 		-- See the fuzzy documentation for more information
 		fuzzy = { implementation = "rust" },
+		signature = { enabled = true },
 	},
 	opts_extend = { "sources.default" },
 }
