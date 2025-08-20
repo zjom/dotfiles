@@ -10,7 +10,7 @@ return { -- Autoformat
 			lua = { "stylua" },
 			python = { "ruff" },
 			go = { "crlfmt", "gofumt" },
-			javascript = { "dprint", "prettierd", "prettier", stop_after_first = true },
+			javascript = { "prettierd", stop_after_first = true },
 			json = { "jq" },
 			typst = { "typstyle" },
 			sql = { "sleek" },
