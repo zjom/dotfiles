@@ -14,7 +14,7 @@ alias cat='bat'
 
 open_in_nvim() {
   local query="${1:-}"
-  local result=$(fzf --walker-skip=.git,node_modules,.venv,venv,.jj --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+  local result=$(fd --type f --hidden --follow . | fzf  --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
 
   if [[ -n "$result" ]]; then
     nvim "$result"
