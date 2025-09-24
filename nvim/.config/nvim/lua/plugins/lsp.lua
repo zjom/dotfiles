@@ -323,7 +323,6 @@ return { -- LSP Configuration & Plugins
 			"stylua", -- Used to format lua code
 			"eslint", -- Used to lint JavaScript and TypeScript
 			"prettierd",
-			"dprint",
 			"typstyle",
 			"sleek",
 		})
