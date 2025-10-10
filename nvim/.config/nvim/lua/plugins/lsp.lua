@@ -322,7 +322,7 @@ return { -- LSP Configuration & Plugins
 		vim.list_extend(ensure_installed, {
 			"stylua", -- Used to format lua code
 			"eslint", -- Used to lint JavaScript and TypeScript
-			"prettierd",
+			"prettier",
 			"typstyle",
 			"sleek",
 		})

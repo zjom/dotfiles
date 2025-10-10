@@ -32,7 +32,7 @@ return { -- Autoformat
 			lua = { "stylua" },
 			python = { "ruff" },
 			go = { "crlfmt", "gofumt" },
-			javascript = { "prettierd", stop_after_first = true },
+			javascript = { "prettier", stop_after_first = true },
 			json = { "jq" },
 			typst = { "typstyle" },
 			sql = { "sleek" },
