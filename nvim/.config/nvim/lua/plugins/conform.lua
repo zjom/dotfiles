@@ -15,27 +15,63 @@ return { -- Autoformat
 	opts = {
 		notify_on_error = false,
 		format_on_save = function(bufnr)
-			-- Disable "format_on_save lsp_fallback" for languages that don't
-			-- have a well standardized coding style. You can add additional
-			-- languages here or re-enable it for the disabled ones.
-			local disable_filetypes = { c = true, cpp = true }
-			if disable_filetypes[vim.bo[bufnr].filetype] then
-				return nil
-			else
-				return {
-					timeout_ms = 500,
-					lsp_format = "fallback",
-				}
+			-- Disable autoformat for files in a certain path
+			local bufname = vim.api.nvim_buf_get_name(bufnr)
+			if bufname:match("/node_modules/") then
+				return
 			end
+
+			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+				return
+			end
+
+			---@type conform.FormatOpts
+			return { timeout_ms = 500, lsp_format = "fallback" }
 		end,
+		quiet = true,
 		formatters_by_ft = {
-			lua = { "stylua" },
-			python = { "ruff" },
-			go = { "crlfmt", "gofumt" },
-			javascript = { "prettier", stop_after_first = true },
-			json = { "jq" },
-			typst = { "typstyle" },
-			sql = { "sleek" },
+			typescript = { "prettier" },
+			typescriptreact = { "prettier" },
+			javascript = { "prettier" },
+			javascriptreact = { "prettier" },
+			html = { "prettier" },
+			css = { "prettier" },
+			scss = { "prettier" },
+			lua = { "stylua", lsp_format = "prefer" },
+			markdown = { "prettier" },
+			yaml = { "prettier" },
+			graphql = { "prettier" },
+			vue = { "prettier" },
+			angular = { "prettier" },
+			less = { "prettier" },
+			flow = { "prettier" },
+			sh = { "beautysh" },
+			bash = { "beautysh" },
+			zsh = { "beautysh" },
+			http = { "kulala-fmt" },
+			python = { "black" },
+			go = { "gofmt" },
+			["_"] = { "trim_whitespace" },
+		},
+		formatters = {
+			prettier = {
+				prepend_args = function()
+					return {
+						"--no-semi",
+						"--single-quote",
+						"--no-bracket-spacing",
+						"--print-width",
+						"80",
+						"--config-precedence",
+						"prefer-file",
+					}
+				end,
+			},
+			beautysh = {
+				prepend_args = function()
+					return { "--indent-size", "4", "--force-function-style", "fnpar" }
+				end,
+			},
 		},
 	},
 }
