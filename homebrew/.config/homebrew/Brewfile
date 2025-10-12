@@ -3,9 +3,7 @@ tap "nikitabobko/tap" # aerospace
 tap "xwmx/taps"
 
 brew "mas"
-# brew "ffmpeg"
 brew "gh"
-# brew "luarocks"
 brew "neovim"
 brew "pngpaste"
 brew "websocat"
@@ -26,11 +24,12 @@ brew "uv"
 brew "caddy"
 brew "stow"
 brew "sesh"
-brew "glow" # terminal markdown renderer
-brew "jj"
 brew "mise"
 brew "fd"
 brew "tldr"
+brew "typst"
+brew "bat"
+brew "nushell"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
@@ -48,5 +47,5 @@ cask "basictex"
 cask "zotero"
 cask "gimp"
 cask "anki"
-cask "kitty"
 
+mas "Dropover - Easier Drag & Drop", id: 1355679052

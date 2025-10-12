@@ -59,8 +59,6 @@ eval "$(mise activate)"
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 
-source <(jj util completion zsh)
-
 function sesh-sessions() {
   {
     exec </dev/tty
