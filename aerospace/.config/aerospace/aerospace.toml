@@ -168,3 +168,7 @@ alt-shift-l = ['join-with right', 'mode main']
     check-further-callbacks = true
     run = ['layout floating']
 
+[[on-window-detected]]
+    if.app-id = 'ch.sudo.cyberduck'
+    check-further-callbacks = true
+    run = ['layout floating']
