@@ -52,6 +52,7 @@ return { -- Autoformat
 			python = { "black" },
 			go = { "gofmt" },
 			["_"] = { "trim_whitespace" },
+			java = { "google-java-format" },
 		},
 		formatters = {
 			prettier = {
