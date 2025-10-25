@@ -47,5 +47,6 @@ cask "basictex"
 cask "zotero"
 cask "gimp"
 cask "anki"
+cask "jordanbaird-ice"
 
 mas "Dropover - Easier Drag & Drop", id: 1355679052
