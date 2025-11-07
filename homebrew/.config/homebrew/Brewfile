@@ -3,6 +3,7 @@ tap "nikitabobko/tap" # aerospace
 tap "xwmx/taps"
 
 brew "mas"
+brew "bash"
 brew "gh"
 brew "neovim"
 brew "pngpaste"
