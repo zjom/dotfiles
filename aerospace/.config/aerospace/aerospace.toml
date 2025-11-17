@@ -169,6 +169,12 @@ alt-shift-l = ['join-with right', 'mode main']
     run = ['layout floating']
 
 [[on-window-detected]]
+    if.app-id = 'com.apple.MobileSMS'
+    check-further-callbacks = true
+    run = ['layout floating']
+
+
+[[on-window-detected]]
     if.app-id = 'ch.sudo.cyberduck'
     check-further-callbacks = true
     run = ['layout floating']
