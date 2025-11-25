@@ -15,9 +15,16 @@ return { -- Autoformat
 	opts = {
 		notify_on_error = false,
 		format_on_save = function(bufnr)
-			-- Disable autoformat for files in a certain path
+			-- Disable autoformat for files in node_modules
 			local bufname = vim.api.nvim_buf_get_name(bufnr)
 			if bufname:match("/node_modules/") then
+				return
+			end
+
+			if -- Disable autoformat for html files in stencil projects
+				vim.bo[bufnr].filetype == "html"
+				and vim.fs.find("config.stencil.json", { path = bufname, upward = true })[1]
+			then
 				return
 			end
 
