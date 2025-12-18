@@ -23,7 +23,7 @@ return { -- Autoformat
 
 			if -- Disable autoformat for html files in stencil projects
 				vim.bo[bufnr].filetype == "html"
-				and vim.fs.find("config.stencil.json", { path = bufname, upward = true })[1]
+				and vim.fn.filereadable(vim.fn.getcwd() .. "/stencil.config.json") == 1
 			then
 				return
 			end
@@ -60,6 +60,9 @@ return { -- Autoformat
 			go = { "gofmt" },
 			["_"] = { "trim_whitespace" },
 			java = { "google-java-format" },
+			astro = { "prettier", lsp_format = "prefer" },
+			cs = { "csharpier_zjom" },
+			csproj = { "csharpier_zjom" },
 		},
 		formatters = {
 			prettier = {
@@ -79,6 +82,14 @@ return { -- Autoformat
 				prepend_args = function()
 					return { "--indent-size", "4", "--force-function-style", "fnpar" }
 				end,
+			},
+			csharpier_zjom = {
+				command = "csharpier",
+				args = {
+					"format",
+					"--write-stdout",
+				},
+				to_stdin = true,
 			},
 		},
 	},

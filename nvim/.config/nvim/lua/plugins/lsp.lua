@@ -319,7 +319,7 @@ return { -- LSP Configuration & Plugins
 			end
 		end, vim.tbl_keys(servers))
 
-		local ensure_installed = vim.tbl_keys(servers or {})
+		local ensure_installed = servers_to_install
 		vim.list_extend(ensure_installed, {
 			"stylua", -- Lua formatting
 			"eslint", -- JavaScript and TypeScript linting
@@ -328,7 +328,6 @@ return { -- LSP Configuration & Plugins
 			"sleek", -- SQL formatting
 			"beautysh", -- bash/zsh formatting
 		})
-		vim.list_extend(ensure_installed, servers_to_install)
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
 		require("mason-lspconfig").setup({
