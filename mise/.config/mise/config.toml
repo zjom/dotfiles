@@ -1,10 +1,11 @@
 [tools]
-dotnet = "9"
+dotnet = "latest"
 elixir = "1.18.4-otp-27"
 erlang = "27"
 go = "latest"
 java = "temurin-21"
 node = "latest"
+pnpm = "latest"
 python = "latest"
 uv = "latest"
 
