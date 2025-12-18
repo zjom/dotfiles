@@ -31,6 +31,7 @@ brew "tldr"
 brew "typst"
 brew "bat"
 brew "nushell"
+brew "duti" # A command-line tool to select default applications for document types and URL schemes on Mac OS X
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
