@@ -21,13 +21,6 @@ return { -- Autoformat
 				return
 			end
 
-			if -- Disable autoformat for html files in stencil projects
-				vim.bo[bufnr].filetype == "html"
-				and vim.fn.filereadable(vim.fn.getcwd() .. "/stencil.config.json") == 1
-			then
-				return
-			end
-
 			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
 				return
 			end
@@ -63,6 +56,7 @@ return { -- Autoformat
 			astro = { "prettier", lsp_format = "prefer" },
 			cs = { "csharpier_zjom" },
 			csproj = { "csharpier_zjom" },
+			json = { "prettier" },
 		},
 		formatters = {
 			prettier = {
