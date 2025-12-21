@@ -57,6 +57,7 @@ return { -- Autoformat
 			cs = { "csharpier_zjom" },
 			csproj = { "csharpier_zjom" },
 			json = { "prettier" },
+			typst = { "typstyle" },
 		},
 		formatters = {
 			prettier = {
