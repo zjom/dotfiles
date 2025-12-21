@@ -2,7 +2,14 @@ local map = function(mode, keys, func, desc)
 	vim.keymap.set(mode, keys, func, { buffer = true, desc = "Go: " .. desc })
 end
 
--- local ag = vim.api.nvim_create_augroup("Go", { clear = true })
+local ag = vim.api.nvim_create_augroup("zjom-go", { clear = true })
+vim.api.nvim_create_autocmd("BufWritePre", {
+	desc = "Go Auto-Import on Save",
+	group = ag,
+	callback = function()
+		vim.cmd.GoImports()
+	end,
+})
 
 map("n", "<leader>ct", ":GoTestFile<enter>", "[C]ode [T]est")
 
