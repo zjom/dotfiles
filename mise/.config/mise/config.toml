@@ -7,6 +7,7 @@ java = "temurin-21"
 node = "latest"
 pnpm = "latest"
 python = "latest"
+typst = "latest"
 uv = "latest"
 
 
