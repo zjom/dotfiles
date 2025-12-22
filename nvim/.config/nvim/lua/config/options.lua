@@ -76,4 +76,4 @@ vim.o.conceallevel = 2
 vim.o.swapfile = false
 
 -- Additional File Types
-vim.filetype.add({ extension = { log = "log" } })
+vim.filetype.add({ extension = { hours = "hours" } })
