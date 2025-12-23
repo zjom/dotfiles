@@ -1,7 +1,7 @@
 return {
 	"kristijanhusak/vim-dadbod-ui",
 	dependencies = {
-		{ "tpope/vim-dadbod", lazy = true },
+		{ "tpope/vim-dadbod",                     lazy = true },
 		{ "kristijanhusak/vim-dadbod-completion", ft = { "sql" }, lazy = true }, -- Optional
 	},
 	cmd = {
@@ -12,9 +12,9 @@ return {
 	},
 	keys = {
 		{
-			"<leader>db",
+			"<leader>xb",
 			"<cmd>DBUIToggle<cr>",
-			desc = "[D][B] toggle",
+			desc = "Toggle D[B]UI",
 		},
 	},
 	init = function()

@@ -37,7 +37,7 @@ return { -- Autoformat
 			html = { "prettier" },
 			css = { "prettier" },
 			scss = { "prettier" },
-			lua = { "stylua", lsp_format = "prefer" },
+			lua = { "stylua" },
 			markdown = { "prettier" },
 			yaml = { "prettier" },
 			graphql = { "prettier" },

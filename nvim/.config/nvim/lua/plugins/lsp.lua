@@ -321,7 +321,6 @@ return { -- LSP Configuration & Plugins
 
 		local ensure_installed = servers_to_install
 		vim.list_extend(ensure_installed, {
-			"stylua", -- Lua formatting
 			"eslint", -- JavaScript and TypeScript linting
 			"prettier", -- Web formatting
 			"typstyle", --Typst formatting

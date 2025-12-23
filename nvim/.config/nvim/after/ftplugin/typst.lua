@@ -4,4 +4,4 @@ local map = function(mode, keys, func, desc)
 	vim.keymap.set(mode, keys, func, { buffer = true, desc = "Go: " .. desc })
 end
 
-map("n", "<leader>tp", ":TypstPreviewToggle<enter>", "[T]oggle [P]review")
+map("n", "<leader>xp", ":TypstPreviewToggle<enter>", "Toggle Typst [P]review")
