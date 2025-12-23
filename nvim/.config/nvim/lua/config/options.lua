@@ -74,6 +74,3 @@ vim.o.conceallevel = 2
 
 -- Disable swapfile
 vim.o.swapfile = false
-
--- Additional File Types
-vim.filetype.add({ extension = { hours = "hours" } })
