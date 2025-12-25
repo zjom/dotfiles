@@ -12,12 +12,15 @@ end
 require("config.options")
 require("config.keymaps")
 require("config.autocmds")
+require("config.marks")
+require("config.filetype")
+require("config.lightbulb")
 
-local plugins = 'plugins'
+local plugins = "plugins"
 
 vim.opt.rtp:prepend(lazypath)
 
-require('lazy').setup(plugins, {
+require("lazy").setup(plugins, {
 	-- Don't bother me when tweaking plugins.
 	change_detection = { notify = false },
 	-- None of my plugins use luarocks so disable this.
@@ -28,13 +31,13 @@ require('lazy').setup(plugins, {
 		rtp = {
 			-- Stuff I don't use.
 			disabled_plugins = {
-				'gzip',
-				'netrwPlugin',
-				'rplugin',
-				'tarPlugin',
-				'tohtml',
-				'tutor',
-				'zipPlugin',
+				"gzip",
+				"netrwPlugin",
+				"rplugin",
+				"tarPlugin",
+				"tohtml",
+				"tutor",
+				"zipPlugin",
 			},
 		},
 	},

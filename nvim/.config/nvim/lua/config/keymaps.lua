@@ -1,17 +1,55 @@
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
-
 -- Set jk to esc insert
 vim.keymap.set("i", "jk", "<Esc>")
 
--- Set highlight on search, but clear on pressing <Esc> in normal mode
-vim.opt.hlsearch = true
-vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
+-- Remap for dealing with word wrap and adding jumps to the jumplist.
+vim.keymap.set("n", "j", [[(v:count > 1 ? 'm`' . v:count : 'g') . 'j']], { expr = true })
+vim.keymap.set("n", "k", [[(v:count > 1 ? 'm`' . v:count : 'g') . 'k']], { expr = true })
 
--- Diagnostic keymaps
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
-vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
+-- Keeping the cursor centered.
+vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
+vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
+vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
+vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous result" })
 
+-- Indent while remaining in visual mode.
+vim.keymap.set("v", "<", "<gv")
+vim.keymap.set("v", ">", ">gv")
+
+-- Formatting.
+vim.keymap.set("n", "gQ", "mzgggqG`z<cmd>delmarks z<cr>zz", { desc = "Format buffer" })
+
+-- Restart Neovim.
+vim.keymap.set("n", "<leader>R", "<cmd>restart<cr>", { desc = "Restart Neovim" })
+
+-- Tab navigation.
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
+vim.keymap.set("n", "<leader>tn", "<cmd>tab split<cr>", { desc = "New tab page" })
+vim.keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close other tab pages" })
+
+-- Poweful <esc>.
+vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
+	if require("luasnip").expand_or_jumpable() then
+		require("luasnip").unlink_current()
+	end
+	vim.cmd("noh")
+	return "<esc>"
+end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
+
+-- Make U opposite to u.
+vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
+
+-- Escape and save changes.
+vim.keymap.set({ "s", "i", "n", "v" }, "<C-s>", "<esc>:w<cr>", { desc = "Exit insert mode and save changes" })
+vim.keymap.set({ "s", "i", "n", "v" }, "<C-S-s>", function()
+	vim.g.skip_formatting = true
+	return "<esc>:w<cr>"
+end, { desc = "Exit insert mode and save changes (without formatting)", expr = true })
+
+-- Quickly go to the end of the line while in insert mode.
+vim.keymap.set({ "i", "c" }, "<C-l>", "<C-o>A", { desc = "Go to the end of the line" })
+
+-- Mark management.
+vim.keymap.set("c", "dm", "delmarks", { desc = "Delete marks" })
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.

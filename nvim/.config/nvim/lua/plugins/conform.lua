@@ -1,32 +1,35 @@
 return { -- Autoformat
 	"stevearc/conform.nvim",
+	init = function()
+		-- Use conform for gq.
+		vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+
+		-- Start auto-formatting by default (and disable with my ToggleFormat command).
+		vim.g.autoformat = true
+	end,
 	event = { "BufWritePre" },
 	cmd = { "ConformInfo" },
-	keys = {
-		{
-			"<leader>f",
-			function()
-				require("conform").format({ async = true, lsp_format = "fallback" })
-			end,
-			mode = "",
-			desc = "[F]ormat buffer",
-		},
-	},
 	opts = {
 		notify_on_error = false,
 		format_on_save = function(bufnr)
 			-- Disable autoformat for files in node_modules
 			local bufname = vim.api.nvim_buf_get_name(bufnr)
 			if bufname:match("/node_modules/") then
-				return
+				return nil
 			end
 
-			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-				return
+			-- Skip formatting if triggered from my special save command.
+			if vim.g.skip_formatting then
+				vim.g.skip_formatting = false
+				return nil
 			end
 
-			---@type conform.FormatOpts
-			return { timeout_ms = 500, lsp_format = "fallback" }
+			-- Stop if we disabled auto-formatting.
+			if not vim.g.autoformat then
+				return nil
+			end
+
+			return {}
 		end,
 		quiet = true,
 		formatters_by_ft = {
@@ -51,7 +54,7 @@ return { -- Autoformat
 			http = { "kulala-fmt" },
 			python = { "black" },
 			go = { "gofmt" },
-			["_"] = { "trim_whitespace" },
+			["_"] = { "trim_whitespace", "trim_newlines" },
 			java = { "google-java-format" },
 			astro = { "prettier", lsp_format = "prefer" },
 			cs = { "csharpier_zjom" },
@@ -60,19 +63,7 @@ return { -- Autoformat
 			typst = { "typstyle" },
 		},
 		formatters = {
-			prettier = {
-				prepend_args = function()
-					return {
-						"--no-semi",
-						"--single-quote",
-						"--no-bracket-spacing",
-						"--print-width",
-						"80",
-						"--config-precedence",
-						"prefer-file",
-					}
-				end,
-			},
+			prettier = { require_cwd = true },
 			beautysh = {
 				prepend_args = function()
 					return { "--indent-size", "4", "--force-function-style", "fnpar" }

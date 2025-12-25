@@ -9,22 +9,37 @@ vim.g.maplocalleader = " "
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
--- Set tab size to 2
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
+-- Use an indentation of 4 spaces.
+vim.o.sw = 4
+vim.o.ts = 4
+vim.o.et = true
+
+-- Show whitespace.
+--  See :help 'list'
+--  and :help 'listchars'
+vim.o.list = true
+vim.opt.listchars = { space = "⋅", trail = "⋅", tab = "  ↦" }
 
 -- Make line numbers default
-vim.o.number = true
--- You can also add relative line numbers, for help with jumping.
---  Experiment for yourself to see if you like it!
-vim.o.relativenumber = true
+vim.wo.number = true
+vim.wo.relativenumber = true
 
--- Enable mouse mode, can be useful for resizing splits for example!
+-- Enable mouse mode
 vim.o.mouse = "a"
+
+-- Disable horizontal scrolling.
+vim.o.mousescroll = "ver:3,hor:0"
 
 -- Don't show the mode, since it's already in status line
 vim.o.showmode = false
+
+-- Wrap long lines at words.
+vim.o.linebreak = true
+
+-- Folding.
+vim.o.foldcolumn = "1"
+vim.o.foldlevelstart = 99
+vim.wo.foldtext = ""
 
 -- Sync clipboard between OS and Neovim.
 --  Remove this option if you want your OS clipboard to remain independent.
@@ -33,32 +48,33 @@ vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
 
--- Enable break indent
-vim.o.breakindent = true
-
 -- Save undo history
 vim.o.undofile = true
+
+-- Highlight on search
+vim.o.hlsearch = true
 
 -- Case-insensitive searching UNLESS \C or capital in search
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
 -- Keep signcolumn on by default
-vim.o.signcolumn = "yes"
+vim.wo.signcolumn = "yes"
 
 -- Decrease update time
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
+-- Diff mode settings.
+-- Setting the context to a very large number disables folding.
+vim.opt.diffopt:append("vertical,context:99")
+vim.opt.shortmess:append({
+	w = true,
+	s = true,
+})
 -- Configure how new splits should be opened
 vim.o.splitright = true
 vim.o.splitbelow = true
-
--- Sets how neovim will display certain whitespace in the editor.
---  See :help 'list'
---  and :help 'listchars'
-vim.o.list = true
-vim.o.listchars = "tab:» ,trail:·,nbsp:␣"
 
 -- Preview substitutions live, as you type!
 vim.o.inccommand = "split"
@@ -74,3 +90,12 @@ vim.o.conceallevel = 2
 
 -- Disable swapfile
 vim.o.swapfile = false
+
+-- Disable cursor blinking in terminal mode.
+vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-TermCursor"
+
+-- Disable health checks for these providers.
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
