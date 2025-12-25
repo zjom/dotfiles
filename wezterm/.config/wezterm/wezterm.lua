@@ -26,7 +26,7 @@ local config = {
 	window_decorations = "RESIZE",
 	initial_rows = 36,
 	initial_cols = 120,
-	leader = { key = "a", mods = "CTRL", timeout_milliseconds = 1001 },
+	leader = { key = "`", mods = "CTRL", timeout_milliseconds = 1001 },
 	keys = {
 		{ key = "Tab", mods = "CTRL", action = act.ActivateTabRelative(1) },
 		{ key = "Tab", mods = "SHIFT|CTRL", action = act.ActivateTabRelative(-1) },
