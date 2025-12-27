@@ -39,8 +39,6 @@ return {
 				},
 			})
 
-			require("mini.bufremove").setup()
-
 			-- Simple and easy statusline.
 			--  You could remove this setup call if you don't like it,
 			--  and try some other statusline plugin
@@ -58,19 +56,6 @@ return {
 
 			-- ... and there is more!
 			--  Check out: https://github.com/echasnovski/mini.nvim
-		end,
-	},
-
-	{
-		"windwp/nvim-autopairs",
-		-- Optional dependency
-		dependencies = { "hrsh7th/nvim-cmp" },
-		config = function()
-			require("nvim-autopairs").setup({})
-			-- If you want to automatically add `(` after selecting a function or method
-			local cmp_autopairs = require("nvim-autopairs.completion.cmp")
-			local cmp = require("cmp")
-			cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 		end,
 	},
 }
