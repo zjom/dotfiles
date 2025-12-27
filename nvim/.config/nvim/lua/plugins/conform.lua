@@ -52,7 +52,7 @@ return { -- Autoformat
 			bash = { "beautysh" },
 			zsh = { "beautysh" },
 			http = { "kulala-fmt" },
-			python = { "black" },
+			python = { "ruff" },
 			go = { "gofmt" },
 			["_"] = { "trim_whitespace", "trim_newlines" },
 			java = { "google-java-format" },
