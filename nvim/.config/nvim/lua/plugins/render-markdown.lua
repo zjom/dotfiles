@@ -8,10 +8,10 @@ return {
 	---@type render.md.UserConfig
 	opts = {},
 	ft = "markdown",
-	{
+	keys = {
 		"<leader>xr",
-		ft = "markdown",
 		"<cmd>MarkdownPreviewToggle<cr>",
 		desc = "Toggle [R]ender",
+		ft = "markdown",
 	},
 }
