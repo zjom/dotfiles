@@ -64,12 +64,6 @@ return {
 			local map = function(mode, keys, func, desc)
 				vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = "Markdown: " .. desc })
 			end
-
-			map("n", "<C-k>", "z=", "Spell Suggest")
-			map("n", "<leader>tp", ":PencilToggle<cr>", "[T]oggle [P]encil")
-			map({ "n", "i" }, "<M-l><M-o>", "<Cmd>MDListItemBelow<CR>", "List Item Below")
-			map({ "n", "i" }, "<M-L><M-O>", "<Cmd>MDListItemAbove<CR>", "List Item above")
-			map("n", "<M-c>", "<Cmd>MDTaskToggle<CR>", "Toggle Task")
 		end,
 	},
 }
