@@ -45,16 +45,6 @@ return {
 			local statusline = require("mini.statusline")
 			statusline.setup()
 
-			-- You can confiure sections in the statusline by overriding their
-			-- default behavior. For example, here we disable the section for
-			-- cursor information because line numbers are already enabled
-			---@diagnostic disable-next-line: duplicate-set-field
-			statusline.section_location = function()
-				-- return vim.wo.spell and (MiniStatusline.is_truncated(120) and "S" or "SPELL") or ""
-				return vim.fn.PencilMode()
-			end
-
-			-- ... and there is more!
 			--  Check out: https://github.com/echasnovski/mini.nvim
 		end,
 	},
