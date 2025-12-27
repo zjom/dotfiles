@@ -1,11 +1,18 @@
 return {
 	"stevearc/oil.nvim",
+	dependencies = { "nvim-tree/nvim-web-devicons", "JezerM/oil-lsp-diagnostics.nvim", "benomahony/oil-git.nvim" }, -- use if prefer nvim-web-devicons
 	opts = {
+		watch_for_changes = true,
+		delete_to_trash = true,
 		use_default_keymaps = false,
 		keymaps = {
 			["g?"] = "actions.show_help",
 			["<CR>"] = "actions.select",
-			["<C-s>"] = { "actions.select", opts = { vertical = true }, desc = "Open the entry in a vertical split" },
+			["<C-s>"] = {
+				"actions.select",
+				opts = { vertical = true },
+				desc = "Open the entry in a vertical split",
+			},
 			-- ["<C-h>"] = { "actions.select", opts = { horizontal = true }, desc = "Open the entry in a horizontal split" },
 			["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open the entry in new tab" },
 			["<C-p>"] = "actions.preview",
@@ -21,6 +28,11 @@ return {
 			["g\\"] = "actions.toggle_trash",
 		},
 	},
-	dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if prefer nvim-web-devicons
-	vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "[-]oil" }),
+	keys = {
+		{
+			"-",
+			"<cmd>Oil<CR>",
+			{ desc = "[-]oil" },
+		},
+	},
 }
