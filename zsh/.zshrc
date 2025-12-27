@@ -11,38 +11,39 @@ alias lg='lazygit'
 alias vim='nvim'
 alias tm='tmux -2'
 alias cat='bat'
+alias rm='trash --stopOnError'
 
-open_in_nvim() {
-  local query="${1:-}"
-  local result=$(fd --type f --hidden --follow . | fzf  --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+function open_in_nvim() {
+    local query="${1:-}"
+    local result=$(fd --type f --hidden --follow . | fzf  --query "$query" --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
 
-  if [[ -n "$result" ]]; then
-    nvim "$result"
-  else
-    echo "No file selected."
-  fi
+    if [[ -n "$result" ]]; then
+        nvim "$result"
+    else
+        echo "No file selected."
+    fi
 }
 
 alias nf='open_in_nvim'
 alias ff='open_in_nvim'
 
-open_in_nvim_rg() {
-  local query="${1:-}"
-  local result=$(rg -l --smart-case "$query" | fzf -m --walker-skip=.git,node_modules,.venv,venv,.jj --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
-  if [[ -n "$result" ]]; then
-    nvim "$result"
-  else
-    echo "No file selected."
-  fi
+function open_in_nvim_rg() {
+    local query="${1:-}"
+    local result=$(rg -l --smart-case "$query" | fzf -m --walker-skip=.git,node_modules,.venv,venv,.jj --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+    if [[ -n "$result" ]]; then
+        nvim "$result"
+    else
+        echo "No file selected."
+    fi
 }
 alias nr='open_in_nvim_rg'
 
 if type brew &>/dev/null
 then
-  FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
+    FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 
-  autoload -Uz compinit
-  compinit
+    autoload -Uz compinit
+    compinit
 fi
 
 
@@ -60,20 +61,20 @@ eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 
 function sesh-sessions() {
-  {
-    exec </dev/tty
-    exec <&1
-    local session
-    session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
-    zle reset-prompt > /dev/null 2>&1 || true
-    [[ -z "$session" ]] && return
-    sesh connect $session
-  }
+    {
+        exec </dev/tty
+        exec <&1
+        local session
+        session=$(sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+        zle reset-prompt > /dev/null 2>&1 || true
+        [[ -z "$session" ]] && return
+        sesh connect $session
+    }
 }
 
 function sesh-all() {
-  {
-sesh connect "$(
+    {
+        sesh connect "$(
   sesh list --icons | fzf-tmux -p 80%,70% \
     --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
     --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
@@ -87,7 +88,7 @@ sesh connect "$(
     --preview-window 'right:55%' \
     --preview 'sesh preview {}'
 )"
-  }
+    }
 }
 
 zle     -N             sesh-sessions
