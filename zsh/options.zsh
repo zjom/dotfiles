@@ -21,3 +21,5 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 
 # Completion
 setopt CORRECT # Checks the spelling of every command you type and suggests the right one if you make a typo.
+zstyle ':completion:*' menu yes select
+

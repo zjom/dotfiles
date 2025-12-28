@@ -13,12 +13,6 @@ done
 
 compinit -C
 
-zstyle ':completion:*' menu yes select
-
-if [[ "${terminfo[kcbt]}" != "" ]]; then
-    bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
-fi
-
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(mise activate)"
@@ -36,4 +30,5 @@ fi
 [[ -f "${ZSH_CONFIG_DIR}/functions.zsh" ]] && source "${ZSH_CONFIG_DIR}/functions.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/aliases.zsh" ]] && source "${ZSH_CONFIG_DIR}/aliases.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/keymaps.zsh" ]] && source "${ZSH_CONFIG_DIR}/keymaps.zsh"
+[[ -f "${ZSH_CONFIG_DIR}/options.zsh" ]] && source "${ZSH_CONFIG_DIR}/options.zsh"
 

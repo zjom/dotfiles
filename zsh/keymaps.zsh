@@ -9,3 +9,10 @@ zle     -N             sesh-all
 bindkey -M emacs '\eS' sesh-all
 bindkey -M vicmd '\eS' sesh-all
 bindkey -M viins '\eS' sesh-all
+
+# Completion
+# [Shift-Tab] - move through the completion menu backwards
+if [[ "${terminfo[kcbt]}" != "" ]]; then
+    bindkey "${terminfo[kcbt]}" reverse-menu-complete
+fi
+
