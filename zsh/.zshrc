@@ -6,7 +6,18 @@ if type brew &>/dev/null; then
 fi
 
 autoload -Uz compinit
-compinit
+
+for dump in ~/.zcompdump(N.mh+24); do
+    compinit
+done
+
+compinit -C
+
+zstyle ':completion:*' menu yes select
+
+if [[ "${terminfo[kcbt]}" != "" ]]; then
+    bindkey "${terminfo[kcbt]}" reverse-menu-complete   # [Shift-Tab] - move through the completion menu backwards
+fi
 
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
