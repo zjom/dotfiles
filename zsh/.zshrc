@@ -31,4 +31,3 @@ fi
 [[ -f "${ZSH_CONFIG_DIR}/aliases.zsh" ]] && source "${ZSH_CONFIG_DIR}/aliases.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/keymaps.zsh" ]] && source "${ZSH_CONFIG_DIR}/keymaps.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/options.zsh" ]] && source "${ZSH_CONFIG_DIR}/options.zsh"
-
