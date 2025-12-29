@@ -66,18 +66,6 @@ end
 return {
 	{
 		"nvim-mini/mini.files",
-		keys = {
-			{
-				"<C-e>",
-				minifiles_toggle,
-				desc = "Toggle File explorer",
-			},
-			{
-				"<leader>xe",
-				minifiles_toggle,
-				desc = "Toggle File explorer",
-			},
-		},
 		opts = {
 			content = {
 				filter = filter_hide,
@@ -129,6 +117,9 @@ return {
 			local minifiles = require("mini.files")
 
 			minifiles.setup(opts)
+
+			vim.keymap.set("n", "<C-e>", minifiles_toggle, { desc = "Toggle File explorer" })
+			vim.keymap.set("n", "<leader>xe", minifiles_toggle, { desc = "Toggle File explorer" })
 
 			-- Keep track of when the explorer is open to disable format on save.
 			local minifiles_explorer_group = vim.api.nvim_create_augroup("zjom/minifiles_explorer", { clear = true })
@@ -189,6 +180,7 @@ return {
 
 					map_split(buf_id, "<C-w>s", "belowright horizontal")
 					map_split(buf_id, "<C-w>v", "belowright vertical")
+					vim.keymap.set("n", "<enter>", require("mini.files").go_in, { buffer = buf_id, desc = "Open" })
 					vim.keymap.set("n", "gx", ui_open, { buffer = buf_id, desc = "OS open" })
 					vim.keymap.set("n", "gy", yank_path, { buffer = buf_id, desc = "Yank path" })
 					vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle dotfiles" })
