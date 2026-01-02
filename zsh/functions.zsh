@@ -53,3 +53,39 @@ function sesh-all() {
 )"
     }
 }
+
+function quick-run-repl() {
+    zle -M "Run: (e)lixir, (j)avascript, (n)ushell, (p)ython"
+
+    # Read exactly one key into the variable $key
+    local key
+    read -k key
+
+    # Clear the prompt message
+    zle -M ""
+
+    case $key in
+        p)
+            # Insert command and run it
+            BUFFER="python3"
+            zle accept-line
+            ;;
+        j)
+            BUFFER="node"
+            zle accept-line
+            ;;
+        e)
+            BUFFER="iex"
+            zle accept-line
+            ;;
+        n)
+            BUFFER="nu"
+            zle accept-line
+            ;;
+        *)
+            # Handle invalid keys gracefully
+            zle -M "Cancelled/Unknown key: $key"
+            ;;
+    esac
+}
+zle -N quick-run-repl
