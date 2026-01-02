@@ -59,7 +59,7 @@ return { -- Autoformat
 			astro = { "prettier", lsp_format = "prefer" },
 			cs = { "csharpier_zjom" },
 			csproj = { "csharpier_zjom" },
-			json = { "prettier" },
+			json = { "prettier", "jq" },
 			typst = { "typstyle" },
 		},
 		formatters = {
