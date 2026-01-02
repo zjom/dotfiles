@@ -299,7 +299,6 @@ return { -- LSP Configuration & Plugins
 					},
 				},
 			},
-			jdtls = {},
 			ty = {},
 		}
 
