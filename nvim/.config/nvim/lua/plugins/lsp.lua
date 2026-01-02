@@ -329,6 +329,7 @@ return { -- LSP Configuration & Plugins
 			"typstyle", --Typst formatting
 			"sleek", -- SQL formatting
 			"beautysh", -- bash/zsh formatting
+			"csharpier", -- C# formatting,
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
