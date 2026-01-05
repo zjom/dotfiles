@@ -45,16 +45,19 @@ vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
 	desc = "[W]rite file",
 })
 
+-- Insert mode navigation
 -- Quickly go to the start/ end of the line while in insert mode.
 vim.keymap.set({ "i", "c" }, "<C-l>", "<C-o>A", { desc = "Go to the end of the line" })
 vim.keymap.set({ "i", "c" }, "<C-h>", "<C-o>I", { desc = "Go to the start of the line" })
+vim.keymap.set({ "i", "c" }, "<C-b>", "<C-o>B", { desc = "Go to start of previous word" })
+vim.keymap.set({ "i", "c" }, "<C-e>", "<C-o>e<C-o>l", { desc = "Go to end of next word" })
 
 -- Mark management.
 vim.keymap.set("c", "dm", "delmarks", { desc = "Delete marks" })
+
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
---
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
