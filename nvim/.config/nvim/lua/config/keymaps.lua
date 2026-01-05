@@ -35,9 +35,6 @@ vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
 	return "<esc>"
 end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
--- Make U opposite to u.
-vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
-
 -- Escape and save changes.
 vim.keymap.set({ "s", "i", "n", "v" }, "<C-s>", "<esc>:w<cr>", { desc = "Exit insert mode and save changes" })
 vim.keymap.set({ "s", "i", "n", "v" }, "<C-S-s>", function()
