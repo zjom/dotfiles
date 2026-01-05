@@ -45,8 +45,9 @@ vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
 	desc = "[W]rite file",
 })
 
--- Quickly go to the end of the line while in insert mode.
+-- Quickly go to the start/ end of the line while in insert mode.
 vim.keymap.set({ "i", "c" }, "<C-l>", "<C-o>A", { desc = "Go to the end of the line" })
+vim.keymap.set({ "i", "c" }, "<C-h>", "<C-o>I", { desc = "Go to the start of the line" })
 
 -- Mark management.
 vim.keymap.set("c", "dm", "delmarks", { desc = "Delete marks" })
