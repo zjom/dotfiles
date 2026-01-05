@@ -36,11 +36,14 @@ vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
 end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
 -- Escape and save changes.
-vim.keymap.set({ "s", "i", "n", "v" }, "<C-s>", "<esc>:w<cr>", { desc = "Exit insert mode and save changes" })
-vim.keymap.set({ "s", "i", "n", "v" }, "<C-S-s>", function()
-	vim.g.skip_formatting = true
-	return "<esc>:w<cr>"
-end, { desc = "Exit insert mode and save changes (without formatting)", expr = true })
+vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
+	callback = function()
+		if vim.fn.getbufvar(vim.fn.bufnr(), "&modified") == 1 then
+			vim.cmd("write")
+		end
+	end,
+	desc = "[W]rite file",
+})
 
 -- Quickly go to the end of the line while in insert mode.
 vim.keymap.set({ "i", "c" }, "<C-l>", "<C-o>A", { desc = "Go to the end of the line" })
