@@ -19,7 +19,7 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("n", "gQ", "mzgggqG`z<cmd>delmarks z<cr>zz", { desc = "Format buffer" })
 
 -- Restart Neovim.
-vim.keymap.set("n", "<leader>R", "<cmd>restart<cr>", { desc = "Restart Neovim" })
+vim.keymap.set("n", "<leader><C-r><C-r>", "<cmd>restart<cr>", { desc = "Restart Neovim" })
 
 -- Tab navigation.
 vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
