@@ -11,6 +11,8 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+export EDITOR="nvim"
+
 source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
