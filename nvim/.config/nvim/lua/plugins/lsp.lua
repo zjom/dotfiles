@@ -299,7 +299,8 @@ return { -- LSP Configuration & Plugins
 					},
 				},
 			},
-			ty = {},
+			-- ty = {},
+			basedpyright = {},
 		}
 
 		-- Ensure the servers and tools above are installed
