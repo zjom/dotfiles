@@ -2,7 +2,7 @@
 
 function open_in_nvim() {
     local query="${1:-}"
-    local result=$(fd --type f --hidden --follow --exclude=.git --exclude=node_modules --exclude=.venv . | fzf  --query "$query"  --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+    local result=$(fd --type f --hidden --follow --exclude=.git --exclude=node_modules --exclude=.venv  --exclude=.DS_Store . | fzf  --query "$query"  --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
 
     if [[ -n "$result" ]]; then
         nvim "$result"
