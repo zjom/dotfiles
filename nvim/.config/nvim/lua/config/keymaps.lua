@@ -35,7 +35,10 @@ vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
 	return "<esc>"
 end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
+-- Insert mode sanity
+vim.keymap.set("i", "<M-BS>", "<C-w>", { desc = "Delete previous word" })
 -- Escape and save changes.
+vim.keymap.set("i", "<C-w>", "<Nop>")
 vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
 	callback = function()
 		if vim.fn.getbufvar(vim.fn.bufnr(), "&modified") == 1 then
