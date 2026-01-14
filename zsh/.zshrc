@@ -5,6 +5,10 @@ if type brew &>/dev/null; then
     FPATH="$(brew --prefix)/share/zsh/site-functions:${FPATH}"
 fi
 
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/zihanjin/Library/Google/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/zihanjin/Library/Google/google-cloud-sdk/path.zsh.inc'; fi
+
+# -- Completions --
 autoload -Uz compinit
 
 for dump in ~/.zcompdump(N.mh+24); do
@@ -20,6 +24,9 @@ eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 source <(fzf --zsh)
 
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/zihanjin/Library/Google/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/zihanjin/Library/Google/google-cloud-sdk/completion.zsh.inc'; fi
+
 # --- Plugins (Syntax Highlighting / Autosuggestions) ---
 if type brew &>/dev/null; then
     source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -31,3 +38,4 @@ fi
 [[ -f "${ZSH_CONFIG_DIR}/aliases.zsh" ]] && source "${ZSH_CONFIG_DIR}/aliases.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/keymaps.zsh" ]] && source "${ZSH_CONFIG_DIR}/keymaps.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/options.zsh" ]] && source "${ZSH_CONFIG_DIR}/options.zsh"
+
