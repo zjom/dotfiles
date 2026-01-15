@@ -17,6 +17,7 @@ done
 
 compinit -C
 
+source ~/.orbstack/shell/init.zsh 2>/dev/null || :
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(mise activate)"
