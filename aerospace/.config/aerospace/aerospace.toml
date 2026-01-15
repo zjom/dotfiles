@@ -81,7 +81,7 @@ outer.right =      12
 
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-alt-q = 'exec-and-forget wezterm start -- sh -c "tmux attach -t default || tmux new -s default"'
+alt-q = 'exec-and-forget kitty --single-instance -- tmux new -A -s default'
 alt-b = 'exec-and-forget open -a safari'
 alt-m = 'exec-and-forget open -a messages'
 
