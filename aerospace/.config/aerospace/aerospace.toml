@@ -81,7 +81,8 @@ outer.right =      12
 
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-alt-q = 'exec-and-forget kitty --single-instance -- tmux new -A -s default'
+alt-q = 'exec-and-forget kitty -d $HOME --single-instance -- tmux new -A -s default'
+alt-space = 'exec-and-forget kitten quick-access-terminal -o margin_top=12 -o margin_right=12 -o margin_left=12 -o background_opacity=0.4'
 alt-b = 'exec-and-forget open -a safari'
 alt-m = 'exec-and-forget open -a messages'
 
