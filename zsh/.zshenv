@@ -8,6 +8,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export PATH="$HOME/.cargo/bin:$PATH" # cargo
 export PATH="$HOME/.local/bin:$PATH" # Local scripts.
 export PATH="$HOME/go/bin:$PATH" # Go binaries.
+. "/Users/zihanjin/.local/share/bob/env/env.sh"
 
 # zsh configuration.
 export SHELL_SESSIONS_DISABLE=1
