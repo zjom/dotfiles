@@ -158,6 +158,8 @@ alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
+# Window callbacks.
+# See: https://nikitabobko.github.io/AeroSpace/guide#callbacks
 [[on-window-detected]]
     if.app-id = 'com.apple.systempreferences'
     check-further-callbacks = true
@@ -173,8 +175,12 @@ alt-shift-l = ['join-with right', 'mode main']
     check-further-callbacks = true
     run = ['layout floating']
 
-
 [[on-window-detected]]
     if.app-id = 'ch.sudo.cyberduck'
+    check-further-callbacks = true
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.window-title-regex-substring = 'float'
     check-further-callbacks = true
     run = ['layout floating']
