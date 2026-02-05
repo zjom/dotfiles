@@ -18,11 +18,12 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			end,
 		},
 		{ "nvim-telescope/telescope-ui-select.nvim" },
+		{ "nvim-telescope/telescope-symbols.nvim" },
 
 		-- Useful for getting pretty icons, but requires special font.
 		--  If you already have a Nerd Font, or terminal set up with fallback fonts
 		--  you can enable this
-		-- { 'nvim-tree/nvim-web-devicons' }
+		{ "nvim-tree/nvim-web-devicons" },
 	},
 	config = function()
 		-- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -130,5 +131,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		vim.keymap.set("n", "<leader>sN", function()
 			builtin.live_grep({ cwd = "~/.nb/" })
 		end, { desc = "[S]earch [N]otes (grep)" })
+
+		vim.keymap.set("i", "<C-x><C-i>", builtin.symbols, { desc = "[x] [I]nsert Symbols" })
 	end,
 }
