@@ -40,3 +40,6 @@ fi
 [[ -f "${ZSH_CONFIG_DIR}/keymaps.zsh" ]] && source "${ZSH_CONFIG_DIR}/keymaps.zsh"
 [[ -f "${ZSH_CONFIG_DIR}/options.zsh" ]] && source "${ZSH_CONFIG_DIR}/options.zsh"
 
+
+# Added by Antigravity
+export PATH="/Users/zihanjin/.antigravity/antigravity/bin:$PATH"
