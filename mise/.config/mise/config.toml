@@ -1,5 +1,6 @@
 [tools]
-dotnet = "latest"
+bun = "latest"
+dotnet = "9"
 elixir = "1.18.4-otp-27"
 erlang = "27"
 go = "latest"
@@ -9,6 +10,7 @@ pnpm = "latest"
 python = "latest"
 typst = "latest"
 uv = "latest"
+yarn = "latest"
 
 
 [env]
