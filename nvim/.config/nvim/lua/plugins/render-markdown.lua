@@ -7,11 +7,13 @@ return {
 	---@module 'render-markdown'
 	---@type render.md.UserConfig
 	opts = {},
-	ft = "markdown",
 	keys = {
-		"<leader>xr",
-		"<cmd>MarkdownPreviewToggle<cr>",
-		desc = "Toggle [R]ender",
-		ft = "markdown",
+
+		{
+			"<leader>xr",
+			ft = "markdown",
+			"<cmd>RenderMarkdown render<cr>",
+			desc = "Toggle [R]ender",
+		},
 	},
 }
