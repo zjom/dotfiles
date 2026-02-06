@@ -1,3 +1,4 @@
+-- go.nvim provides useful commands and utilities while working with golang
 return {
 	"ray-x/go.nvim",
 	dependencies = { -- optional packages
@@ -20,7 +21,6 @@ return {
 			lsp_cfg = false,
 		}
 	end,
-	event = { "CmdlineEnter" },
 	ft = { "go", "gomod" },
 	keys = {
 		{ "<leader>ct", ":GoTestFile<enter>", desc = "[C]ode [T]est" },

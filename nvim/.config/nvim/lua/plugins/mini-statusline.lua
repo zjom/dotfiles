@@ -4,4 +4,5 @@ return {
 	config = function()
 		require("mini.statusline").setup()
 	end,
+	event = "BufWinEnter",
 }

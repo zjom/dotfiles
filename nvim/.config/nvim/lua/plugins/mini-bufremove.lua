@@ -13,4 +13,6 @@ return {
 			},
 		},
 	},
+
+	event = "BufWinEnter",
 }

@@ -22,4 +22,5 @@ return {
 			},
 		})
 	end,
+	event = "BufWinEnter",
 }
