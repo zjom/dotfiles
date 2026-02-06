@@ -249,13 +249,7 @@ return { -- LSP Configuration & Plugins
 				},
 			},
 			marksman = {},
-			gopls = {
-				settings = {
-					gopls = {
-						gofumpt = true,
-					},
-				},
-			},
+			gopls = {},
 			tailwindcss = {},
 			eslint = {},
 			html = {},
@@ -339,9 +333,12 @@ return { -- LSP Configuration & Plugins
 			handlers = {
 				function(server_name)
 					local server = servers[server_name] or {}
-					-- This handles overriding only values explicitly passed
-					-- by the server configuration above. Useful when disabling
-					-- certain features of an LSP (for example, turning off formatting for tsserver)
+
+					if server_name == "gopls" then
+						local cfg = require("go.lsp").config() -- config() return the go.nvim gopls setup
+						require("lspconfig").gopls.setup(cfg)
+						return
+					end
 					server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
 					require("lspconfig")[server_name].setup(server)
 				end,

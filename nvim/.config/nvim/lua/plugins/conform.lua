@@ -40,7 +40,6 @@ return { -- Autoformat
 			csproj = { "csharpier_zjom" },
 			css = { "prettier" },
 			flow = { "prettier" },
-			go = { "gofmt" },
 			graphql = { "prettier" },
 			html = { "prettier" },
 			http = { "kulala-fmt" },
