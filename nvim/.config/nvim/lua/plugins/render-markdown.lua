@@ -11,9 +11,12 @@ return {
 
 		{
 			"<leader>xr",
+			"<cmd>RenderMarkdown toggle<cr>",
 			ft = "markdown",
-			"<cmd>RenderMarkdown render<cr>",
 			desc = "Toggle [R]ender",
 		},
 	},
+	config = function()
+		require("render-markdown").disable()
+	end,
 }
