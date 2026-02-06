@@ -1,6 +1,6 @@
 # --- Aliases ---
 alias ls='eza --icons always'
-alias tree='eza --icons always --tree '
+alias tree='eza --icons always --tree'
 alias tt='touch'
 alias c='clear'
 alias q='exit'
