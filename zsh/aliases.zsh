@@ -8,7 +8,7 @@ alias lg='lazygit'
 alias vim='nvim'
 alias tm='tmux -2'
 alias cat='bat'
-alias t='nb t open | bat'
+alias t='nb t open | bat --file-name "✨ Tasks"'
 
 # Function Aliases
 alias ff='open_in_nvim'
