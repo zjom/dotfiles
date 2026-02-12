@@ -17,17 +17,16 @@ return {
 			group = format_sync_grp,
 		})
 
+		vim.keymap.set("n", "<leader>ct", ":GoTestFile<enter>", { desc = "[C]ode [T]est" })
+		vim.keymap.set("n", "<leader>ce", ":GoIfErr<enter>", { desc = "[C]ode Add If [E]rr" })
+		vim.keymap.set("n", "<leader>cac", ":GoCmt<enter>", { desc = "[C]ode [A]dd [C]omment" })
+		vim.keymap.set("n", "<leader>ct", ":GoTestFile<enter>", { desc = "[C]ode [T]est" })
+
 		return {
 			lsp_cfg = false,
 		}
 	end,
 	ft = { "go", "gomod" },
-	keys = {
-		{ "<leader>ct", ":GoTestFile<enter>", desc = "[C]ode [T]est" },
-		{ "<leader>cae", ":GoIfErr<enter>", desc = "[C]ode [A]dd If [E]rr" },
-		{ "<leader>cac", ":GoCmt<enter>", desc = "[C]ode [A]dd [C]omment" },
-		{ "<leader>cat", ":GoAddTag<enter>", desc = "[C]ode [A]dd [T]ags" },
-		{ "<leader>cp", ":GoFixPlurals<enter>", "[C]ode fix [Plurals]" },
-	},
+	keys = {},
 	build = ':lua require("go.install").update_all_sync()',
 }
