@@ -15,6 +15,7 @@ export SHELL_SESSIONS_DISABLE=1
 
 # Man pages.
 export MANPAGER='nvim +Man!'
+export PAGER='bat'
 
 # Set up neovim as the default editor.
 export EDITOR="$(which nvim)"
