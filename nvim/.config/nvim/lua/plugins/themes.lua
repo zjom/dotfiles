@@ -23,6 +23,7 @@ return {
 				},
 			}
 		end,
+		lazy = true,
 	},
 	-- {
 	-- 	"catppuccin/nvim",
