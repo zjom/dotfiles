@@ -15,13 +15,13 @@ return {
 	{
 		"ramojus/mellifluous.nvim",
 		name = "mellifluous",
-		config = function()
-			require("mellifluous").setup({
+		opts = function()
+			vim.o.background = "light"
+			return {
 				mellifluous = {
 					neutral = true,
 				},
-			})
-			vim.o.background = "light"
+			}
 		end,
 	},
 	-- {
