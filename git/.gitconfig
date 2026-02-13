@@ -1,0 +1,21 @@
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[user]
+	email = admin@zihanjin.com
+	name = Zihan Jin
+[core]
+	editor = nvim
+    pager = delta # https://github.com/dandavison/delta
+[interactive]
+    diffFilter = delta --color-only
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true
+[merge]
+    conflictStyle = zdiff3
+[init]
+	defaultBranch = main
