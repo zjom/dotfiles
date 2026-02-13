@@ -13,7 +13,7 @@ function open_in_nvim() {
 
 function open_in_nvim_rg() {
     local query="${1:-}"
-    local result=$(rg -l --smart-case "$query" | fzf --walker-skip=.git,node_modules,.venv,venv,.jj --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
+    local result=$(rg -l --smart-case --hidden -g '!node_modules/' -g '!.venv/' -g '!.DS_Store' -g '!.git' "$query" | fzf --walker-skip=.git,node_modules,.venv,venv,.jj --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')
     if [[ -n "$result" ]]; then
         nvim "$result"
     else
