@@ -60,10 +60,5 @@ return {
 			--   (refer to documentation on <Plug> mappings for explanation of when this option is used)
 			follow_link = nil,
 		},
-		on_attach = function(bufnr)
-			local map = function(mode, keys, func, desc)
-				vim.keymap.set(mode, keys, func, { buffer = bufnr, desc = "Markdown: " .. desc })
-			end
-		end,
 	},
 }

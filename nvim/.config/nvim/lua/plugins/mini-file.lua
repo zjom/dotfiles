@@ -117,8 +117,8 @@ local M = {
 
 		minifiles.setup(opts)
 
-		vim.keymap.set("n", "<C-e>", minifiles_toggle, { desc = "Toggle File explorer" })
-		vim.keymap.set("n", "<leader>xe", minifiles_toggle, { desc = "Toggle File explorer" })
+		vim.keymap.set("n", "<C-e>", minifiles_toggle, { desc = "Toggle File [E]xplorer" })
+		vim.keymap.set("n", "<leader>xe", minifiles_toggle, { desc = "Toggle File [E]xplorer" })
 
 		-- Keep track of when the explorer is open to disable format on save.
 		local minifiles_explorer_group = vim.api.nvim_create_augroup("zjom/minifiles_explorer", { clear = true })

@@ -19,7 +19,7 @@ return {
 
 		vim.keymap.set("n", "<leader>ct", ":GoTestFile<enter>", { desc = "[C]ode [T]est" })
 		vim.keymap.set("n", "<leader>ce", ":GoIfErr<enter>", { desc = "[C]ode Add If [E]rr" })
-		vim.keymap.set("n", "<leader>cac", ":GoCmt<enter>", { desc = "[C]ode [A]dd [C]omment" })
+		vim.keymap.set("n", "<leader>cc", ":GoCmt<enter>", { desc = "[C]ode Add [C]omment" })
 		vim.keymap.set("n", "<leader>ct", ":GoTestFile<enter>", { desc = "[C]ode [T]est" })
 
 		return {
