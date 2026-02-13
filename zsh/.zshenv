@@ -8,7 +8,7 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export PATH="$HOME/.cargo/bin:$PATH" # cargo
 export PATH="$HOME/.local/bin:$PATH" # Local scripts.
 export PATH="$HOME/go/bin:$PATH" # Go binaries.
-. "/Users/zihanjin/.local/share/bob/env/env.sh"
+. "$HOME/.local/share/bob/env/env.sh"
 
 # zsh configuration.
 export SHELL_SESSIONS_DISABLE=1
@@ -23,5 +23,9 @@ export VISUAL="$EDITOR"
 
 # fzf setup.
 export FZF_DEFAULT_OPTS="--color=fg:#f8f8f2,bg:#0e1419,hl:#e11299,fg+:#f8f8f2,bg+:#44475a,hl+:#e11299,info:#f1fa8c,prompt:#50fa7b,pointer:#ff79c6,marker:#ff79c6,spinner:#a4ffff,header:#6272a4 \
+--walker-skip=.git,node_modules,.venv,venv,.jj \
 --cycle --pointer=▎ --marker=▎"
 
+
+# rg setup.
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
