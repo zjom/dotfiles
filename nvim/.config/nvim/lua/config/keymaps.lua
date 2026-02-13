@@ -19,12 +19,12 @@ vim.keymap.set("v", ">", ">gv")
 vim.keymap.set("n", "gQ", "mzgggqG`z<cmd>delmarks z<cr>zz", { desc = "Format buffer" })
 
 -- Restart Neovim.
-vim.keymap.set("n", "<leader><C-r><C-r>", "<cmd>restart<cr>", { desc = "Restart Neovim" })
+vim.keymap.set("n", "<leader><C-r><C-r>", "<cmd>restart<cr>", { desc = "[R]estart Neovim" })
 
 -- Tab navigation.
-vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "Close tab page" })
-vim.keymap.set("n", "<leader>tn", "<cmd>tab split<cr>", { desc = "New tab page" })
-vim.keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close other tab pages" })
+vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "[C]lose Tab Page" })
+vim.keymap.set("n", "<leader>tn", "<cmd>tab split<cr>", { desc = "[N]ew Tab Page" })
+vim.keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close [O]ther Tab Pages" })
 
 -- Poweful <esc>.
 vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
