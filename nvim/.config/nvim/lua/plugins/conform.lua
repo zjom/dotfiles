@@ -59,6 +59,7 @@ return { -- Autoformat
 			},
 			scss = { "prettier" },
 			sh = { "beautysh" },
+			sql = { "sleek" },
 			typescript = { "prettier" },
 			typescriptreact = { "prettier" },
 			typst = { "typstyle" },
