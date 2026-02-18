@@ -33,6 +33,7 @@ brew "duti" # A command-line tool to select default applications for document ty
 brew "pam-reattach" # Allows users to make use of the pam_tid module (Touch ID) from within tmux.
 brew "duckdb"
 brew "git-delta"
+brew "just"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
