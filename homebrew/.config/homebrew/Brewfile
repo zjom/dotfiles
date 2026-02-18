@@ -34,6 +34,7 @@ brew "pam-reattach" # Allows users to make use of the pam_tid module (Touch ID) 
 brew "duckdb"
 brew "git-delta"
 brew "just"
+brew "protobuf"
 
 cask "nikitabobko/tap/aerospace"
 cask "orbstack"
