@@ -43,6 +43,7 @@ return { -- Autoformat
 			graphql = { "prettier" },
 			html = { "prettier" },
 			http = { "kulala-fmt" },
+			java = { "google-java-format" },
 			javascript = { "prettier" },
 			javascriptreact = { "prettier" },
 			json = { "prettier", "jq" },
