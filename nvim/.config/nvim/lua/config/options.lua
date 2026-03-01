@@ -9,9 +9,8 @@ vim.g.maplocalleader = " "
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
--- Use an indentation of 4 spaces.
-vim.o.sw = 4
-vim.o.ts = 4
+-- Use an indentation of 2 spaces.
+vim.o.sw = 2
 vim.o.et = true
 
 -- Show whitespace.
