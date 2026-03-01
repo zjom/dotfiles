@@ -44,6 +44,7 @@ return { -- Autoformat
 			html = { "prettier" },
 			http = { "kulala-fmt" },
 			java = { "google-java-format" },
+			xml = { "xmlformatter" },
 			javascript = { "prettier" },
 			javascriptreact = { "prettier" },
 			json = { "prettier", "jq" },
