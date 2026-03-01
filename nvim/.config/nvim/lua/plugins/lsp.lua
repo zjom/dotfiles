@@ -248,6 +248,7 @@ return { -- LSP Configuration & Plugins
 					suggestSpecs = false,
 				},
 			},
+			jdtls = {},
 			marksman = {},
 			gopls = {},
 			tailwindcss = {},
@@ -324,6 +325,8 @@ return { -- LSP Configuration & Plugins
 			"sleek", -- SQL formatting
 			"beautysh", -- bash/zsh formatting
 			"csharpier", -- C# formatting,
+			"xmlformatter", -- Xml formatting
+			"kulala-fmt", -- Http file formatting
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
