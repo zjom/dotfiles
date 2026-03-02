@@ -80,10 +80,16 @@ return { -- Autocompletion
 				sql = { "dadbod" },
 				-- optionally inherit from the `default` sources
 				lua = { inherit_defaults = true, "lazydev" },
+				org = { "orgmode" },
 			},
 			providers = {
 				dadbod = { module = "vim_dadbod_completion.blink" },
 				lazydev = { module = "lazydev.integrations.blink", score_offset = 100 },
+				orgmode = {
+					name = "Orgmode",
+					module = "orgmode.org.autocompletion.blink",
+					fallbacks = { "buffer" },
+				},
 			},
 		},
 
