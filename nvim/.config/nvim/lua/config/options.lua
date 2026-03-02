@@ -11,6 +11,7 @@ vim.g.maplocalleader = " "
 
 -- Use an indentation of 2 spaces.
 vim.o.sw = 2
+vim.o.ts = 2
 vim.o.et = true
 
 -- Show whitespace.
