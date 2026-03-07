@@ -70,6 +70,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
 		-- Enable telescope extensions, if they are installed
 		pcall(require("telescope").load_extension, "fzf")
 		pcall(require("telescope").load_extension, "ui-select")
+		pcall(require("telescope").load_extension, "orgmode")
 
 		-- See `:help telescope.builtin`
 		local builtin = require("telescope.builtin")
@@ -125,12 +126,18 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			builtin.find_files({ cwd = "~/dotfiles/" })
 		end, { desc = "[S]earch [C]onfig" })
 
-		vim.keymap.set("n", "<leader>sn", function()
-			builtin.find_files({ cwd = "~/.nb/" })
-		end, { desc = "[S]earch [N]otes" })
-		vim.keymap.set("n", "<leader>sN", function()
-			builtin.live_grep({ cwd = "~/.nb/" })
-		end, { desc = "[S]earch [N]otes (grep)" })
+		vim.keymap.set(
+			"n",
+			"<leader>soh",
+			require("telescope").extensions.orgmode.search_headings,
+			{ desc = "[S]earch [O]rg [H]eadings" }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>sot",
+			require("telescope").extensions.orgmode.search_tags,
+			{ desc = "[S]earch [O]rg [T]ags" }
+		)
 
 		vim.keymap.set("i", "<C-x><C-i>", builtin.symbols, { desc = "[x] [I]nsert Symbols" })
 	end,
