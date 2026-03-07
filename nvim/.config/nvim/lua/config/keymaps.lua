@@ -17,6 +17,7 @@ vim.keymap.set("v", ">", ">gv")
 
 -- Formatting.
 vim.keymap.set("n", "gQ", "mzgggqG`z<cmd>delmarks z<cr>zz", { desc = "Format buffer" })
+vim.keymap.set("n", "<leader>xF", "<cmd>ToggleFormat<cr>", { desc = "[X]oggle Format" })
 
 -- Restart Neovim.
 vim.keymap.set("n", "<leader><C-r><C-r>", "<cmd>restart<cr>", { desc = "[R]estart Neovim" })
