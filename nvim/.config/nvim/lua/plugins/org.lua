@@ -13,6 +13,11 @@ return {
 				org = {
 					org_todo = "<C-c>t",
 				},
+				agenda = {
+					org_agenda_day_view = "<leader>vd",
+					org_agenda_week_view = "<leader>vw",
+					org_agenda_month_view = "<leader>vm",
+				},
 			},
 		})
 		-- Experimental LSP support
