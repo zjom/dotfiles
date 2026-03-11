@@ -10,6 +10,9 @@ return {
 
 			vim.cmd("colorscheme vague")
 			vim.cmd(":hi statusline guibg=NONE")
+
+			vim.api.nvim_set_hl(0, "@org.agenda.scheduled", { fg = "grey" })
+			vim.api.nvim_set_hl(0, "@org.agenda.deadline", { fg = "#FFAAAA" }) --TODO figure out why this isn't working
 		end,
 	},
 	{
