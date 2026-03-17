@@ -126,19 +126,6 @@ return { -- Fuzzy Finder (files, lsp, etc)
 			builtin.find_files({ cwd = "~/dotfiles/" })
 		end, { desc = "[S]earch [C]onfig" })
 
-		vim.keymap.set(
-			"n",
-			"<leader>soh",
-			require("telescope").extensions.orgmode.search_headings,
-			{ desc = "[S]earch [O]rg [H]eadings" }
-		)
-		vim.keymap.set(
-			"n",
-			"<leader>sot",
-			require("telescope").extensions.orgmode.search_tags,
-			{ desc = "[S]earch [O]rg [T]ags" }
-		)
-
 		vim.keymap.set("i", "<C-x><C-i>", builtin.symbols, { desc = "[x] [I]nsert Symbols" })
 	end,
 }

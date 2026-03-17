@@ -1,8 +1,5 @@
 return {
 	"nvim-orgmode/orgmode",
-	dependencies = {
-		"nvim-orgmode/telescope-orgmode.nvim",
-	},
 	event = "VeryLazy",
 	config = function()
 		require("orgmode").setup({
