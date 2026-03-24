@@ -1,8 +1,8 @@
 [tools]
 bun = "latest"
 dotnet = "latest"
-elixir = "1.18.4-otp-27"
-erlang = "27"
+elixir = "latest"
+erlang = "latest"
 go = "latest"
 java = "temurin"
 maven = "latest"
