@@ -31,7 +31,7 @@ return { -- Autoformat
 
 			return {}
 		end,
-		quiet = true,
+		quiet = false,
 		formatters_by_ft = {
 			["_"] = { "trim_whitespace", "trim_newlines" },
 			astro = { "prettier", lsp_format = "prefer" },
@@ -39,6 +39,7 @@ return { -- Autoformat
 			cs = { "csharpier_zjom" },
 			csproj = { "csharpier_zjom" },
 			css = { "prettier" },
+			elixir = { "mix", lsp_format = "prefer" },
 			flow = { "prettier" },
 			graphql = { "prettier" },
 			html = { "prettier" },
@@ -59,6 +60,7 @@ return { -- Autoformat
 				-- To organize the imports.
 				"ruff_organize_imports",
 			},
+			rust = { "cargo fmt", lsp_format = "prefer" },
 			scss = { "prettier" },
 			sh = { "beautysh" },
 			sql = { "sleek" },
