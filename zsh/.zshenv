@@ -29,3 +29,7 @@ export FZF_DEFAULT_OPTS="--color=fg:#f8f8f2,bg:#0e1419,hl:#e11299,fg+:#f8f8f2,bg
 
 # rg setup.
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
+
+
+# global brewfile.
+export HOMEBREW_BUNDLE_FILE="$HOME/.config/homebrew/Brewfile"
