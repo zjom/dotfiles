@@ -14,7 +14,8 @@ return {
 			},
 			mappings = {
 				org = {
-					org_todo = "<C-c>t",
+					org_todo = "<leader>ot",
+					org_set_tags_command = "<leader>oT",
 				},
 				agenda = {
 					org_agenda_day_view = "<leader>vd",
