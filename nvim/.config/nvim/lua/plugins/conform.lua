@@ -60,7 +60,7 @@ return { -- Autoformat
 				-- To organize the imports.
 				"ruff_organize_imports",
 			},
-			rust = { "cargo fmt", lsp_format = "prefer" },
+			rust = { "rustfmt", lsp_format = "prefer" },
 			scss = { "prettier" },
 			sh = { "beautysh" },
 			sql = { "sleek" },
