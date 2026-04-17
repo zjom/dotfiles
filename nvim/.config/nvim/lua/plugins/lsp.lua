@@ -4,7 +4,12 @@ return { -- LSP Configuration & Plugins
 		-- Automatically install LSPs and related tools to stdpath for neovim
 		{
 			"mason-org/mason.nvim",
-			opts = {},
+			opts = {
+				registries = {
+					"github:mason-org/mason-registry",
+					"github:Crashdummyy/mason-registry",
+				},
+			},
 		},
 		"mason-org/mason-lspconfig.nvim",
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
@@ -216,7 +221,7 @@ return { -- LSP Configuration & Plugins
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
-			csharp_ls = {},
+			roslyn = {},
 			ruff = {},
 			tinymist = {
 				cmd = { "tinymist" },
