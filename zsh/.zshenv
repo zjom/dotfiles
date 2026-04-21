@@ -5,6 +5,7 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_STATE_HOME="$HOME/.local/state"
 
 # Put binaries on path.
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH" # libq (psql)
 export PATH="$HOME/.cargo/bin:$PATH" # cargo
 export PATH="$HOME/.local/bin:$PATH" # Local scripts.
 export PATH="$HOME/go/bin:$PATH" # Go binaries.
