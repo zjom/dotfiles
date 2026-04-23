@@ -23,9 +23,13 @@ vim.keymap.set("n", "<leader>xF", "<cmd>ToggleFormat<cr>", { desc = "[X]oggle Fo
 vim.keymap.set("n", "<leader><C-r><C-r>", "<cmd>restart<cr>", { desc = "[R]estart Neovim" })
 
 -- Tab navigation.
-vim.keymap.set("n", "<leader>tc", "<cmd>tabclose<cr>", { desc = "[C]lose Tab Page" })
-vim.keymap.set("n", "<leader>tn", "<cmd>tab split<cr>", { desc = "[N]ew Tab Page" })
-vim.keymap.set("n", "<leader>to", "<cmd>tabonly<cr>", { desc = "Close [O]ther Tab Pages" })
+vim.keymap.set("n", "<leader>td", "<cmd>tabclose<cr>", { desc = "[D]elete Tab" })
+vim.keymap.set("n", "<leader>tc", "<cmd>tabnew<cr>", { desc = "[C]reate Tab" })
+vim.keymap.set("n", "<leader>to", "g<Tab>", { desc = "[O]ther Tab" })
+vim.keymap.set("n", "<leader>t!", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
+vim.keymap.set("n", "<leader>tn", "<cmd>tabNext<cr>", { desc = "[N]ext Tab" })
+vim.keymap.set("n", "<leader>t1", "<cmd>tabfirst<cr>", { desc = "First Tab" })
+vim.keymap.set("n", "<leader>t0", "<cmd>tablast<cr>", { desc = "Last Tab" })
 
 -- Poweful <esc>.
 vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
@@ -37,7 +41,7 @@ vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
 end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
 -- Insert mode sanity
-vim.keymap.set("i", "<M-BS>", "<C-w>", { desc = "Delete previous word" })
+vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete previous word" })
 -- Escape and save changes.
 vim.keymap.set("i", "<C-w>", "<Nop>")
 vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
