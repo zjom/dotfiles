@@ -29,7 +29,7 @@ vim.keymap.set("n", "<leader>to", "g<Tab>", { desc = "[O]ther Tab" })
 vim.keymap.set("n", "<leader>t!", "<cmd>tabonly<cr>", { desc = "Close Other Tabs" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabNext<cr>", { desc = "[N]ext Tab" })
 vim.keymap.set("n", "<leader>t1", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-vim.keymap.set("n", "<leader>t0", "<cmd>tablast<cr>", { desc = "Last Tab" })
+vim.keymap.set("n", "<leader>t9", "<cmd>tablast<cr>", { desc = "Last Tab" })
 
 -- Poweful <esc>.
 vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
