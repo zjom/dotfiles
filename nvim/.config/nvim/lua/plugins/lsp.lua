@@ -294,7 +294,15 @@ return { -- LSP Configuration & Plugins
 			},
 			-- ty = {},
 			basedpyright = {},
-			rust_analyzer = {},
+			rust_analyzer = {
+				settings = {
+					["rust-analyzer"] = {
+						check = {
+							command = "clippy",
+						},
+					},
+				},
+			},
 		}
 
 		-- Ensure the servers and tools above are installed
