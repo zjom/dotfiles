@@ -40,7 +40,7 @@ require("mini.surround").setup({
 -- Save the window layout when closing a buffer.
 vim.keymap.set("n", "<leader>bd", function()
 	require("mini.bufremove").delete(0, false)
-end)
+end, { desc = "[B]uffer [D]elete" })
 
 -- File explorer
 local function map_split(buf_id, lhs, direction)
