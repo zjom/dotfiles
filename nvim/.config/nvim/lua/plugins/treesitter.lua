@@ -1,14 +1,11 @@
--- Highlight, edit, and navigate code.
-local ensureInstalled = {
+vim.pack.add({ { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } })
+local parsers = {
 	"bash",
 	"c",
-	"cpp",
-	"fish",
+	"diff",
 	"gitcommit",
 	"go",
-	"graphql",
 	"html",
-	"hyprlang",
 	"java",
 	"javascript",
 	"json",
@@ -18,7 +15,6 @@ local ensureInstalled = {
 	"markdown_inline",
 	"python",
 	"query",
-	"rasi",
 	"regex",
 	"rust",
 	"scss",
@@ -29,97 +25,56 @@ local ensureInstalled = {
 	"vimdoc",
 	"yaml",
 }
+require("nvim-treesitter").install(parsers)
 
-return {
-	{
-		"nvim-treesitter/nvim-treesitter",
-		branch = "main",
-		dependencies = {
-			{
-				"nvim-treesitter/nvim-treesitter-context",
-				opts = {
-					-- Avoid the sticky context from growing a lot.
-					max_lines = 3,
-					-- Match the context lines to the source code.
-					multiline_threshold = 1,
-					-- Disable it when the window is too small.
-					min_window_height = 20,
-				},
-				keys = {
-					{
-						"[c",
-						function()
-							-- Jump to previous change when in diffview.
-							if vim.wo.diff then
-								return "[c"
-							else
-								vim.schedule(function()
-									require("treesitter-context").go_to_context()
-								end)
-								return "<Ignore>"
-							end
-						end,
-						desc = "Jump to upper context",
-						expr = true,
-					},
-				},
-			},
-		},
-		version = false,
-		build = ":TSUpdate",
-		init = function()
-			vim.api.nvim_create_autocmd("FileType", {
-				callback = function()
-					-- Enable treesitter highlighting and disable regex syntax
-					pcall(vim.treesitter.start)
-					-- Enable treesitter-based indentation
-					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
-					-- Enable treesitter-based folding
-					vim.wo[0][0].foldexpr = "v:lua.vim.treesitter.foldexpr()"
-					vim.wo[0][0].foldmethod = "expr"
-				end,
-			})
-			local alreadyInstalled = require("nvim-treesitter.config").get_installed()
-			local parsersToInstall = vim.iter(ensureInstalled)
-				:filter(function(parser)
-					return not vim.tbl_contains(alreadyInstalled, parser)
-				end)
-				:totable()
-			require("nvim-treesitter").install(parsersToInstall)
-		end,
+---@param buf integer
+---@param language string
+local function treesitter_try_attach(buf, language)
+	-- Check if a parser exists and load it
+	if not vim.treesitter.language.add(language) then
+		return
+	end
+	-- Enable syntax highlighting and other treesitter features
+	vim.treesitter.start(buf, language)
 
-		opts = {
-			highlight = { enable = true },
-			incremental_selection = {
-				enable = true,
-				keymaps = {
-					init_selection = "<cr>",
-					node_incremental = "<cr>",
-					scope_incremental = false,
-					node_decremental = "<bs>",
-				},
-			},
-			indent = {
-				enable = true,
-				-- Treesitter unindents Yaml lists for some reason.
-				disable = { "yaml" },
-			},
-		},
-		config = function(_, opts)
-			local toggle_inc_selection_group =
-				vim.api.nvim_create_augroup("zjom/toggle_inc_selection", { clear = true })
-			vim.api.nvim_create_autocmd("CmdwinEnter", {
-				desc = "Disable incremental selection when entering the cmdline window",
-				group = toggle_inc_selection_group,
-				command = "TSBufDisable incremental_selection",
-			})
-			vim.api.nvim_create_autocmd("CmdwinLeave", {
-				desc = "Enable incremental selection when leaving the cmdline window",
-				group = toggle_inc_selection_group,
-				command = "TSBufEnable incremental_selection",
-			})
+	-- Enable treesitter based folds
+	-- For more info on folds see `:help folds`
+	vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+	vim.wo.foldmethod = "expr"
 
-			require("nvim-treesitter").setup(opts)
-		end,
-	},
-}
+	-- Check if treesitter indentation is available for this language, and if so enable it
+	-- in case there is no indent query, the indentexpr will fallback to the vim's built in one
+	local has_indent_query = vim.treesitter.query.get(language, "indents") ~= nil
+
+	-- Enable treesitter based indentation
+	if has_indent_query then
+		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	end
+end
+
+local available_parsers = require("nvim-treesitter").get_available()
+vim.api.nvim_create_autocmd("FileType", {
+	callback = function(args)
+		local buf, filetype = args.buf, args.match
+
+		local language = vim.treesitter.language.get_lang(filetype)
+		if not language then
+			return
+		end
+
+		local installed_parsers = require("nvim-treesitter").get_installed("parsers")
+
+		if vim.tbl_contains(installed_parsers, language) then
+			-- Enable the parser if it is already installed
+			treesitter_try_attach(buf, language)
+		elseif vim.tbl_contains(available_parsers, language) then
+			-- If a parser is available in `nvim-treesitter`, auto-install it and enable it after the installation is done
+			require("nvim-treesitter").install(language):await(function()
+				treesitter_try_attach(buf, language)
+			end)
+		else
+			-- Try to enable treesitter features in case the parser exists but is not available from `nvim-treesitter`
+			treesitter_try_attach(buf, language)
+		end
+	end,
+})
