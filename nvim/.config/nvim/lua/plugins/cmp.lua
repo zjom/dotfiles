@@ -6,6 +6,9 @@ vim.pack.add({
 	gh("L3MON4D3/LuaSnip"),
 	gh("rafamadriz/friendly-snippets"),
 	gh("saghen/blink.cmp"),
+	gh("tpope/vim-dadbod"),
+	gh("kristijanhusak/vim-dadbod-ui"),
+	gh("kristijanhusak/vim-dadbod-completion"),
 })
 require("luasnip").setup({})
 require("luasnip.loaders.from_vscode").lazy_load()
