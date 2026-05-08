@@ -129,7 +129,6 @@ local tools = {
 	marksman = {},
 	ocaml_ls = { manual_install = true },
 	prettier = { no_enable = true }, -- Web formatting
-	roslyn = {},
 	ruff = {}, -- Python linting & formatting
 	rust_analyzer = {},
 	sleek = { no_enable = true }, -- SQL formatting
