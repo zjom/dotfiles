@@ -9,9 +9,17 @@ vim.pack.add({
 	gh("tpope/vim-dadbod"),
 	gh("kristijanhusak/vim-dadbod-ui"),
 	gh("kristijanhusak/vim-dadbod-completion"),
+	gh("nvim-orgmode/orgmode"),
 })
+
 require("luasnip").setup({})
 require("luasnip.loaders.from_vscode").lazy_load()
+
+require("orgmode").setup({
+	org_agenda_files = "~/o/**/*",
+	org_default_notes_file = "~/o/refile.org",
+})
+
 require("blink.cmp").setup({
 	keymap = {
 		preset = "default",
@@ -30,15 +38,15 @@ require("blink.cmp").setup({
 		default = { "lsp", "path", "snippets" },
 		per_filetype = {
 			sql = { "dadbod" },
-			-- org = { "orgmode" },
+			org = { "orgmode" },
 		},
 		providers = {
 			dadbod = { module = "vim_dadbod_completion.blink" },
-			-- orgmode = {
-			-- 	name = "Orgmode",
-			-- 	module = "orgmode.org.autocompletion.blink",
-			-- 	fallbacks = { "buffer" },
-			-- },
+			orgmode = {
+				name = "Orgmode",
+				module = "orgmode.org.autocompletion.blink",
+				fallbacks = { "buffer" },
+			},
 		},
 	},
 	snippets = { preset = "luasnip" },
