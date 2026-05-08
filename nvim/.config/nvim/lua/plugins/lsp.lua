@@ -116,6 +116,7 @@ local tools = {
 	basedpyright = {},
 	clangd = {},
 	csharpier = { no_enable = true }, -- C# formatting,
+	cssls = {},
 	dprint = { no_enable = true }, -- General purpose formatting
 	elixirls = {},
 	emmet_ls = {},
