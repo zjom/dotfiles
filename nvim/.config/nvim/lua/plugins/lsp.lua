@@ -1,7 +1,6 @@
 local function gh(repo)
 	return "https://github.com/" .. repo
 end
-
 vim.pack.add({
 	gh("j-hui/fidget.nvim"), -- Useful status updates for LSP.
 	gh("neovim/nvim-lspconfig"),
@@ -12,7 +11,7 @@ vim.pack.add({
 require("fidget").setup({})
 
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+	group = vim.api.nvim_create_augroup("zjom-lsp-attach", { clear = true }),
 	callback = function(event)
 		local map = function(keys, func, desc, mode)
 			mode = mode or "n"
@@ -69,7 +68,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- When you move your cursor, the highlights will be cleared (the second autocommand).
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-			local highlight_augroup = vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+			local highlight_augroup = vim.api.nvim_create_augroup("zjom-lsp-highlight", { clear = false })
 			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 				buffer = event.buf,
 				group = highlight_augroup,
@@ -83,10 +82,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			})
 
 			vim.api.nvim_create_autocmd("LspDetach", {
-				group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+				group = vim.api.nvim_create_augroup("zjom-lsp-detach", { clear = true }),
 				callback = function(event2)
 					vim.lsp.buf.clear_references()
-					vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+					vim.api.nvim_clear_autocmds({ group = "zjom-lsp-highlight", buffer = event2.buf })
 				end,
 			})
 		end
@@ -105,142 +104,51 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
--- Rust analyzer doesn't really support per project/ workspace config.
--- This is a hacky workaround.
-local function get_project_rustanalyzer_settings()
-	local handle = io.open(vim.fn.resolve(vim.fn.getcwd() .. "/./.rust-analyzer.json"))
-	if not handle then
-		return {}
-	end
-	local out = handle:read("*a")
-	handle:close()
-	local config = vim.json.decode(out)
-	if type(config) == "table" then
-		return config
-	end
-	return {}
-end
-
-local servers = {
-	roslyn = {},
-	ruff = {},
-	tinymist = {
-		cmd = { "tinymist" },
-		filetypes = { "typst" },
-		settings = {
-			formatterMode = "typstyle",
-		},
-	},
-	ts_ls = {},
-	clangd = {
-		cmd = {
-			"clangd",
-			"--background-index",
-			"--compile-commands-dir=.",
-		},
-	},
-	elixirls = {
-		settings = {
-			dialyzerEnabled = true,
-			fetchDeps = false,
-			enableTestLenses = false,
-			suggestSpecs = false,
-		},
-	},
-	jdtls = {},
-	marksman = {},
-	gopls = {},
-	tailwindcss = {},
-	eslint = {},
-	html = {},
-	emmet_ls = {},
-	-- ocamllsp = {
-	-- 	manual_install = true,
-	-- 	settings = {
-	-- 		codelens = { enable = true },
-	-- 		inlayHints = { enable = true },
-	-- 	},
-	-- 	filetypes = {
-	-- 		"ocaml",
-	-- 		"ocaml.interface",
-	-- 		"ocaml.menhir",
-	-- 		"ocaml.cram",
-	-- 	},
-	-- },
-	lua_ls = {
-		-- cmd = {...},
-		-- filetypes { ...},
-		-- capabilities = {},
-		settings = {
-			Lua = {
-				runtime = { version = "LuaJIT" },
-				workspace = {
-					checkThirdParty = false,
-					-- Tells lua_ls where to find all the Lua files that you have loaded
-					-- for your neovim configuration.
-					library = {
-						"${3rd}/luv/library",
-						unpack(vim.api.nvim_get_runtime_file("", true)),
-					},
-					-- If lua_ls is really slow on your computer, you can try this instead:
-					-- library = { vim.env.VIMRUNTIME },
-				},
-				completion = {
-					callSnippet = "Replace",
-				},
-				-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-				-- diagnostics = { disable = { 'missing-fields' } },
-			},
-		},
-	},
-	-- ty = {},
+-- Automatically install LSPs and related tools to stdpath for Neovim
+--
+-- To enable lsp but not install, set `manual_install = true`
+-- To install but not enable lsp, set `no_enable = true`
+--
+-- To manage lspconfig: update `nvim/lsp/<server>.lua`
+-- To override lspconfig options: update `nvim/after/lsp/<server>.lua`
+-- See `:help lsp-config-merge`
+local tools = {
 	basedpyright = {},
-	rust_analyzer = {
-		settings = {
-			["rust-analyzer"] = vim.tbl_deep_extend(
-				"force",
-				{
-					check = {
-						command = "clippy",
-					},
-				},
-				get_project_rustanalyzer_settings(),
-				{
-					-- Overrides (forces these regardless of what's in .rust-analyzer.json
-					-- procMacro = { enable = true },
-					-- diagnostics = { disabled = { "inactive-code" } },
-				}
-			),
-		},
-	},
+	clangd = {},
+	csharpier = { no_enable = true }, -- C# formatting,
+	dprint = { no_enable = true }, -- General purpose formatting
+	elixirls = {},
+	emmet_ls = {},
+	eslint = {}, -- JavaScript and TypeScript linting
+	gopls = {},
+	html = {},
+	jdtls = {},
+	lua_ls = {},
+	marksman = {},
+	ocaml_ls = { manual_install = true },
+	prettier = { no_enable = true }, -- Web formatting
+	roslyn = {},
+	ruff = {}, -- Python linting & formatting
+	rust_analyzer = {},
+	sleek = { no_enable = true }, -- SQL formatting
+	tailwindcss = {},
+	tinymist = {},
+	ts_ls = {},
+	typstyle = { no_enable = true }, --Typst formatting
+	xmlformatter = { no_enable = true }, -- Xml formatting
 }
 
--- Automatically install LSPs and related tools to stdpath for Neovim
-require("mason").setup({})
-
-local servers_to_install = vim.tbl_filter(function(key)
-	local t = servers[key]
-	if type(t) == "table" then
-		return not t.manual_install
-	else
-		return t
+local ensure_installed = {}
+local servers_to_enable = {}
+for tool_name, config in pairs(tools) do
+	if not config.manual_install then
+		table.insert(ensure_installed, tool_name)
 	end
-end, vim.tbl_keys(servers))
-
-local ensure_installed = servers_to_install
-vim.list_extend(ensure_installed, {
-	"eslint", -- JavaScript and TypeScript linting
-	"prettier", -- Web formatting
-	"typstyle", --Typst formatting
-	"sleek", -- SQL formatting
-	"csharpier", -- C# formatting,
-	"xmlformatter", -- Xml formatting
-	"dprint", -- General purpose formatting
-})
-
-require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-
-for name, server in pairs(servers) do
-	vim.lsp.config(name, server)
-	vim.lsp.enable(name)
+	if not config.no_enable then
+		table.insert(servers_to_enable, tool_name)
+	end
 end
+
+require("mason").setup({})
+require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+vim.lsp.enable(servers_to_enable)
