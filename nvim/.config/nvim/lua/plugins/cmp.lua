@@ -27,12 +27,10 @@ require("blink.cmp").setup({
 		default = { "lsp", "path", "snippets" },
 		per_filetype = {
 			sql = { "dadbod" },
-			lua = { "LazyDev" },
 			-- org = { "orgmode" },
 		},
 		providers = {
 			dadbod = { module = "vim_dadbod_completion.blink" },
-			lazydev = { name = "LazyDev", module = "lazydev.integrations.blink", score_offset = 100 },
 			-- orgmode = {
 			-- 	name = "Orgmode",
 			-- 	module = "orgmode.org.autocompletion.blink",
