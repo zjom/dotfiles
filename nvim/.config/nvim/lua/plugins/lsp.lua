@@ -122,6 +122,7 @@ local tools = {
 	emmet_ls = {},
 	eslint = {}, -- JavaScript and TypeScript linting
 	gopls = {},
+	["google-java-format"] = { no_enable = true },
 	html = {},
 	jdtls = {},
 	lua_ls = {},
