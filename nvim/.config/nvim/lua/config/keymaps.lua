@@ -84,3 +84,6 @@ vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer [P]revious", sil
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "[B]uffer [N]ext", silent = true })
 vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "[B]uffer [D]elete current", silent = true })
 vim.keymap.set("n", "<leader>bc", ":vs and new_window<CR>", { desc = "[B]uffer [C]reate ", silent = true })
+vim.keymap.set("n", "<leader>bs", ":Scratch<CR>", { desc = "[B]uffer [Scratch]", silent = true })
+
+vim.keymap.set("n", "<leader>xL", ":set relativenumber!<CR>", { desc = "[X]oggle [L]inenumbers", silent = true })
