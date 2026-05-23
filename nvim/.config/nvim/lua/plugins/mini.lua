@@ -108,7 +108,7 @@ local minifiles_toggle = function()
 end
 require("mini.files").setup({
 	content = {
-		filter = filter_hide,
+		filter = show_dotfiles and filter_show or filter_hide,
 		sort = function(entries)
 			local function compare_alphanumerically(e1, e2)
 				-- Put directories first.
