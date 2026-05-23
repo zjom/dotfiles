@@ -1,12 +1,16 @@
 [tools]
 bun = "latest"
+clang = "latest"
+cmake = "latest"
 dotnet = "latest"
 elixir = "latest"
 erlang = "latest"
 go = "latest"
 java = "temurin"
 maven = "latest"
+ninja = "latest"
 node = "latest"
+opam = { version = "latest", asset_pattern = "opam-*-{gnu_arch}-{os}" }
 pnpm = "latest"
 python = "latest"
 typst = "latest"
