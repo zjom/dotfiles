@@ -79,6 +79,25 @@ local yank_path = function()
 	vim.fn.setreg(vim.v.register, path)
 end
 
+local yank_rel_path = function()
+	local path = (require("mini.files").get_fs_entry() or {}).path
+	if path == nil then
+		return vim.notify("Cursor is not on valid entry")
+	end
+
+	local cwd = vim.uv.cwd()
+	if cwd == nil then
+		return vim.notify("Failed to get cwd")
+	end
+
+	local relpath = vim.fs.relpath(cwd, path)
+	if relpath == nil then
+		return vim.notify("Target path is not a descendent of cwd")
+	end
+
+	vim.fn.setreg(vim.v.register, relpath)
+end
+
 -- Open path with system default handler (useful for non-text files)
 local ui_open = function()
 	vim.ui.open(require("mini.files").get_fs_entry().path)
@@ -218,6 +237,7 @@ vim.api.nvim_create_autocmd("User", {
 		vim.keymap.set("n", "<enter>", require("mini.files").go_in, { buffer = buf_id, desc = "Open" })
 		vim.keymap.set("n", "gx", ui_open, { buffer = buf_id, desc = "OS open" })
 		vim.keymap.set("n", "gy", yank_path, { buffer = buf_id, desc = "Yank path" })
+		vim.keymap.set("n", "gY", yank_rel_path, { buffer = buf_id, desc = "Yank rel path" })
 		vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle dotfiles" })
 	end,
 })
