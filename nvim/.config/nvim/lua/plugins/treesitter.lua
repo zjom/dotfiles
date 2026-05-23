@@ -1,9 +1,11 @@
 vim.pack.add({ { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } })
+
 local parsers = {
 	"bash",
 	"c",
 	"diff",
 	"gitcommit",
+	"ff",
 	"go",
 	"html",
 	"java",
@@ -25,8 +27,22 @@ local parsers = {
 	"vimdoc",
 	"yaml",
 }
+vim.treesitter.language.register("ff", { "ff" })
 require("nvim-treesitter").install(parsers)
 
+vim.api.nvim_create_autocmd("User", {
+	pattern = "TSUpdate",
+	callback = function()
+		require("nvim-treesitter.parsers").ff = {
+			install_info = {
+				path = "~/code/tree-sitter-ff",
+				generate = true, -- only needed if repo does not contain pre-generated `src/parser.c`
+				generate_from_json = false, -- only needed if repo does not contain `src/grammar.json` either
+				queries = "queries", -- also install queries from given directory
+			},
+		}
+	end,
+})
 ---@param buf integer
 ---@param language string
 local function treesitter_try_attach(buf, language)

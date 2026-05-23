@@ -18,3 +18,5 @@ vim.filetype.add({
 })
 
 vim.filetype.add({ extension = { hours = "hours" } })
+
+vim.filetype.add({ extension = { ff = "ff" } })
