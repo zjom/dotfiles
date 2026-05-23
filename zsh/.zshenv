@@ -27,10 +27,16 @@ export FZF_DEFAULT_OPTS="--color=fg:#f8f8f2,bg:#0e1419,hl:#e11299,fg+:#f8f8f2,bg
 --walker-skip=.git,node_modules,.venv,venv,.jj \
 --cycle --pointer=▎ --marker=▎"
 
-
 # rg setup.
 export RIPGREP_CONFIG_PATH="$HOME/.config/ripgrep/.ripgreprc"
 
-
 # global brewfile.
 export HOMEBREW_BUNDLE_FILE="$HOME/.config/homebrew/Brewfile"
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/zihanjin/.opam/opam-init/init.zsh' ]] || source '/Users/zihanjin/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
