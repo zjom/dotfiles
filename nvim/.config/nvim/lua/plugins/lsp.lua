@@ -127,7 +127,7 @@ local tools = {
 	jdtls = {},
 	lua_ls = {},
 	marksman = {},
-	ocaml_ls = { manual_install = true },
+	ocamllsp = { manual_install = true },
 	prettier = { no_enable = true }, -- Web formatting
 	ruff = {}, -- Python linting & formatting
 	rust_analyzer = {},
