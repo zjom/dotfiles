@@ -45,7 +45,7 @@ require("conform").setup({
 		json = { "prettier", "jq" },
 		less = { "prettier" },
 		lua = { "stylua" },
-		markdown = { "prettier" },
+		markdown = { "dprint" },
 		python = {
 			-- To fix auto-fixable lint errors.
 			"ruff_fix",
