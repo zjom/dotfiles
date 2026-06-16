@@ -29,7 +29,8 @@ local parsers = {
 	"vimdoc",
 	"yaml",
 }
-vim.treesitter.language.register("ff", { "ff" })
+-- vim.treesitter.language.register("ff", { "ff" })
+vim.treesitter.language.register("rizz", { "rizz" })
 require("nvim-treesitter").install(parsers)
 
 vim.api.nvim_create_autocmd("User", {
@@ -41,6 +42,14 @@ vim.api.nvim_create_autocmd("User", {
 				generate = true, -- only needed if repo does not contain pre-generated `src/parser.c`
 				generate_from_json = false, -- only needed if repo does not contain `src/grammar.json` either
 				queries = "queries", -- also install queries from given directory
+			},
+		}
+
+		require("nvim-treesitter.parsers").rizz = {
+			install_info = {
+				path = "~/code/tree-sitter-rizz/",
+				files = { "src/parser.c" },
+				queries = "queries",
 			},
 		}
 	end,
