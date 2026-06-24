@@ -78,6 +78,7 @@ function sesh-all() {
 
 function quick-run-repl() {
     zle -M "Run: (e)lixir, (j)avascript, (n)ushell, (p)ython"
+    zle -R  # force the status line to paint before we block on read
 
     # Read exactly one key into the variable $key
     local key
