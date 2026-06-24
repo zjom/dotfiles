@@ -1,5 +1,27 @@
 # --- Navigation Functions ---
 
+# Open ranger and cd the shell to the last visited directory on quit.
+function ranger_cd() {
+    local tmp="$(mktemp)"
+    command ranger --choosedir="$tmp" -- "${@:-$PWD}"
+    if [[ -f "$tmp" ]]; then
+        local dir="$(cat "$tmp")"
+        [[ -n "$dir" && "$dir" != "$PWD" ]] && cd -- "$dir"
+        rm -f "$tmp"
+    fi
+}
+
+# Navigate in ranger, then open/connect a tmux session in the chosen directory.
+function ranger_sesh() {
+    local tmp="$(mktemp)"
+    command ranger --choosedir="$tmp" -- "${@:-$PWD}"
+    local dir
+    [[ -f "$tmp" ]] && dir="$(cat "$tmp")"
+    rm -f "$tmp"
+    [[ -z "$dir" ]] && return
+    sesh connect "$dir"
+}
+
 function open_in_nvim() {
     local query="${1:-}"
     local result=$(fd --type f --hidden --follow --exclude=.git --exclude=node_modules --exclude=.venv  --exclude=.DS_Store . | fzf  --query "$query"  --preview="fzf-preview.sh {}" --bind 'focus:transform-header:file --brief {}')

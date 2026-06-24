@@ -11,8 +11,10 @@ alias nv='nvim'
 alias nvm='nvim'
 alias tm='tmux -2'
 alias cat='bat'
-alias t='nb t open | bat --file-name "✨ Tasks"'
+alias r='ranger'
 
 # Function Aliases
+alias rc='ranger_cd'
+alias rs='ranger_sesh'
 alias ff='open_in_nvim'
 alias nr='open_in_nvim_rg'
