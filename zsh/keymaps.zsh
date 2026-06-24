@@ -16,4 +16,4 @@ if [[ "${terminfo[kcbt]}" != "" ]]; then
     bindkey "${terminfo[kcbt]}" reverse-menu-complete
 fi
 
-bindkey '^[r' quick-run-repl
+bindkey "${terminfo[kf12]}" quick-run-repl
