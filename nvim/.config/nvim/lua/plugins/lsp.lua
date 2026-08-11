@@ -115,6 +115,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 local tools = {
 	basedpyright = {},
 	clangd = {},
+	svelte = {},
 	csharpier = { no_enable = true }, -- C# formatting,
 	cssls = {},
 	dprint = { no_enable = true }, -- General purpose formatting
