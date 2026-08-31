@@ -33,6 +33,8 @@ require("conform").setup({
 	formatters_by_ft = {
 		["_"] = { "trim_whitespace", "trim_newlines" },
 		astro = { "prettier", lsp_format = "prefer" },
+		c = { "clang_fmt" },
+		cpp = { "clang_fmt" },
 		cs = { "csharpier_zjom" },
 		csproj = { "csharpier_zjom" },
 		css = { "prettier" },
