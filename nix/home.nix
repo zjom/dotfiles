@@ -18,6 +18,7 @@
     tmux
     tree-sitter
     nodejs_26
+    unzip
   ];
 
   programs.git = {
