@@ -10,7 +10,6 @@
     fd
     bat
     neovim
-    zoxide
     fzf
     gcc
     claude-code
@@ -35,6 +34,11 @@
 
   programs.lazygit = {
     enable = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
   };
 
   programs.bash = {
