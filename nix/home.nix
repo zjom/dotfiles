@@ -13,7 +13,6 @@
     zoxide
     fzf
     gcc
-    eza
     claude-code
     tmux
     tree-sitter
@@ -29,11 +28,19 @@
     };
   };
 
+  programs.eza = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
+  programs.lazygit = {
+    enable = true;
+  };
+
   programs.bash = {
     enable = true;
     initExtra = ''
       export EDITOR=nvim
-      eval "$(zoxide init bash)"
     '';
     shellAliases = {
       ls = "eza";
