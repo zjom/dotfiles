@@ -6,8 +6,6 @@
   home.stateVersion = "26.05";
 
   home.packages = with pkgs; [
-    ripgrep
-    fd
     bat
     neovim
     fzf
@@ -23,6 +21,7 @@
     rustfmt
     clippy
     clang-tools # clangd, clang-format
+    nixfmt
   ];
 
   programs.git = {
@@ -31,6 +30,31 @@
       name = "Zihan Jin";
       email = "admin@zihanjin.com";
     };
+  };
+
+  programs.ripgrep = {
+    enable = true;
+    arguments = [
+      "--hidden"
+      "--smart-case"
+      "--glob=!.git/*"
+      "--glob=!node_modules/*"
+      "--glob=!.venv/*"
+      "--glob=!venv/*"
+      "--glob=!.DS_Store"
+      "--glob=!.git/*"
+    ];
+  };
+
+  programs.fd = {
+    enable = true;
+    ignores = [
+      ".git"
+      ".jj"
+      "node_modules"
+      ".venv"
+      "venv"
+    ];
   };
 
   programs.eza = {
