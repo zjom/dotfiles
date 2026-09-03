@@ -22,6 +22,7 @@
     rust-analyzer
     rustfmt
     clippy
+    clang-tools # clangd, clang-format
   ];
 
   programs.git = {

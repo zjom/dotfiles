@@ -2,8 +2,6 @@ vim.pack.add({
 	"https://github.com/mfussenegger/nvim-dap",
 	"https://github.com/rcarriga/nvim-dap-ui",
 	"https://github.com/nvim-neotest/nvim-nio",
-	"https://github.com/mason-org/mason.nvim",
-	"https://github.com/jay-babu/mason-nvim-dap.nvim",
 	"https://github.com/leoluz/nvim-dap-go",
 })
 
@@ -34,18 +32,8 @@ end, { desc = "Debug: See last session result." })
 local dap = require("dap")
 local dapui = require("dapui")
 
-require("mason-nvim-dap").setup({
-	-- Makes a best effort to setup the various debuggers with
-	-- reasonable debug configurations
-	automatic_installation = true,
-
-	-- Provide additional configuration to the handlers,
-	-- see mason-nvim-dap README for more information
-	handlers = {},
-	ensure_installed = {
-		"delve",
-	},
-})
+-- Debugger binaries (e.g. delve) are installed declaratively via Nix
+-- (see nix/home.nix), not mason.
 
 -- Dap UI setup
 -- For more information, see |:help nvim-dap-ui|

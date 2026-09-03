@@ -4,9 +4,6 @@ end
 vim.pack.add({
   gh("j-hui/fidget.nvim"), -- Useful status updates for LSP.
   gh("neovim/nvim-lspconfig"),
-  gh("mason-org/mason.nvim"),
-  gh("mason-org/mason-lspconfig.nvim"),
-  gh("WhoIsSethDaniel/mason-tool-installer.nvim"),
 })
 require("fidget").setup({})
 
@@ -104,10 +101,14 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Automatically install LSPs and related tools to stdpath for Neovim
+-- LSPs and related tools are installed declaratively via Nix (see
+-- nix/home.nix), not mason. This table only tracks which of the
+-- nix-installed language tools should be enabled as LSP servers.
 --
--- To enable lsp but not install, set `manual_install = true`
--- To install but not enable lsp, set `no_enable = true`
+-- To install a tool: add the matching package to nix/home.nix, then
+-- `rebuild`.
+-- To enable a tool that's installed but has no LSP server (e.g. a
+-- formatter-only tool), set `no_enable = true`.
 --
 -- To manage lspconfig: update `nvim/lsp/<server>.lua`
 -- To override lspconfig options: update `nvim/after/lsp/<server>.lua`
@@ -128,7 +129,7 @@ local tools = {
   -- jdtls = {},
   -- lua_ls = {},
   -- marksman = {},
-  -- ocamllsp = { manual_install = true },
+  -- ocamllsp = {},
   -- prettier = { no_enable = true }, -- Web formatting
   -- ruff = {}, -- Python linting & formatting
   rust_analyzer = {},
@@ -140,17 +141,11 @@ local tools = {
   -- xmlformatter = { no_enable = true }, -- Xml formatting
 }
 
-local ensure_installed = {}
 local servers_to_enable = {}
 for tool_name, config in pairs(tools) do
-  if not config.manual_install then
-    table.insert(ensure_installed, tool_name)
-  end
   if not config.no_enable then
     table.insert(servers_to_enable, tool_name)
   end
 end
 
-require("mason").setup({})
-require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 vim.lsp.enable(servers_to_enable)
