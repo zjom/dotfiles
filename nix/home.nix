@@ -17,6 +17,11 @@
     tree-sitter
     nodejs_26
     unzip
+    rustc
+    cargo
+    rust-analyzer
+    rustfmt
+    clippy
   ];
 
   programs.git = {
