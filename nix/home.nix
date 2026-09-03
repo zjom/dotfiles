@@ -51,6 +51,7 @@
       rebuild = "sudo nixos-rebuild switch";
       clean = "sudo nix-collect-garbage -d";
       c = "clear";
+      lg = "lazygit";
     };
   };
 }
