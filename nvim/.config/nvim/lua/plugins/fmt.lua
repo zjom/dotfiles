@@ -48,6 +48,7 @@ require("conform").setup({
 		less = { "prettier" },
 		lua = { "stylua" },
 		markdown = { "dprint" },
+    nix = {"nixfmt"},
 		ocaml = { "dune fmt" },
 		python = {
 			-- To fix auto-fixable lint errors.
