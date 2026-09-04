@@ -1,5 +1,11 @@
 { config, pkgs, ... }:
 
+let
+  # Configs live in the dotfiles repo and are symlinked out of the nix store so they
+  # stay writable (tpm clones into tmux/plugins, vim.pack writes its lockfile) and
+  # editable without a rebuild.
+  dotfiles = "${config.home.homeDirectory}/projects/dotfiles";
+in
 {
   home.username = "zi";
   home.homeDirectory = "/home/zi";
@@ -24,6 +30,11 @@
     nixfmt
     stow
   ];
+
+  xdg.configFile = {
+    "tmux".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux/.config/tmux";
+    "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim/.config/nvim";
+  };
 
   programs.git = {
     enable = true;
