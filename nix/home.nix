@@ -22,6 +22,7 @@
     clippy
     clang-tools # clangd, clang-format
     nixfmt
+    stow
   ];
 
   programs.git = {
