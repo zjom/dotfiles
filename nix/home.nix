@@ -28,7 +28,6 @@ in
     clippy
     clang-tools # clangd, clang-format
     nixfmt
-    stow
   ];
 
   xdg.configFile = {
@@ -94,6 +93,7 @@ in
       clean = "sudo nix-collect-garbage -d";
       c = "clear";
       lg = "lazygit";
+      tm = "tmux";
     };
   };
 
