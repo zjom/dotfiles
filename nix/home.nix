@@ -28,6 +28,7 @@ in
     clang-tools # clangd, clang-format
     nixfmt
     github-cli
+    file # used by the ff/open_in_nvim fzf header
   ];
 
   xdg.configFile = {
@@ -35,88 +36,101 @@ in
     "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim/.config/nvim";
   };
 
-  programs.git = {
-    enable = true;
-    settings = {
-      user = {
-        name = "Zihan Jin";
-        email = "admin@zihanjin.com";
+  programs = {
+    bash = {
+      enable = true;
+      initExtra = ''
+        export EDITOR=nvim
+
+        # Fuzzy-find a file and open it in nvim. Aliased to `ff`.
+        open_in_nvim() {
+          local query="''${1:-}"
+          local result
+          result=$(fd --type f --hidden --follow \
+                      --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
+                    | fzf --query "$query" \
+                          --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
+                          --bind 'focus:transform-header:file --brief {}')
+
+          if [[ -n "$result" ]]; then
+            nvim "$result"
+          else
+            echo "No file selected."
+          fi
+        }
+      '';
+      shellAliases = {
+        rebuild = "sudo nixos-rebuild switch";
+        clean = "sudo nix-collect-garbage -d";
+        ls = "eza --icons always";
+        tree = "eza --icons always --tree";
+        c = "clear";
+        lg = "lazygit";
+        tm = "tmux";
+        ff = "open_in_nvim";
       };
-      init = {
-        defaultBranch = "main";
+    };
+    eza = {
+      enable = true;
+      enableBashIntegration = true;
+    };
+    fd = {
+      enable = true;
+      ignores = [
+        ".git"
+        ".jj"
+        "node_modules"
+        ".venv"
+        "venv"
+      ];
+    };
+    fzf = {
+      enable = true;
+      enableBashIntegration = true;
+      tmux = {
+        enableShellIntegration = true;
       };
     };
-  };
-
-  programs.ripgrep = {
-    enable = true;
-    arguments = [
-      "--hidden"
-      "--smart-case"
-      "--glob=!.git/*"
-      "--glob=!node_modules/*"
-      "--glob=!.venv/*"
-      "--glob=!venv/*"
-      "--glob=!.DS_Store"
-      "--glob=!.git/*"
-    ];
-  };
-
-  programs.fd = {
-    enable = true;
-    ignores = [
-      ".git"
-      ".jj"
-      "node_modules"
-      ".venv"
-      "venv"
-    ];
-  };
-
-  programs.eza = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
-  programs.lazygit = {
-    enable = true;
-  };
-
-  programs.zoxide = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
-  programs.bash = {
-    enable = true;
-    initExtra = ''
-      export EDITOR=nvim
-    '';
-    shellAliases = {
-      ls = "eza";
-      rebuild = "sudo nixos-rebuild switch";
-      clean = "sudo nix-collect-garbage -d";
-      c = "clear";
-      lg = "lazygit";
-      tm = "tmux";
+    git = {
+      enable = true;
+      settings = {
+        user = {
+          name = "Zihan Jin";
+          email = "admin@zihanjin.com";
+        };
+        init = {
+          defaultBranch = "main";
+        };
+      };
+    };
+    lazygit = {
+      enable = true;
+    };
+    ripgrep = {
+      enable = true;
+      arguments = [
+        "--hidden"
+        "--smart-case"
+        "--glob=!.git/*"
+        "--glob=!node_modules/*"
+        "--glob=!.venv/*"
+        "--glob=!venv/*"
+        "--glob=!.DS_Store"
+        "--glob=!.git/*"
+      ];
+    };
+    sesh = {
+      enable = true;
+      enableTmuxIntegration = true;
+    };
+    starship = {
+      enable = true;
+      enableBashIntegration = true;
+    };
+    zoxide = {
+      enable = true;
+      enableBashIntegration = true;
     };
   };
 
-  programs.starship = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableBashIntegration = true;
-    tmux = {
-      enableShellIntegration = true;
-    };
-  };
-
-  programs.sesh = {
-    enable = true;
-    enableTmuxIntegration = true;
-  };
 }
