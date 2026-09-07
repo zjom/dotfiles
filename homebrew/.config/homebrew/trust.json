@@ -1,8 +1,0 @@
-{
-  "trustedformulae": [
-    "tursodatabase/tap/turso"
-  ],
-  "trustedtaps": [
-    "libsql/sqld"
-  ]
-}
