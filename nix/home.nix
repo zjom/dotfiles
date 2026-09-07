@@ -14,7 +14,6 @@ in
   home.packages = with pkgs; [
     bat
     neovim
-    fzf
     gcc
     claude-code
     tmux
@@ -101,5 +100,18 @@ in
   programs.starship = {
     enable = true;
     enableBashIntegration = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    tmux = {
+      enableShellIntegration = true;
+    };
+  };
+
+  programs.sesh = {
+    enable = true;
+    enableTmuxIntegration = true;
   };
 }
