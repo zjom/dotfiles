@@ -28,6 +28,7 @@ in
     clippy
     clang-tools # clangd, clang-format
     nixfmt
+    github-cli
   ];
 
   xdg.configFile = {
