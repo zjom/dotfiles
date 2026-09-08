@@ -13,22 +13,23 @@ in
 
   home.packages = with pkgs; [
     bat
-    neovim
-    gcc
+    cargo
+    clang-tools
     claude-code
+    clippy
+    file
+    gcc
+    github-cli
+    gnumake
+    neovim
+    nixfmt
+    nodejs_26
+    rust-analyzer
+    rustc
+    rustfmt
     tmux
     tree-sitter
-    nodejs_26
     unzip
-    rustc
-    cargo
-    rust-analyzer
-    rustfmt
-    clippy
-    clang-tools # clangd, clang-format
-    nixfmt
-    github-cli
-    file # used by the ff/open_in_nvim fzf header
   ];
 
   xdg.configFile = {
