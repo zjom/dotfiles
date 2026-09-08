@@ -20,7 +20,7 @@ in
     gnumake
     neovim
     nixfmt
-    nodejs_26
+    nodejs
     rust-analyzer
     rustc
     rustfmt
