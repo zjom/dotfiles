@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  # Configs live in the dotfiles repo and are symlinked out of the nix store so they
-  # stay writable (tpm clones into tmux/plugins, vim.pack writes its lockfile) and
-  # editable without a rebuild.
-  dotfiles = "${config.home.homeDirectory}/projects/dotfiles";
+  dotfiles = "${config.home.homeDirectory}/dotfiles";
 in
 {
   home.username = "zi";
