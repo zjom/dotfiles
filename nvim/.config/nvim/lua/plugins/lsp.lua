@@ -127,7 +127,7 @@ local tools = {
   -- ["google-java-format"] = { no_enable = true },
   -- html = {},
   -- jdtls = {},
-  -- lua_ls = {},
+  lua_ls = {},
   -- marksman = {},
   -- ocamllsp = {},
   -- prettier = { no_enable = true }, -- Web formatting

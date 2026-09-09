@@ -18,6 +18,7 @@ in
     gcc
     github-cli
     gnumake
+    lua-language-server
     neovim
     nixfmt
     nodejs
