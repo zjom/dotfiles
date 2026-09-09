@@ -133,6 +133,7 @@ local tools = {
   -- prettier = { no_enable = true }, -- Web formatting
   -- ruff = {}, -- Python linting & formatting
   rust_analyzer = {},
+  zls = {}
   -- sleek = { no_enable = true }, -- SQL formatting
   -- tailwindcss = {},
   -- tinymist = {},

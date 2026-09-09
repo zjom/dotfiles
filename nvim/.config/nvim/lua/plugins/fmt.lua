@@ -66,6 +66,7 @@ require("conform").setup({
 		typescriptreact = { "prettier" },
 		typst = { "typstyle" },
 		yaml = { "prettier" },
+    zig = {"zig fmt"},
 		zsh = { "beautysh" },
 	},
 	formatters = {

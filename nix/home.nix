@@ -27,6 +27,8 @@ in
     tmux
     tree-sitter
     unzip
+    zig
+    zls
   ];
 
   xdg.configFile = {
