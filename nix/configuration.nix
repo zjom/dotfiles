@@ -32,6 +32,7 @@
   nix.settings.auto-optimise-store = true;
 
   nixpkgs.config.allowUnfree = true;
+  time.timeZone = "Australia/Melbourne";
 
   programs.nix-ld.enable = true;
 
