@@ -34,25 +34,27 @@ in
     bash = {
       enable = true;
       initExtra = ''
-        export EDITOR=nvim
+          # Fuzzy-find a file and open it in nvim. Aliased to `ff`.
+          open_in_nvim() {
+            local query="''${1:-}"
+            local result
+            result=$(fd --type f --hidden --follow \
+                        --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
+                      | fzf --query "$query" \
+                            --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
+                            --bind 'focus:transform-header:file --brief {}')
 
-        # Fuzzy-find a file and open it in nvim. Aliased to `ff`.
-        open_in_nvim() {
-          local query="''${1:-}"
-          local result
-          result=$(fd --type f --hidden --follow \
-                      --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
-                    | fzf --query "$query" \
-                          --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
-                          --bind 'focus:transform-header:file --brief {}')
+            if [[ -n "$result" ]]; then
+              nvim "$result"
+            else
+              echo "No file selected."
+            fi
+          }
 
-          if [[ -n "$result" ]]; then
-            nvim "$result"
-          else
-            echo "No file selected."
-          fi
-        }
       '';
+      sessionVariables = {
+        EDITOR = "nvim";
+      };
       shellAliases = {
         rebuild = "sudo nixos-rebuild switch";
         clean = "sudo nix-collect-garbage -d";
