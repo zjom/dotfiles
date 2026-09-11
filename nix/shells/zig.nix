@@ -1,5 +1,5 @@
 # Zig toolchain + zls.
-#   nix develop ~/dotfiles/nix#zig
+#   nix develop '~/dotfiles/nix#zig'
 { pkgs }:
 
 pkgs.mkShell {
