@@ -23,8 +23,6 @@ in
     unzip
   ];
 
-  services.lorri.enable = true;
-
   xdg.configFile = {
     "tmux".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux/.config/tmux";
     "nvim".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/nvim/.config/nvim";
@@ -34,22 +32,22 @@ in
     bash = {
       enable = true;
       initExtra = ''
-          # Fuzzy-find a file and open it in nvim. Aliased to `ff`.
-          open_in_nvim() {
-            local query="''${1:-}"
-            local result
-            result=$(fd --type f --hidden --follow \
-                        --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
-                      | fzf --query "$query" \
-                            --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
-                            --bind 'focus:transform-header:file --brief {}')
+        # Fuzzy-find a file and open it in nvim. Aliased to `ff`.
+        open_in_nvim() {
+          local query="''${1:-}"
+          local result
+          result=$(fd --type f --hidden --follow \
+                      --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
+                    | fzf --query "$query" \
+                          --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
+                          --bind 'focus:transform-header:file --brief {}')
 
-            if [[ -n "$result" ]]; then
-              nvim "$result"
-            else
-              echo "No file selected."
-            fi
-          }
+          if [[ -n "$result" ]]; then
+            nvim "$result"
+          else
+            echo "No file selected."
+          fi
+        }
 
       '';
       sessionVariables = {
