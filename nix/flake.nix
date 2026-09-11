@@ -21,9 +21,21 @@
       home-manager,
       ...
     }:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
     {
+      # Per-language toolchains, kept out of the global profile so projects
+      # pin what they need: `nix develop ~/dotfiles/nix#rust`.
+      devShells.${system} = {
+        rust = import ./shells/rust.nix { inherit pkgs; };
+        zig = import ./shells/zig.nix { inherit pkgs; };
+        c = import ./shells/c.nix { inherit pkgs; };
+      };
+
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        inherit system;
         modules = [
           nixos-wsl.nixosModules.wsl
           ./configuration.nix
