@@ -10,27 +10,20 @@ in
 
   home.packages = with pkgs; [
     bat
-    cargo
-    clang-tools
     claude-code
-    clippy
     file
     gcc
     github-cli
-    gnumake
-    lua-language-server
     neovim
     nixfmt
     nodejs
-    rust-analyzer
-    rustc
-    rustfmt
+    python3
     tmux
     tree-sitter
     unzip
-    zig
-    zls
   ];
+
+  services.lorri.enable = true;
 
   xdg.configFile = {
     "tmux".source = config.lib.file.mkOutOfStoreSymlink "${dotfiles}/tmux/.config/tmux";
