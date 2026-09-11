@@ -17,4 +17,12 @@
   my.dotfilesRoot = "${config.home.homeDirectory}/nix-dotfiles";
 
   my.shell.aliases.rebuild = "sudo darwin-rebuild switch --flake '${config.my.flakeRoot}#${hostName}'";
+
+  programs.aerospace = {
+    enable = true;
+    launchd.enable = true;
+  };
+  xdg.configFile."aerospace/aerospace.toml".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/aerospace/aerospace.toml";
+
 }
