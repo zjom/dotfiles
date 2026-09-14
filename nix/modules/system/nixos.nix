@@ -1,7 +1,9 @@
 # System level settings shared by every NixOS host.
-{ ... }:
+{ pkgs, username, ... }:
 
 {
+  users.users.${username}.shell = pkgs.fish;
+
   nix.settings = {
     experimental-features = [
       "nix-command"

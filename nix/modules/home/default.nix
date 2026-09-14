@@ -11,7 +11,6 @@
     ./shell.nix
     ./tmux.nix
     ./tools.nix
-    ./zsh.nix
   ];
 
   # Hosts may override this; they should not need to.

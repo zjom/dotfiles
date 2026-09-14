@@ -1,5 +1,5 @@
 # System level settings shared by every macOS host.
-{ ... }:
+{ config, username, ... }:
 
 {
   # Nix itself is installed and updated outside this flake, by the Lix
@@ -13,7 +13,19 @@
   nix.enable = false;
 
   # Makes /etc/zshrc and /etc/bashrc load the Nix profiles, which is what puts
-  # the Home Manager environment on PATH for a login shell.
+  # the Home Manager environment on PATH for a login shell. fish is the login
+  # shell (common.nix); these keep scripts and a fallback shell working.
   programs.zsh.enable = true;
   programs.bash.enable = true;
+
+  # nix-darwin only sets `users.users.<name>.shell` for users in `knownUsers`,
+  # which it warns against for the admin user. Set the login shell directly.
+  environment.shells = [ config.programs.fish.package ];
+  system.activationScripts.postActivation.text = ''
+    fish=/run/current-system/sw/bin/fish
+    if [ "$(dscl . -read /Users/${username} UserShell)" != "UserShell: $fish" ]; then
+      echo "setting login shell of ${username} to $fish..." >&2
+      dscl . -create /Users/${username} UserShell "$fish"
+    fi
+  '';
 }

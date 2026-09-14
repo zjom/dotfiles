@@ -28,38 +28,17 @@ in
       '';
     };
 
-    shell = {
-      aliases = mkOption {
-        type = types.attrsOf types.str;
-        default = { };
-        example = {
-          gs = "git status";
-        };
-        description = ''
-          Aliases applied to every interactive shell. Definitions from several
-          modules are merged, so a host can add to the shared set without
-          restating it.
-        '';
+    shell.aliases = mkOption {
+      type = types.attrsOf types.str;
+      default = { };
+      example = {
+        gs = "git status";
       };
-
-      initExtra = mkOption {
-        type = types.lines;
-        default = "";
-        description = ''
-          Shell code appended to the interactive init of every shell. Must be
-          portable between bash and zsh.
-        '';
-      };
-
-      zshExtra = mkOption {
-        type = types.lines;
-        default = "";
-        description = ''
-          Shell code appended to zsh's interactive init only, after
-          `initExtra`. For anything that cannot be portable: `setopt`, `zle`
-          widgets, `bindkey` and `zstyle`.
-        '';
-      };
+      description = ''
+        Aliases for the interactive shell (fish). Definitions from several
+        modules are merged, so a host can add to the shared set without
+        restating it.
+      '';
     };
   };
 }

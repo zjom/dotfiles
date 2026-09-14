@@ -1,9 +1,12 @@
-# One definition of the interactive shell, applied to both bash and zsh, so a
-# host's login shell is a detail rather than a fork of the configuration.
+# The interactive shell. fish is the login shell on every host (see
+# modules/system/{nixos,darwin}.nix); bash and zsh are left unconfigured.
 { config, ... }:
 
 let
   cfg = config.my.shell;
+
+  # fzf's file preview, shared by `ff` and `nr`.
+  fzfPreview = "--preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' --bind 'focus:transform-header:file --brief {}'";
 in
 {
   my.shell.aliases = {
@@ -26,63 +29,6 @@ in
     vim = "nvim";
   };
 
-  my.shell.initExtra = ''
-    # Fuzzy-find a file and open it in nvim. Aliased to `ff`.
-    open_in_nvim() {
-      local query="''${1:-}"
-      local result
-      result=$(fd --type f --hidden --follow \
-                  --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
-                | fzf --query "$query" \
-                      --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
-                      --bind 'focus:transform-header:file --brief {}')
-
-      if [ -n "$result" ]; then
-        nvim "$result"
-      else
-        echo "No file selected."
-      fi
-    }
-
-    # Same, but pick from the files whose contents match. Aliased to `nr`.
-    open_in_nvim_rg() {
-      local query="''${1:-}"
-      local result
-      result=$(rg --files-with-matches --smart-case --hidden "$query" \
-                | fzf --preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' \
-                      --bind 'focus:transform-header:file --brief {}')
-
-      if [ -n "$result" ]; then
-        nvim "$result"
-      else
-        echo "No file selected."
-      fi
-    }
-
-    # Ranger, cd-ing the shell to wherever it was left. Aliased to `rc`.
-    ranger_cd() {
-      local tmp dir
-      tmp="$(mktemp)"
-      command ranger --choosedir="$tmp" -- "''${@:-$PWD}"
-      if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        [ -n "$dir" ] && [ "$dir" != "$PWD" ] && cd -- "$dir"
-        rm -f "$tmp"
-      fi
-    }
-
-    # Ranger, then open or attach a session in the chosen directory. Aliased to `rs`.
-    ranger_sesh() {
-      local tmp dir
-      tmp="$(mktemp)"
-      command ranger --choosedir="$tmp" -- "''${@:-$PWD}"
-      [ -f "$tmp" ] && dir="$(cat "$tmp")"
-      rm -f "$tmp"
-      [ -z "$dir" ] && return
-      sesh connect "$dir"
-    }
-  '';
-
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
@@ -98,15 +44,144 @@ in
   # Defines the XDG_* variables the configs below (and ranger, gh, ...) read.
   xdg.enable = true;
 
-  programs.bash = {
+  programs.fish = {
     enable = true;
     shellAliases = cfg.aliases;
-    initExtra = cfg.initExtra;
-  };
 
-  programs.zsh = {
-    enable = true;
-    shellAliases = cfg.aliases;
-    initContent = cfg.initExtra + "\n" + cfg.zshExtra;
+    # Autosuggestions, syntax highlighting, a completion pager and deduplicated
+    # history are built in, which covers everything zsh needed setopts and
+    # plugins for.
+    interactiveShellInit = ''
+      set -g fish_greeting
+
+      # Installed outside Nix; source them only where they exist.
+      test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null
+      test -f ~/Library/Google/google-cloud-sdk/path.fish.inc; and source ~/Library/Google/google-cloud-sdk/path.fish.inc
+    '';
+
+    # Each lands in ~/.config/fish/functions, so they autoload in
+    # non-interactive shells too -- tmux.conf runs `fish -c ranger_sesh`.
+    functions = {
+      open_in_nvim = {
+        description = "Fuzzy-find a file and open it in nvim";
+        body = ''
+          set -l result (fd --type f --hidden --follow \
+                            --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
+                          | fzf --query "$argv[1]" ${fzfPreview})
+
+          if test -n "$result"
+              nvim $result
+          else
+              echo "No file selected."
+          end
+        '';
+      };
+
+      open_in_nvim_rg = {
+        description = "Pick a file whose contents match, and open it in nvim";
+        body = ''
+          set -l result (rg --files-with-matches --smart-case --hidden "$argv[1]" \
+                          | fzf ${fzfPreview})
+
+          if test -n "$result"
+              nvim $result
+          else
+              echo "No file selected."
+          end
+        '';
+      };
+
+      ranger_cd = {
+        description = "Ranger, cd-ing the shell to wherever it was left";
+        body = ''
+          set -q argv[1]; or set argv $PWD
+          set -l tmp (mktemp)
+          command ranger --choosedir=$tmp -- $argv
+          if test -f $tmp
+              read -l dir <$tmp
+              test -n "$dir"; and test "$dir" != "$PWD"; and cd -- $dir
+              rm -f $tmp
+          end
+        '';
+      };
+
+      ranger_sesh = {
+        description = "Ranger, then open or attach a session in the chosen directory";
+        body = ''
+          set -q argv[1]; or set argv $PWD
+          set -l tmp (mktemp)
+          command ranger --choosedir=$tmp -- $argv
+          set -l dir
+          test -f $tmp; and read dir <$tmp
+          rm -f $tmp
+          test -z "$dir"; and return
+          sesh connect $dir
+        '';
+      };
+
+      sesh_sessions = {
+        description = "Pick a session with fzf in the current pane";
+        body = ''
+          set -l session (sesh list -t -c | fzf --height 40% --reverse --border-label ' sesh ' --border --prompt '⚡  ')
+          commandline -f repaint
+          test -z "$session"; and return
+          sesh connect $session
+        '';
+      };
+
+      # Kept in sync with the `c-o` binding in tmux/tmux.conf.
+      sesh_all = {
+        description = "The full sesh picker, in a tmux popup";
+        body = ''
+          set -l session (
+            sesh list --icons | fzf-tmux -p 80%,70% \
+              --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \
+              --header '  ^a all ^t tmux ^g configs ^x zoxide ^d tmux kill ^f find' \
+              --bind 'tab:down,btab:up' \
+              --bind 'ctrl-a:change-prompt(⚡  )+reload(sesh list --icons)' \
+              --bind 'ctrl-t:change-prompt(🪟  )+reload(sesh list -t --icons)' \
+              --bind 'ctrl-g:change-prompt(⚙️  )+reload(sesh list -c --icons)' \
+              --bind 'ctrl-x:change-prompt(📁  )+reload(sesh list -z --icons)' \
+              --bind 'ctrl-f:change-prompt(🔎  )+reload(fd -H -d 2 -t d -E .Trash . ~)' \
+              --bind 'ctrl-d:execute(tmux kill-session -t {2..})+change-prompt(⚡  )+reload(sesh list --icons)' \
+              --preview-window 'right:55%' \
+              --preview 'sesh preview {}'
+          )
+          commandline -f repaint
+          test -z "$session"; and return
+          sesh connect $session
+        '';
+      };
+
+      quick_run_repl = {
+        description = "One keypress to drop into a REPL";
+        body = ''
+          echo
+          read --nchars 1 --prompt-str "Run: (e)lixir, (j)avascript, (n)ushell, (p)ython " -l key
+
+          switch $key
+              case p
+                  commandline --replace python3
+              case j
+                  commandline --replace node
+              case e
+                  commandline --replace iex
+              case n
+                  commandline --replace nu
+              case '*'
+                  echo "Cancelled/Unknown key: $key"
+                  commandline -f repaint
+                  return
+          end
+          commandline -f execute
+        '';
+      };
+    };
+
+    binds = {
+      "alt-s".command = "sesh_sessions";
+      "alt-S".command = "sesh_all";
+      "f12".command = "quick_run_repl";
+    };
   };
 }

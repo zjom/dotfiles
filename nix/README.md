@@ -19,6 +19,9 @@ directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
 `../aerospace`. `modules/home/dotfiles.nix` symlinks those into place out of
 the Nix store, so editing them takes effect without a rebuild.
 
+fish is the login shell on both hosts, configured in `modules/home/shell.nix`.
+bash and zsh are installed but carry no configuration of their own.
+
 `modules/home/options.nix` declares the options this configuration adds for
 itself, all under the `my` prefix. `my.shell.aliases` is the one worth knowing:
 shared and host-only definitions are merged, so `hosts/*/home.nix` adds the
@@ -40,8 +43,9 @@ sudo nixos-rebuild switch --flake '~/dotfiles/nix#nixos'
 sudo darwin-rebuild switch --flake '~/dotfiles/nix#macbook'
 ```
 
-Quote the flake reference. zsh with `extendedglob` treats the `#` as a glob
-operator and fails with `no matches found`.
+Quote the flake reference. fish does not need it, but zsh with `extendedglob`
+treats the `#` as a glob operator and fails with `no matches found` -- and
+zsh is what a fresh macOS install starts in.
 
 Untracked files are invisible to a flake in a git repository, so `git add` a
 new module before rebuilding.
