@@ -12,6 +12,10 @@
       "rev": "78336bc89ee5365633bcf754d93df01678b5c08f",
       "src": "https://github.com/saghen/blink.cmp"
     },
+    "codediff.nvim": {
+      "rev": "4b3ad7eb99dd0f02e64bbaf562ca1e87e8c07cc9",
+      "src": "https://github.com/esmuellert/codediff.nvim"
+    },
     "colorful-menu.nvim": {
       "rev": "13f9b7eaa9cd2901b4f8915cfb2483c3be4c8c20",
       "src": "https://github.com/xzbdmw/colorful-menu.nvim"
