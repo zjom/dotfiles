@@ -44,11 +44,11 @@ require("conform").setup({
 		java = { "google-java-format" },
 		javascript = { "prettier" },
 		javascriptreact = { "prettier" },
-		json = { "prettier", "jq" },
+		json = { "dprint", "jq" },
 		less = { "prettier" },
 		lua = { "stylua" },
 		markdown = { "dprint" },
-    nix = {"nixfmt"},
+		nix = { "nixfmt" },
 		ocaml = { "dune fmt" },
 		python = {
 			-- To fix auto-fixable lint errors.
@@ -65,8 +65,8 @@ require("conform").setup({
 		typescript = { "prettier" },
 		typescriptreact = { "prettier" },
 		typst = { "typstyle" },
-		yaml = { "prettier" },
-    zig = {"zig fmt"},
+		yaml = { "dprint" },
+		zig = { "zig fmt" },
 		zsh = { "beautysh" },
 	},
 	formatters = {

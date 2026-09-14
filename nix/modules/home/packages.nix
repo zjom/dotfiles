@@ -11,7 +11,6 @@
   home.packages = with pkgs; [
     bottom
     claude-code
-    dprint
     file
     gcc
     neovim

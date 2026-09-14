@@ -1,6 +1,6 @@
 # Command line tools that are configured here rather than in the dotfiles
 # checkout, because Home Manager also has to wire their shell integration.
-{ ... }:
+{ pkgs, ... }:
 
 let
   # Directories that are never worth searching, walking or listing.
@@ -24,6 +24,29 @@ in
       silent = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+    };
+
+    dprint = {
+      enable = true;
+      settings = {
+        plugins = map (plugin: "${plugin}/plugin.wasm") (
+          with pkgs.dprint-plugins;
+          [
+            dprint-plugin-json
+            dprint-plugin-markdown
+            dprint-plugin-toml
+            g-plane-pretty_yaml
+          ]
+        );
+        excludes = map (dir: "**/${dir}") noise ++ [
+          "**/*-lock.json"
+          "**/flake.lock"
+        ];
+        json = { };
+        markdown = { };
+        toml = { };
+        yaml = { };
+      };
     };
 
     eza = {
