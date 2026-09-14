@@ -14,8 +14,9 @@ after-login-command = []
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
 
-# Start AeroSpace at login
-start-at-login = true
+# Start AeroSpace at login. Kept false: the home-manager launchd agent starts
+# it, and true would register a second login item that launches another copy.
+start-at-login = false
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
@@ -52,6 +53,11 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 #                 In this example, 24 is a default value when there is no match.
 #                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
+
+# exec-and-forget inherits launchd's minimal PATH, which lacks the Nix profiles.
+[exec.env-vars]
+PATH = '/etc/profiles/per-user/zihanjin/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}'
+
 [gaps]
 inner.horizontal = 8
 inner.vertical = 0
