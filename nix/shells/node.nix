@@ -1,0 +1,20 @@
+# Node toolchain + the TypeScript language server.
+#   nix develop '~/dotfiles/nix#node'
+{ pkgs }:
+
+pkgs.mkShell {
+  name = "node-dev";
+
+  packages = with pkgs; [
+    nodejs_24
+    pnpm
+    yarn
+    bun
+    typescript
+    typescript-language-server
+  ];
+
+  shellHook = ''
+    echo "node $(node --version) | pnpm $(pnpm --version) | bun $(bun --version) | tsserver"
+  '';
+}

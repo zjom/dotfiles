@@ -14,6 +14,18 @@ let
 in
 {
   programs = {
+    bat.enable = true;
+
+    # `use flake` in an .envrc loads a dev shell on cd. nix-direnv caches the
+    # shell so it is not rebuilt on every entry.
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+      silent = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+    };
+
     eza = {
       enable = true;
       enableBashIntegration = true;
@@ -30,6 +42,28 @@ in
       enableBashIntegration = true;
       enableZshIntegration = true;
       tmux.enableShellIntegration = true;
+
+      colors = {
+        fg = "#f8f8f2";
+        bg = "#0e1419";
+        hl = "#e11299";
+        "fg+" = "#f8f8f2";
+        "bg+" = "#44475a";
+        "hl+" = "#e11299";
+        info = "#f1fa8c";
+        prompt = "#50fa7b";
+        pointer = "#ff79c6";
+        marker = "#ff79c6";
+        spinner = "#a4ffff";
+        header = "#6272a4";
+      };
+
+      defaultOptions = [
+        "--cycle"
+        "--pointer=▎"
+        "--marker=▎"
+        "--walker-skip=${builtins.concatStringsSep "," noise}"
+      ];
     };
 
     lazygit.enable = true;
@@ -53,6 +87,44 @@ in
       enable = true;
       enableBashIntegration = true;
       enableZshIntegration = true;
+      settings = {
+        format = "$username$hostname$directory$git_branch$git_state$git_status$cmd_duration$line_break$python$character";
+        directory = {
+          style = "blue";
+        };
+        character = {
+          success_symbol = "[❯](purple)";
+          error_symbol = "[❯](red)";
+          vimcmd_symbol = "[❮](green)";
+        };
+        git_branch = {
+          format = "[$branch]($style)";
+          style = "bright-black";
+        };
+        git_status = {
+          format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](218) ($ahead_behind$stashed)]($style)";
+          style = "cyan";
+          conflicted = "​";
+          untracked = "​";
+          modified = "​";
+          staged = "​";
+          renamed = "​";
+          deleted = "​";
+          stashed = "≡";
+        };
+        git_state = {
+          format = "\\([$state( $progress_current/$progress_total)]($style)\\) ";
+          style = "bright-black";
+        };
+        cmd_duration = {
+          format = "[$duration]($style) ";
+          style = "yellow";
+        };
+        python = {
+          format = "[$virtualenv]($style) ";
+          style = "bright-black";
+        };
+      };
     };
 
     zoxide = {

@@ -50,6 +50,16 @@ in
           portable between bash and zsh.
         '';
       };
+
+      zshExtra = mkOption {
+        type = types.lines;
+        default = "";
+        description = ''
+          Shell code appended to zsh's interactive init only, after
+          `initExtra`. For anything that cannot be portable: `setopt`, `zle`
+          widgets, `bindkey` and `zstyle`.
+        '';
+      };
     };
   };
 }

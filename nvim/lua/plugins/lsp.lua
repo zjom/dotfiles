@@ -128,6 +128,7 @@ local tools = {
   -- html = {},
   -- jdtls = {},
   lua_ls = {},
+  nixd = {},
   -- marksman = {},
   -- ocamllsp = {},
   -- prettier = { no_enable = true }, -- Web formatting

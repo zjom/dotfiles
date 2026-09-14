@@ -119,12 +119,25 @@
       };
 
       # Per-language toolchains, kept out of the global profile so projects
-      # pin what they need: `nix develop '~/dotfiles/nix#rust'`.
-      devShells = forAllSystems (pkgs: {
-        rust = import ./shells/rust.nix { inherit pkgs; };
-        zig = import ./shells/zig.nix { inherit pkgs; };
-        c = import ./shells/c.nix { inherit pkgs; };
-      });
+      # pin what they need: `nix develop '~/dotfiles/nix#rust'`, or an .envrc
+      # holding `use flake ~/dotfiles/nix#rust` to have direnv do it on cd.
+      devShells = forAllSystems (
+        pkgs:
+        lib.genAttrs
+          [
+            "c"
+            "elixir"
+            "go"
+            "lua"
+            "node"
+            "ocaml"
+            "python"
+            "rust"
+            "typst"
+            "zig"
+          ]
+          (name: import ./shells/${name}.nix { inherit pkgs; })
+      );
 
       formatter = forAllSystems (pkgs: pkgs.nixfmt);
     };

@@ -2,6 +2,7 @@
 # imported by the flake alongside this file.
 {
   config,
+  pkgs,
   hostName,
   username,
   ...
@@ -24,5 +25,17 @@
   };
   xdg.configFile."aerospace/aerospace.toml".source =
     config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/aerospace/aerospace.toml";
+
+  # Just the package: programs.kitty would generate its own kitty.conf in
+  # ~/.config/kitty and collide with the directory symlink below.
+  home.packages = with pkgs; [
+    kitty
+
+    # macOS-only CLIs, previously installed with Homebrew.
+    duti
+    pngpaste
+  ];
+  xdg.configFile."kitty".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/kitty";
 
 }

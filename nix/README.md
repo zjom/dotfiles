@@ -14,6 +14,11 @@ both, so one command activates the system and the user environment together.
 | `hosts/<name>/home.nix`    | Home Manager, that host only                 |
 | `shells/`             | Per-language dev shells                           |
 
+The configuration this flake does *not* generate lives one level up, one flat
+directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
+`../aerospace`. `modules/home/dotfiles.nix` symlinks those into place out of
+the Nix store, so editing them takes effect without a rebuild.
+
 `modules/home/options.nix` declares the options this configuration adds for
 itself, all under the `my` prefix. `my.shell.aliases` is the one worth knowing:
 shared and host-only definitions are merged, so `hosts/*/home.nix` adds the
@@ -58,6 +63,28 @@ Nix itself stays under the Lix installer's control; see the comment on
 
 ## Dev shells
 
+Language toolchains are deliberately absent from the global profile. Each is a
+shell instead: `c`, `elixir`, `go`, `lua`, `node`, `ocaml`, `python`, `rust`,
+`typst`, `zig`.
+
 ```sh
-nix develop '~/dotfiles/nix#rust'   # or #zig, #c
+nix develop '~/dotfiles/nix#rust'
 ```
+
+direnv is enabled, so a project picks its own with a one-line `.envrc`:
+
+```sh
+echo 'use flake ~/dotfiles/nix#go' > .envrc && direnv allow
+```
+
+Neovim reads its language servers from whichever shell it was launched in --
+there is no mason. The two exceptions are `lua-language-server` and `nixd`,
+which are in the global profile because this repository itself is Lua and Nix.
+
+## Homebrew
+
+macOS keeps Homebrew, but only as a cask installer, declared in
+`hosts/macbook/default.nix`. `onActivation.cleanup = "zap"` means every
+rebuild uninstalls anything not listed there, so a formula can never end up
+shadowing the same program from Nix. Command line tools belong in
+`modules/home/packages.nix` instead.

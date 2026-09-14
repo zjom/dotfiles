@@ -8,7 +8,8 @@ let
 in
 {
   xdg.configFile = {
-    "nvim".source = link "nvim/.config/nvim";
-    "tmux".source = link "tmux/.config/tmux";
+    "nvim".source = link "nvim";
+    "ranger".source = link "ranger";
+    "tmux".source = link "tmux";
   };
 }
