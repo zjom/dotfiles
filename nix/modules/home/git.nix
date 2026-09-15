@@ -17,17 +17,21 @@
       };
       merge = {
         conflictStyle = "zdiff3";
+        tool = "codediff";
       };
-    };
-  };
-
-  # `delta` as git's pager; `navigate` puts n/N on diff sections.
-  programs.delta = {
-    enable = true;
-    enableGitIntegration = true;
-    options = {
-      navigate = true;
-      dark = true;
+      diff = {
+        tool = "codediff";
+      };
+      difftool = {
+        codediff = {
+          cmd = "nvim \"$LOCAL\" \"$REMOTE\" +\"CodeDiff --exit-on-close file $LOCAL $REMOTE\"";
+        };
+      };
+      mergetool = {
+        codediff = {
+          cmd = "nvim \"$MERGED\" -c \"CodeDiff --exit-on-close merge \"$MERGED\"";
+        };
+      };
     };
   };
 
