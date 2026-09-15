@@ -47,10 +47,6 @@ in
   programs.fish = {
     enable = true;
     shellAliases = cfg.aliases;
-
-    # Autosuggestions, syntax highlighting, a completion pager and deduplicated
-    # history are built in, which covers everything zsh needed setopts and
-    # plugins for.
     interactiveShellInit = ''
       set -g fish_greeting
 
@@ -153,27 +149,19 @@ in
         '';
       };
 
-      quick_run_repl = {
-        description = "One keypress to drop into a REPL";
+      activate_dev_shell = {
+        description = "Activate a dev shell";
         body = ''
-          echo
-          read --nchars 1 --prompt-str "Run: (e)lixir, (j)avascript, (n)ushell, (p)ython " -l key
+          set -l flake_root ${config.my.flakeRoot}
+          set -l shell (fd --type f --extension nix . $flake_root/shells --exec echo '{/.}' \
+                        | sort \
+                        | fzf --prompt='dev shell ⚡ ' --height=40% --reverse --border)
 
-          switch $key
-              case p
-                  commandline --replace python3
-              case j
-                  commandline --replace node
-              case e
-                  commandline --replace iex
-              case n
-                  commandline --replace nu
-              case '*'
-                  echo "Cancelled/Unknown key: $key"
-                  commandline -f repaint
-                  return
+          if test -n "$shell"
+              nix develop "$flake_root#$shell" -c fish
+          else
+              echo "No dev shell selected."
           end
-          commandline -f execute
         '';
       };
     };
@@ -181,7 +169,7 @@ in
     binds = {
       "alt-s".command = "sesh_sessions";
       "alt-S".command = "sesh_all";
-      "f12".command = "quick_run_repl";
+      "f12".command = "activate_dev_shell";
     };
   };
 }
