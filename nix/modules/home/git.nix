@@ -15,23 +15,6 @@
       init = {
         defaultBranch = "main";
       };
-      merge = {
-        conflictStyle = "zdiff3";
-        tool = "codediff";
-      };
-      diff = {
-        tool = "codediff";
-      };
-      difftool = {
-        codediff = {
-          cmd = "nvim \"$LOCAL\" \"$REMOTE\" +\"CodeDiff --exit-on-close file $LOCAL $REMOTE\"";
-        };
-      };
-      mergetool = {
-        codediff = {
-          cmd = "nvim \"$MERGED\" -c \"CodeDiff --exit-on-close merge \"$MERGED\"";
-        };
-      };
     };
   };
 
