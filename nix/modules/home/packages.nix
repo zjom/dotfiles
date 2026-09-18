@@ -13,12 +13,12 @@
     claude-code
     file
     gcc
+    jq
     neovim
     nixd
     nixfmt
     nodejs
     opencode
-    jq
     python3
     ranger
     tmux
