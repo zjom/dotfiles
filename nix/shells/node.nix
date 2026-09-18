@@ -8,7 +8,6 @@ pkgs.mkShell {
   packages = with pkgs; [
     nodejs
     pnpm
-    yarn
     bun
     typescript
     prettier
