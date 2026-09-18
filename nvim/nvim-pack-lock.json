@@ -101,6 +101,10 @@
       "rev": "4fc505ac7bd7692824a142e96e5f529c133862f8",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
+    "opencode.nvim": {
+      "rev": "6071fe7607a3a40182a0604558f98fe3e19505e5",
+      "src": "https://github.com/sudo-tee/opencode.nvim"
+    },
     "orgmode": {
       "rev": "af7029dd70e6513cd8c18b6098c4adcc55acd1dc",
       "src": "https://github.com/nvim-orgmode/orgmode"
@@ -108,6 +112,10 @@
     "plenary.nvim": {
       "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
+    },
+    "render-markdown.nvim": {
+      "rev": "640a3ec6d538bad17c328be373c7cad0293d9589",
+      "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "telescope-fzf-native.nvim": {
       "rev": "b25b749b9db64d375d782094e2b9dce53ad53a40",
