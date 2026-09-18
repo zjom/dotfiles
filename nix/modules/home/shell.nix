@@ -158,7 +158,11 @@ in
                         | fzf --prompt='dev shell ⚡ ' --height=40% --reverse --border)
 
           if test -n "$shell"
-              nix develop "$flake_root#$shell" -c fish
+              # nix develop exports $SHELL as the dev shell's bash. Anything
+              # started from here (tmux above all) would inherit it, so carry
+              # the real login shell through.
+              set -l outer_shell $SHELL
+              nix develop "$flake_root#$shell" -c env SHELL=$outer_shell fish
           else
               echo "No dev shell selected."
           end
