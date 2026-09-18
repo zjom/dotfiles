@@ -47,7 +47,7 @@ require("conform").setup({
 		json = { "dprint", "jq" },
 		less = { "prettier" },
 		lua = { "stylua" },
-		markdown = { "dprint" },
+		markdown = { "prettier" },
 		nix = { "nixfmt" },
 		ocaml = { "dune fmt" },
 		python = {
