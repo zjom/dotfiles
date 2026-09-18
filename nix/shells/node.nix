@@ -6,11 +6,13 @@ pkgs.mkShell {
   name = "node-dev";
 
   packages = with pkgs; [
-    nodejs_24
+    nodejs
     pnpm
     yarn
     bun
     typescript
+    prettier
+    vscode-langservers-extracted
     typescript-language-server
   ];
 
