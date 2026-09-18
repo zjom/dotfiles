@@ -17,6 +17,7 @@
     nixd
     nixfmt
     nodejs
+    opencode
     python3
     ranger
     tmux

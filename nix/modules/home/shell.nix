@@ -27,6 +27,7 @@ in
     tree = "eza --icons always --tree";
     tt = "touch";
     vim = "nvim";
+    oc = "opencode";
   };
 
   home.sessionVariables = {
