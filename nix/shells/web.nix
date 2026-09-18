@@ -1,9 +1,9 @@
-# Node toolchain + the TypeScript language server.
-#   nix develop '~/dotfiles/nix#node'
+# Web toolchain + css_ls, html_ls, ts_ls + prettier
+#   nix develop '~/dotfiles/nix#web'
 { pkgs }:
 
 pkgs.mkShell {
-  name = "node-dev";
+  name = "web-dev";
 
   packages = with pkgs; [
     nodejs
@@ -16,6 +16,6 @@ pkgs.mkShell {
   ];
 
   shellHook = ''
-    echo "node $(node --version) | pnpm $(pnpm --version) | bun $(bun --version) | tsserver"
+    echo "node $(node --version) | pnpm $(pnpm --version) | bun $(bun --version)"
   '';
 }

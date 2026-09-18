@@ -123,20 +123,18 @@
       # holding `use flake ~/dotfiles/nix#rust` to have direnv do it on cd.
       devShells = forAllSystems (
         pkgs:
-        lib.genAttrs
-          [
-            "c"
-            "elixir"
-            "go"
-            "lua"
-            "node"
-            "ocaml"
-            "python"
-            "rust"
-            "typst"
-            "zig"
-          ]
-          (name: import ./shells/${name}.nix { inherit pkgs; })
+        lib.genAttrs [
+          "c"
+          "elixir"
+          "go"
+          "lua"
+          "ocaml"
+          "python"
+          "rust"
+          "typst"
+          "web"
+          "zig"
+        ] (name: import ./shells/${name}.nix { inherit pkgs; })
       );
 
       formatter = forAllSystems (pkgs: pkgs.nixfmt);
