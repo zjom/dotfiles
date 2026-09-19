@@ -9,7 +9,6 @@ pkgs.mkShell {
     nodejs
     pnpm
     bun
-    typescript
     prettier
     vscode-langservers-extracted
     typescript-language-server
