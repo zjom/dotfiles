@@ -11,6 +11,11 @@ require("gitsigns").setup({
 	on_attach = function(bufnr)
 		local gitsigns = require("gitsigns")
 
+		local wk = require("which-key")
+
+		wk.add({
+			{ "<leader>g", group = "[G]it" },
+		})
 		local function map(mode, l, r, opts)
 			opts = opts or {}
 			opts.buffer = bufnr
@@ -35,36 +40,36 @@ require("gitsigns").setup({
 		end)
 
 		-- Actions
-		map("n", "<leader>hs", gitsigns.stage_hunk, { desc = "stage hunk" })
-		map("n", "<leader>hr", gitsigns.reset_hunk, { desc = "reset hunk" })
+		map("n", "<leader>gs", gitsigns.stage_hunk, { desc = "stage hunk" })
+		map("n", "<leader>gr", gitsigns.reset_hunk, { desc = "reset hunk" })
 
-		map("v", "<leader>hs", function()
+		map("v", "<leader>gs", function()
 			gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
 		end, { desc = "stage hunk" })
 
-		map("v", "<leader>hr", function()
+		map("v", "<leader>gr", function()
 			gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
 		end, { desc = "reset hunk" })
 
-		map("n", "<leader>hS", gitsigns.stage_buffer, { desc = "stage buffer" })
-		map("n", "<leader>hR", gitsigns.reset_buffer, { desc = "reset buffer" })
-		map("n", "<leader>hp", gitsigns.preview_hunk, { desc = "preview hunk" })
-		map("n", "<leader>hi", gitsigns.preview_hunk_inline, { desc = "preview hunk inline" })
+		map("n", "<leader>gS", gitsigns.stage_buffer, { desc = "stage buffer" })
+		map("n", "<leader>gR", gitsigns.reset_buffer, { desc = "reset buffer" })
+		map("n", "<leader>gp", gitsigns.preview_hunk, { desc = "preview hunk" })
+		map("n", "<leader>gi", gitsigns.preview_hunk_inline, { desc = "preview hunk inline" })
 
-		map("n", "<leader>hb", function()
+		map("n", "<leader>gb", function()
 			gitsigns.blame_line({ full = true })
 		end, { desc = "blame line" })
 
-		map("n", "<leader>hd", gitsigns.diffthis, { desc = "diff buffer" })
+		map("n", "<leader>gd", gitsigns.diffthis, { desc = "diff buffer" })
 
-		map("n", "<leader>hD", function()
+		map("n", "<leader>gD", function()
 			gitsigns.diffthis("~")
 		end, { desc = "diff ALL" })
 
-		map("n", "<leader>hQ", function()
+		map("n", "<leader>gQ", function()
 			gitsigns.setqflist("all")
 		end, { desc = "add ALL hunks to qf" })
-		map("n", "<leader>hq", gitsigns.setqflist, { desc = "add hunks to qf" })
+		map("n", "<leader>gq", gitsigns.setqflist, { desc = "add hunks to qf" })
 
 		-- Toggles
 		map("n", "<leader>xb", gitsigns.toggle_current_line_blame, { desc = "toggle blame" })
