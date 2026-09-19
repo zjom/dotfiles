@@ -44,7 +44,7 @@ require("conform").setup({
 		java = { "google-java-format" },
 		javascript = { "prettier" },
 		javascriptreact = { "prettier" },
-		json = { "jq" },
+		jsonc = { "jq" },
 		less = { "prettier" },
 		lua = { "stylua" },
 		markdown = { "prettier" },
