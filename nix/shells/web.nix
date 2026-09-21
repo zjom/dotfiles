@@ -6,7 +6,7 @@ pkgs.mkShell {
   name = "web-dev";
 
   packages = with pkgs; [
-    nodejs
+    nodejs_26
     pnpm
     bun
     prettier
