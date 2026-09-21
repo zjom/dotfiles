@@ -6,6 +6,61 @@ vim.g.autoformat = true
 
 require("conform").setup({
 	notify_on_error = false,
+	formatters_by_ft = {
+		["_"] = { "trim_whitespace", "trim_newlines" },
+		astro = { "oxfmt", lsp_format = "prefer" },
+		c = { "clang-format" },
+		cpp = { "clang-format" },
+		cs = { "csharpier_zjom" },
+		csproj = { "csharpier_zjom" },
+		css = { "oxfmt" },
+		elixir = { "mix", lsp_format = "prefer" },
+		go = { "gofumpt", lsp_format = "fallback" },
+		html = { "oxfmt" },
+		http = { "kulala-fmt" },
+		java = { "palantir-java-format" },
+		javascript = { "oxfmt" },
+		javascriptreact = { "oxfmt" },
+		just = { "just" },
+		jsonc = { "jq" },
+		less = { "oxfmt" },
+		lua = { "stylua" },
+		markdown = { "oxfmt" },
+		nix = { "nixfmt" },
+		nu = { "nufmt" },
+		ocaml = { "ocamlformat", lsp_format = "prefer" },
+		opentofu = { "tofu_fmt", lsp_format = "fallback" },
+		opentofu_vars = { "tofu_fmt", lsp_format = "fallback" },
+		terraform = { "tofu_fmt", lsp_format = "fallback" },
+		python = {
+			-- To fix auto-fixable lint errors.
+			"ruff_fix",
+			-- To run the Ruff formatter.
+			"ruff_format",
+			-- To organize the imports.
+			"ruff_organize_imports",
+		},
+		rust = { "rustfmt", lsp_format = "prefer" },
+		scss = { "oxfmt" },
+		sql = { "sleek" },
+		toml = { "oxfmt", lsp_format = "prefer" },
+		typescript = { "oxfmt" },
+		typescriptreact = { "oxfmt" },
+		typst = { "typstyle" },
+		yaml = { "oxfmt" },
+		zig = { "zigfmt" },
+		zsh = { "beautysh" },
+	},
+	formatters = {
+		csharpier_zjom = {
+			command = "csharpier",
+			args = {
+				"format",
+				"--write-stdout",
+			},
+			to_stdin = true,
+		},
+	},
 	format_on_save = function(bufnr)
 		-- Disable autoformat for files in node_modules
 		local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -29,58 +84,6 @@ require("conform").setup({
 	quiet = false,
 	default_format_opts = {
 		lsp_format = "fallback", -- Use external formatters if configured below, otherwise use LSP formatting. Set to `false` to disable LSP formatting entirely.
-	},
-	formatters_by_ft = {
-		["_"] = { "trim_whitespace", "trim_newlines" },
-		astro = { "prettier", lsp_format = "prefer" },
-		c = { "clang_fmt" },
-		cpp = { "clang_fmt" },
-		cs = { "csharpier_zjom" },
-		csproj = { "csharpier_zjom" },
-		css = { "prettier" },
-		elixir = { "mix", lsp_format = "prefer" },
-		html = { "prettier" },
-		http = { "kulala-fmt" },
-		java = { "google-java-format" },
-		javascript = { "prettier" },
-		javascriptreact = { "prettier" },
-		jsonc = { "jq" },
-		less = { "prettier" },
-		lua = { "stylua" },
-		markdown = { "prettier" },
-		nix = { "nixfmt" },
-		ocaml = { "dune fmt" },
-		opentofu = { lsp_format = "prefer" },
-		opentofu_vars = { lsp_format = "prefer" },
-		terraform = { lsp_format = "prefer" },
-		python = {
-			-- To fix auto-fixable lint errors.
-			"ruff_fix",
-			-- To run the Ruff formatter.
-			"ruff_format",
-			-- To organize the imports.
-			"ruff_organize_imports",
-		},
-		rust = { "rustfmt", lsp_format = "prefer" },
-		scss = { "prettier" },
-		sql = { "sleek" },
-		toml = { "dprint", lsp_format = "prefer" },
-		typescript = { "prettier" },
-		typescriptreact = { "prettier" },
-		typst = { "typstyle" },
-		yaml = { "dprint" },
-		zig = { "zig fmt" },
-		zsh = { "beautysh" },
-	},
-	formatters = {
-		csharpier_zjom = {
-			command = "csharpier",
-			args = {
-				"format",
-				"--write-stdout",
-			},
-			to_stdin = true,
-		},
 	},
 })
 

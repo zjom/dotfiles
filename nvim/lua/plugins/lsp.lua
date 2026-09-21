@@ -120,6 +120,7 @@ local servers = {
 	"marksman",
 	"nixd",
 	"ocamllsp",
+	"oxlint",
 	"tofu_ls",
 	"ruff",
 	"rust_analyzer",

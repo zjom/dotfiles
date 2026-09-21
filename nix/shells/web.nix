@@ -10,6 +10,8 @@ pkgs.mkShell {
     pnpm
     bun
     prettier
+    oxfmt
+    oxlint
     vscode-langservers-extracted
     typescript-language-server
   ];

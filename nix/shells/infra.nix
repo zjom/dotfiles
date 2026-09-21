@@ -9,9 +9,10 @@ pkgs.mkShell {
   packages = with pkgs; [
     opentofu
     opentofu-ls
+    awscli2
   ];
 
   shellHook = ''
-    echo "opentofu $(tofu --version)"
+    echo "opentofu | aws"
   '';
 }

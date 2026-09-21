@@ -6,15 +6,15 @@ both, so one command activates the system and the user environment together.
 
 ## Layout
 
-| Path                  | Scope                                            |
-| --------------------- | ------------------------------------------------ |
-| `modules/home/`       | Home Manager, shared by every host                |
-| `modules/system/`     | System level; `common.nix`, then `nixos.nix` or `darwin.nix` |
-| `hosts/<name>/default.nix` | System level, that host only                 |
-| `hosts/<name>/home.nix`    | Home Manager, that host only                 |
-| `shells/`             | Per-language dev shells                           |
+| Path                       | Scope                                                        |
+| -------------------------- | ------------------------------------------------------------ |
+| `modules/home/`            | Home Manager, shared by every host                           |
+| `modules/system/`          | System level; `common.nix`, then `nixos.nix` or `darwin.nix` |
+| `hosts/<name>/default.nix` | System level, that host only                                 |
+| `hosts/<name>/home.nix`    | Home Manager, that host only                                 |
+| `shells/`                  | Per-language dev shells                                      |
 
-The configuration this flake does *not* generate lives one level up, one flat
+The configuration this flake does _not_ generate lives one level up, one flat
 directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
 `../aerospace`. `modules/home/dotfiles.nix` symlinks those into place out of
 the Nix store, so editing them takes effect without a rebuild.
