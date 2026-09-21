@@ -127,6 +127,7 @@
           "c"
           "elixir"
           "go"
+          "infra"
           "lua"
           "ocaml"
           "python"

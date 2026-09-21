@@ -50,6 +50,9 @@ require("conform").setup({
 		markdown = { "prettier" },
 		nix = { "nixfmt" },
 		ocaml = { "dune fmt" },
+		opentofu = { lsp_format = "prefer" },
+		opentofu_vars = { lsp_format = "prefer" },
+		terraform = { lsp_format = "prefer" },
 		python = {
 			-- To fix auto-fixable lint errors.
 			"ruff_fix",
