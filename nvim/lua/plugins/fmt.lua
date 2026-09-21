@@ -61,7 +61,7 @@ require("conform").setup({
 		rust = { "rustfmt", lsp_format = "prefer" },
 		scss = { "prettier" },
 		sql = { "sleek" },
-		toml = { "dprint" },
+		toml = { "dprint", lsp_format = "prefer" },
 		typescript = { "prettier" },
 		typescriptreact = { "prettier" },
 		typst = { "typstyle" },

@@ -125,6 +125,7 @@ local servers = {
 	"svelte",
 	"tailwindcss",
 	"tinymist",
+	"tombi",
 	"ts_ls",
 	"zls",
 }

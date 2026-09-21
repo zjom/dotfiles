@@ -21,6 +21,7 @@
     opencode
     python3
     ranger
+    tombi
     tmux
     tree-sitter
     unzip
