@@ -70,7 +70,6 @@ require("conform").setup({
 		zsh = { "beautysh" },
 	},
 	formatters = {
-		prettier = { require_cwd = true },
 		csharpier_zjom = {
 			command = "csharpier",
 			args = {

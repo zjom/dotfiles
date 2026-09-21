@@ -102,52 +102,31 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- LSPs and related tools are installed declaratively via Nix (see
--- nix/home.nix), not mason. This table only tracks which of the
--- nix-installed language tools should be enabled as LSP servers.
---
--- To install a tool: add the matching package to nix/home.nix, then
--- `rebuild`.
--- To enable a tool that's installed but has no LSP server (e.g. a
--- formatter-only tool), set `no_enable = true`.
---
+-- nix/home.nix).
 -- To manage lspconfig: update `nvim/lsp/<server>.lua`
 -- To override lspconfig options: update `nvim/after/lsp/<server>.lua`
 -- See `:help lsp-config-merge`
-local tools = {
-	-- basedpyright = {},
-	clangd = {},
-	-- svelte = {},
-	-- csharpier = { no_enable = true }, -- C# formatting,
-	cssls = {},
-	-- dprint = { no_enable = true }, -- General purpose formatting
-	-- elixirls = {},
-	-- emmet_ls = {},
-	eslint = {}, -- JavaScript and TypeScript linting
-	-- gopls = {},
-	-- ["google-java-format"] = { no_enable = true },
-	html = {},
-	-- jdtls = {},
-	lua_ls = {},
-	nixd = {},
-	-- marksman = {},
-	-- ocamllsp = {},
-	-- prettier = { no_enable = true }, -- Web formatting
-	-- ruff = {}, -- Python linting & formatting
-	rust_analyzer = {},
-	ts_ls = {},
-	zls = {},
-	-- sleek = { no_enable = true }, -- SQL formatting
-	-- tailwindcss = {},
-	-- tinymist = {},
-	-- typstyle = { no_enable = true }, --Typst formatting
-	-- xmlformatter = { no_enable = true }, -- Xml formatting
+local servers = {
+	"basedpyright",
+	"clangd",
+	"cssls",
+	"elixirls",
+	"emmet_ls",
+	"eslint",
+	"gopls",
+	"html",
+	"jdtls",
+	"lua_ls",
+	"marksman",
+	"nixd",
+	"ocamllsp",
+	"ruff",
+	"rust_analyzer",
+	"svelte",
+	"tailwindcss",
+	"tinymist",
+	"ts_ls",
+	"zls",
 }
 
-local servers_to_enable = {}
-for tool_name, config in pairs(tools) do
-	if not config.no_enable then
-		table.insert(servers_to_enable, tool_name)
-	end
-end
-
-vim.lsp.enable(servers_to_enable)
+vim.lsp.enable(servers)
