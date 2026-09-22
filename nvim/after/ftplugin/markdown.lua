@@ -6,4 +6,9 @@ vim.g.markdown_fenced_languages =
 vim.o.conceallevel = 0
 
 vim.keymap.set("n", "<C-k>", "z=", { desc = "Spell Suggest", buffer = true })
-vim.keymap.set("n", "<leader>xp", ":RenderMarkdown buf_toggle", { desc = "[X]oggle markdown Preview", buffer = true })
+vim.keymap.set(
+	"n",
+	"<leader>xp",
+	"<cmd>RenderMarkdown buf_toggle<cr>",
+	{ desc = "[X]oggle markdown Preview", buffer = true }
+)
