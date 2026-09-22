@@ -12,6 +12,15 @@ pkgs.mkShell {
     clippy
     rust-analyzer
 
+    just
+
+    cargo-release
+    cargo-criterion
+    cargo-expand
+    cargo-hack
+    cargo-machete
+    cargo-nextest
+
     # Common build-time deps for crates with native dependencies.
     pkg-config
   ];
