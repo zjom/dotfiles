@@ -3,9 +3,10 @@
 { lib, ... }:
 
 {
-  # Needed for claude-code, among others. Set here rather than in Home Manager
-  # because the hosts use `home-manager.useGlobalPkgs`.
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.overlays = [
+    (import ../../overlays/claude-code)
+  ];
 
   time.timeZone = lib.mkDefault "Australia/Melbourne";
 
