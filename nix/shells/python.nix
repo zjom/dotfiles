@@ -10,7 +10,7 @@ pkgs.mkShell {
     python313
     uv
     ruff # linter + formatter
-    pyright
+    basedpyright
   ];
 
   # uv otherwise downloads its own interpreters, defeating the point of pinning
