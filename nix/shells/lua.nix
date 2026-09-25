@@ -1,4 +1,4 @@
-# Lua toolchain + lua-language-server. The language server and stylua are also
+# Lua toolchain + emmylua-ls. The language server and stylua are also
 # in the global profile, since Neovim's own configuration is Lua; this shell is
 # for projects that need an interpreter and luarocks as well.
 #   nix develop '~/dotfiles/nix#lua'
@@ -10,11 +10,15 @@ pkgs.mkShell {
   packages = with pkgs; [
     lua5_4
     lua54Packages.luarocks
-    lua-language-server
-    stylua
+
+    emmylua-ls
+    emmy-lua-code-style
+    emmylua-check
+    emmylua-doc-cli
+    emmylua-formatter
   ];
 
   shellHook = ''
-    echo "$(lua -v) | luarocks | lua-language-server"
+    echo "$(lua -v) | luarocks | emmylua"
   '';
 }
