@@ -32,26 +32,25 @@ vim.keymap.set("n", "<leader>t1", "<cmd>tabfirst<cr>", { desc = "First Tab" })
 vim.keymap.set("n", "<leader>t9", "<cmd>tablast<cr>", { desc = "Last Tab" })
 
 -- Poweful <esc>.
-vim.keymap.set({ "i", "s", "n" }, "<esc>", function ()
-  if require("luasnip").expand_or_jumpable() then
-    require("luasnip").unlink_current()
-  end
-  vim.cmd("noh")
-  return "<esc>"
-end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true }
-)
+vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
+	if require("luasnip").expand_or_jumpable() then
+		require("luasnip").unlink_current()
+	end
+	vim.cmd("noh")
+	return "<esc>"
+end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
 -- Insert mode sanity
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete previous word" })
 -- Escape and save changes.
 vim.keymap.set("i", "<C-w>", "<Nop>")
 vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
-  callback = function ()
-    if vim.fn.getbufvar(vim.fn.bufnr(), "&modified") == 1 then
-      vim.cmd("write")
-    end
-  end,
-  desc = "[W]rite file"
+	callback = function()
+		if vim.fn.getbufvar(vim.fn.bufnr(), "&modified") == 1 then
+			vim.cmd("write")
+		end
+	end,
+	desc = "[W]rite file",
 })
 
 -- Insert mode navigation

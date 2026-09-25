@@ -1,7 +1,7 @@
 return {
-  cmd = {
-    "clangd",
-    "--background-index",
-    "--compile-commands-dir=."
-  }
+	cmd = {
+		"clangd",
+		"--background-index",
+		"--compile-commands-dir=.",
+	},
 }
