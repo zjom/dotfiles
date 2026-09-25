@@ -1,36 +1,34 @@
 local function gh(repo)
-	return "https://github.com/" .. repo
+  return "https://github.com/" .. repo
 end
 
 -- picker/ fzf
 local telescope_plugins = {
-	gh("nvim-lua/plenary.nvim"),
-	gh("nvim-telescope/telescope.nvim"),
-	gh("nvim-telescope/telescope-ui-select.nvim"),
+  gh("nvim-lua/plenary.nvim"), gh("nvim-telescope/telescope.nvim"), gh("nvim-telescope/telescope-ui-select.nvim")
 }
 if vim.fn.executable("make") == 1 then
-	table.insert(telescope_plugins, gh("nvim-telescope/telescope-fzf-native.nvim"))
+  table.insert(telescope_plugins, gh("nvim-telescope/telescope-fzf-native.nvim"))
 end
 
 vim.pack.add(telescope_plugins)
 -- See `:help telescope` and `:help telescope.setup()`
 require("telescope").setup({
-	-- You can put your default mappings / updates / etc. in here
+  -- You can put your default mappings / updates / etc. in here
 	--  All the info you're looking for is in `:help telescope.setup()`
-	defaults = {
-		--   mappings = {
+  defaults = {
+    --   mappings = {
 		--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
 		--   },
-		file_ignore_patterns = {
-			"node_modules",
-			"vendor",
-			"venv",
-			".venv",
-		},
-	},
-	extensions = {
-		["ui-select"] = { require("telescope.themes").get_dropdown() },
-	},
+    file_ignore_patterns = {
+      "node_modules",
+      "vendor",
+      "venv",
+      ".venv"
+    }
+  },
+  extensions = {
+    ["ui-select"] = { require("telescope.themes").get_dropdown() }
+  }
 })
 
 pcall(require("telescope").load_extension, "fzf")
@@ -48,19 +46,22 @@ vim.keymap.set("n", "<leader>sr", builtin.resume, { desc = "[S]earch [R]esume" }
 vim.keymap.set("n", "<leader>ss", builtin.lsp_document_symbols, { desc = "[S]earch document [S]ymbols" })
 vim.keymap.set("n", "<leader>s.", builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
-vim.keymap.set("n", "<leader>/", function()
-	builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-		winblend = 10,
-		previewer = false,
-	}))
-end, { desc = "[/] Fuzzily search in current buffer" })
-vim.keymap.set("n", "<leader>s/", function()
-	builtin.live_grep({
-		grep_open_files = true,
-		prompt_title = "Live Grep in Open Files",
-	})
-end, { desc = "[S]earch [/] in Open Files" })
-vim.keymap.set("n", "<leader>sc", function()
-	builtin.find_files({ cwd = "~/dotfiles/" })
-end, { desc = "[S]earch [C]onfig" })
+vim.keymap.set("n", "<leader>/", function ()
+  builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+      winblend = 10,
+      previewer = false
+    }))
+end, { desc = "[/] Fuzzily search in current buffer" }
+)
+vim.keymap.set("n", "<leader>s/", function ()
+  builtin.live_grep({
+    grep_open_files = true,
+    prompt_title = "Live Grep in Open Files"
+  })
+end, { desc = "[S]earch [/] in Open Files" }
+)
+vim.keymap.set("n", "<leader>sc", function ()
+  builtin.find_files({ cwd = "~/dotfiles/" })
+end, { desc = "[S]earch [C]onfig" }
+)
 vim.keymap.set("i", "<C-x><C-i>", builtin.symbols, { desc = "[x] [I]nsert Symbols" })
