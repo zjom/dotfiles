@@ -22,7 +22,7 @@
   # /run/opengl-driver. Two things then still have to be said out loud, or
   # everything silently lands on llvmpipe instead.
   wsl.useWindowsDriver = true;
-
+  hardware.graphics.enable = true;
   environment.sessionVariables = {
     # With no DRM node to probe, the Mesa loader has nothing to infer a driver
     # from and settles for software rendering, so name the driver outright.
