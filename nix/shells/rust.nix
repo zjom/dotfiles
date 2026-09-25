@@ -14,6 +14,7 @@ pkgs.mkShell {
 
     just
 
+    cargo-flamegraph
     cargo-release
     cargo-criterion
     cargo-expand
