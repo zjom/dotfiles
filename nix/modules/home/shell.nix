@@ -51,6 +51,7 @@ in
     shellAliases = cfg.aliases;
     interactiveShellInit = ''
       set -g fish_greeting
+      set -g fish_key_bindings fish_vi_key_bindings
 
       # Installed outside Nix; source them only where they exist.
       test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null
