@@ -40,6 +40,7 @@ in
   home.sessionPath = [
     "${config.home.homeDirectory}/.local/bin"
     "${config.home.homeDirectory}/go/bin"
+    "${config.home.homeDirectory}/.cargo/bin"
   ];
 
   # Defines the XDG_* variables the configs below (and ranger, gh, ...) read.
