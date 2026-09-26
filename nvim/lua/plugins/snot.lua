@@ -26,3 +26,5 @@ vim.keymap.set("n", "<leader>ps", function()
 end, { desc = "snot [S]earch" })
 
 vim.keymap.set("n", "<leader>pt", "<Plug>(snot-tag)", { desc = "snot [T]ag" })
+
+vim.keymap.set("n", "<leader>pb", "<Plug>(snot-backlinks)", { desc = "snot [B]acklinks" })
