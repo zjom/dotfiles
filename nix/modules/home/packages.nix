@@ -10,6 +10,7 @@
 {
   home.packages = with pkgs; [
     bottom
+    cargo
     claude-code
     file
     gcc
