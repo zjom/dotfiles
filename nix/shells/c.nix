@@ -10,7 +10,7 @@ pkgs.mkShell {
     gnumake
     cmake
     pkg-config
-
+    just
     clang-tools # clangd + clang-format
     bear # `bear -- make` writes compile_commands.json for clangd
     gdb
