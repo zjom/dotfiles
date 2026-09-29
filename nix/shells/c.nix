@@ -11,6 +11,7 @@ pkgs.mkShell {
     cmake
     pkg-config
     just
+    just-lsp
     clang-tools # clangd + clang-format
     bear # `bear -- make` writes compile_commands.json for clangd
     gdb
