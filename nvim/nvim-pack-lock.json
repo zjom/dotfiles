@@ -106,7 +106,7 @@
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "opencode.nvim": {
-      "rev": "f25840a6b51fadc1ae8b9745d9c1b4d29091719f",
+      "rev": "71f66dcdfe0df29297cb20048f3be5d7983afe07",
       "src": "https://github.com/sudo-tee/opencode.nvim"
     },
     "orgmode": {
@@ -122,7 +122,7 @@
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "snot.nvim": {
-      "rev": "45aac959c7edbdc02cdea381ccccf537c7a36ed8",
+      "rev": "fd761c270929ba4b79fc7ee02b3495eda1bc381c",
       "src": "https://github.com/zjom/snot.nvim"
     },
     "telescope-fzf-native.nvim": {
