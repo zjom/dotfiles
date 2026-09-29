@@ -15,6 +15,8 @@
     file
     gcc
     jq
+    man-pages
+    man-pages-posix
     neovim
     nixd
     nixfmt
@@ -23,8 +25,8 @@
     oxfmt
     python3
     ranger
-    tombi
     tmux
+    tombi
     tree-sitter
     unzip
     wget

@@ -14,4 +14,5 @@
   # it in /etc/shells and has it load the Nix environment; the user's shell is
   # set in nixos.nix and darwin.nix.
   programs.fish.enable = true;
+  documentation.dev.enable = true;
 }
