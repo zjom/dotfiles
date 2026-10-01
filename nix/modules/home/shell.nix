@@ -20,9 +20,7 @@ in
     nvi = "nvim";
     nvm = "nvim";
     q = "exit";
-    r = "ranger";
     rc = "ranger_cd";
-    rs = "ranger_sesh";
     tm = "tmux";
     tree = "eza --icons always --tree";
     tt = "touch";
@@ -104,20 +102,6 @@ in
         '';
       };
 
-      ranger_sesh = {
-        description = "Ranger, then open or attach a session in the chosen directory";
-        body = ''
-          set -q argv[1]; or set argv $PWD
-          set -l tmp (mktemp)
-          command ranger --choosedir=$tmp -- $argv
-          set -l dir
-          test -f $tmp; and read dir <$tmp
-          rm -f $tmp
-          test -z "$dir"; and return
-          sesh connect $dir
-        '';
-      };
-
       sesh_sessions = {
         description = "Pick a session with fzf in the current pane";
         body = ''
@@ -174,6 +158,8 @@ in
     };
 
     binds = {
+      "alt-r".command = "ranger";
+      "alt-R".command = "ranger_cd";
       "alt-s".command = "sesh_sessions";
       "alt-S".command = "sesh_all";
       "f12".command = "activate_dev_shell";
