@@ -1,0 +1,185 @@
+// niri configuration. Symlinked to ~/.config/niri by hosts/nixos/home.nix, and
+// niri reloads it on save. Reference:
+// https://niri-wm.github.io/niri/Configuration:-Introduction
+//
+// The bindings follow ../aerospace/aerospace.toml: Alt drives the window
+// manager, leaving Super to kitty (tabs on Super+1-5, splits on Super+hjkl).
+
+input {
+    // Alt rather than Super, as under AeroSpace.
+    mod-key "Alt"
+    mod-key-nested "Super"
+
+    keyboard {
+        numlock
+    }
+
+    touchpad {
+        tap
+        dwt
+        natural-scroll
+    }
+
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+// `niri msg outputs` lists the outputs and their modes.
+// output "eDP-1" {
+//     scale 1
+// }
+
+layout {
+    gaps 8
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+    default-column-width { proportion 0.5; }
+
+    focus-ring {
+        width 2
+        active-color "#e11299"
+        inactive-color "#44475a"
+    }
+
+    border {
+        off
+    }
+}
+
+prefer-no-csd
+
+screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+
+hotkey-overlay {
+    skip-at-startup
+}
+
+// Firefox's picture-in-picture player floats.
+window-rule {
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    open-floating true
+}
+
+window-rule {
+    geometry-corner-radius 4
+    clip-to-geometry true
+}
+
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // Programs.
+    Mod+Q hotkey-overlay-title="Terminal (tmux)" { spawn "kitty" "--single-instance" "--" "sh" "-c" "tmux new -A -s default; while tmux has-session 2>/dev/null; do tmux attach; done"; }
+    Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty" "--single-instance"; }
+    Mod+Space hotkey-overlay-title="Launcher" { spawn "fuzzel"; }
+    Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
+    Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }
+
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+
+    XF86AudioPlay allow-when-locked=true { spawn "playerctl" "play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn "playerctl" "previous"; }
+    XF86AudioNext allow-when-locked=true { spawn "playerctl" "next"; }
+
+    XF86MonBrightnessUp   allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+
+    // Windows.
+    Mod+Shift+Q repeat=false { close-window; }
+    Mod+O repeat=false { toggle-overview; }
+
+    Mod+H     { focus-column-left; }
+    Mod+J     { focus-window-or-workspace-down; }
+    Mod+K     { focus-window-or-workspace-up; }
+    Mod+L     { focus-column-right; }
+    Mod+Left  { focus-column-left; }
+    Mod+Down  { focus-window-or-workspace-down; }
+    Mod+Up    { focus-window-or-workspace-up; }
+    Mod+Right { focus-column-right; }
+
+    Mod+Shift+H     { move-column-left; }
+    Mod+Shift+J     { move-window-down-or-to-workspace-down; }
+    Mod+Shift+K     { move-window-up-or-to-workspace-up; }
+    Mod+Shift+L     { move-column-right; }
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down-or-to-workspace-down; }
+    Mod+Shift+Up    { move-window-up-or-to-workspace-up; }
+    Mod+Shift+Right { move-column-right; }
+
+    Mod+Home       { focus-column-first; }
+    Mod+End        { focus-column-last; }
+    Mod+Shift+Home { move-column-to-first; }
+    Mod+Shift+End  { move-column-to-last; }
+
+    // Pull a window into, or push it out of, the column beside it -- the
+    // nearest thing to AeroSpace's join-with.
+    Mod+BracketLeft  { consume-or-expel-window-left; }
+    Mod+BracketRight { consume-or-expel-window-right; }
+    Mod+Comma        { toggle-column-tabbed-display; }
+
+    Mod+R       { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-window-height; }
+    Mod+Minus       { set-column-width "-10%"; }
+    Mod+Equal       { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    Mod+F       { fullscreen-window; }
+    Mod+M       { maximize-column; }
+    Mod+C       { center-column; }
+    Mod+Shift+F { toggle-window-floating; }
+    Mod+V       { switch-focus-between-floating-and-tiling; }
+
+    // Monitors.
+    Mod+Ctrl+H       { focus-monitor-left; }
+    Mod+Ctrl+J       { focus-monitor-down; }
+    Mod+Ctrl+K       { focus-monitor-up; }
+    Mod+Ctrl+L       { focus-monitor-right; }
+    Mod+Ctrl+Shift+H { move-column-to-monitor-left; }
+    Mod+Ctrl+Shift+J { move-column-to-monitor-down; }
+    Mod+Ctrl+Shift+K { move-column-to-monitor-up; }
+    Mod+Ctrl+Shift+L { move-column-to-monitor-right; }
+    Mod+Shift+Tab    { move-workspace-to-monitor-next; }
+
+    // Workspaces.
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+    Mod+Tab { focus-workspace-previous; }
+
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp   cooldown-ms=150 { focus-workspace-up; }
+    Mod+WheelScrollRight { focus-column-right; }
+    Mod+WheelScrollLeft  { focus-column-left; }
+
+    // Screenshots; also copied to the clipboard.
+    Print       { screenshot; }
+    Ctrl+Print  { screenshot-screen; }
+    Mod+Print   { screenshot-window; }
+
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+    Ctrl+Alt+Delete { quit; }
+    Mod+Shift+P { power-off-monitors; }
+}

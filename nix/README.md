@@ -17,8 +17,9 @@ user environment together.
 
 The configuration this flake does _not_ generate lives one level up, one flat
 directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
-`../aerospace`. `modules/home/dotfiles.nix` symlinks those into place out of
-the Nix store, so editing them takes effect without a rebuild.
+`../aerospace`, `../niri`. `modules/home/dotfiles.nix` and the host `home.nix`
+files symlink those into place out of the Nix store, so editing them takes
+effect without a rebuild.
 
 fish is the login shell on every host, configured in `modules/home/shell.nix`.
 bash and zsh are installed but carry no configuration of their own.
@@ -73,6 +74,18 @@ Before the last step, make `system.stateVersion` in `hosts/nixos/default.nix`
 match the one in the generated `/mnt/etc/nixos/configuration.nix`. After the
 first boot, give the user a password with `passwd zi` (as
 root) and fix the ownership of `~/dotfiles`.
+
+## The NixOS desktop
+
+`#nixos` is a Lenovo LOQ laptop running [niri](https://github.com/YaLTeR/niri),
+logged into from `tuigreet` on greetd. The system side is
+`hosts/nixos/desktop.nix`; the session's bar (waybar), launcher (fuzzel),
+notifications (mako) and locking (swaylock, swayidle) are in
+`hosts/nixos/home.nix`; niri itself reads `../niri/config.kdl`.
+
+As under AeroSpace, Alt is the window manager's modifier and Super is left to
+kitty. Alt+Shift+/ lists the bindings. The Intel GPU drives the desktop; run
+something on the RTX 4050 with `nvidia-offload <program>`.
 
 The WSL host is `#wsl`; it gets NixOS-WSL from the `nixos-wsl` input, and
 everything WSL-specific, the GPU passthrough included, stays in `hosts/wsl`.
