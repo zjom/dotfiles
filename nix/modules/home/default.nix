@@ -6,9 +6,11 @@
   imports = [
     ./options.nix
     ./dotfiles.nix
+    ./get-ignore.nix
     ./git.nix
     ./packages.nix
     ./shell.nix
+    ./snot.nix
     ./tmux.nix
     ./tools.nix
   ];

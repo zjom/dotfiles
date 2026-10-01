@@ -16,6 +16,26 @@
         "type": "github"
       }
     },
+    "get-ignore": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790858271,
+        "narHash": "sha256-MRJXcP/5kBZnEPwT4vQHYJpt0Tsgo2RV4Xo80fy73fM=",
+        "owner": "zjom",
+        "repo": "get-ignore",
+        "rev": "61ff57c898ac3079b7526ff5d1d9812458ec5fe7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zjom",
+        "repo": "get-ignore",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -96,10 +116,32 @@
     },
     "root": {
       "inputs": {
+        "get-ignore": "get-ignore",
         "home-manager": "home-manager",
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "snot": "snot"
+      }
+    },
+    "snot": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790557082,
+        "narHash": "sha256-XrUGFXzbqReeJQgeiPzFAMXhFRsyNtc03/04xzGkwLM=",
+        "owner": "zjom",
+        "repo": "snot",
+        "rev": "d17a809b1bfb4dd530e252ecbf1294e780bdc0ef",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zjom",
+        "repo": "snot",
+        "type": "github"
       }
     }
   },
