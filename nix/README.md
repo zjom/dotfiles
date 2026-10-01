@@ -1,8 +1,9 @@
 # nix
 
-One flake for every machine: a NixOS host running under WSL, and a MacBook
-running nix-darwin. Home Manager is a module of the system configuration on
-both, so one command activates the system and the user environment together.
+One flake for every machine: a bare metal NixOS host, a NixOS host running
+under WSL, and a MacBook running nix-darwin. Home Manager is a module of the
+system configuration on all three, so one command activates the system and the
+user environment together.
 
 ## Layout
 
@@ -19,7 +20,7 @@ directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
 `../aerospace`. `modules/home/dotfiles.nix` symlinks those into place out of
 the Nix store, so editing them takes effect without a rebuild.
 
-fish is the login shell on both hosts, configured in `modules/home/shell.nix`.
+fish is the login shell on every host, configured in `modules/home/shell.nix`.
 bash and zsh are installed but carry no configuration of their own.
 
 `modules/home/options.nix` declares the options this configuration adds for
@@ -33,11 +34,14 @@ Home Manager module with `pkgs.stdenv.isDarwin`.
 
 ## Rebuilding
 
-Both hosts have a `rebuild` alias pointing at this flake.
+Every host has a `rebuild` alias pointing at this flake.
 
 ```sh
-# WSL
+# NixOS, bare metal
 sudo nixos-rebuild switch --flake '~/dotfiles/nix#nixos'
+
+# NixOS, WSL
+sudo nixos-rebuild switch --flake '~/dotfiles/nix#wsl'
 
 # macOS
 sudo darwin-rebuild switch --flake '~/dotfiles/nix#macbook'
@@ -49,6 +53,29 @@ zsh is what a fresh macOS install starts in.
 
 Untracked files are invisible to a flake in a git repository, so `git add` a
 new module before rebuilding.
+
+## Installing NixOS
+
+`hosts/nixos` imports a `hardware-configuration.nix` that only the machine
+itself can produce, so the host does not evaluate until it exists. From the
+installer, with the target partitioned and mounted at `/mnt`:
+
+```sh
+nix-shell -p git
+nixos-generate-config --root /mnt
+git clone <this repository> /mnt/home/zi/dotfiles
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/nix/hosts/nixos/
+git -C /mnt/home/zi/dotfiles add nix/hosts/nixos/hardware-configuration.nix
+nixos-install --flake '/mnt/home/zi/dotfiles/nix#nixos'
+```
+
+Before the last step, make `system.stateVersion` in `hosts/nixos/default.nix`
+match the one in the generated `/mnt/etc/nixos/configuration.nix`. After the
+first boot, give the user a password with `passwd zi` (as
+root) and fix the ownership of `~/dotfiles`.
+
+The WSL host is `#wsl`; it gets NixOS-WSL from the `nixos-wsl` input, and
+everything WSL-specific, the GPU passthrough included, stays in `hosts/wsl`.
 
 ## Bootstrapping macOS
 

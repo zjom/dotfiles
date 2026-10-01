@@ -1,43 +1,40 @@
-# System level configuration for the WSL machine.
+# System level configuration for the bare metal NixOS machine.
 {
-  config,
-  inputs,
+  pkgs,
+  hostName,
   username,
   ...
 }:
 
 {
   imports = [
-    inputs.nixos-wsl.nixosModules.wsl
+    # Generated on the machine by `nixos-generate-config`; see the README.
+    ./hardware-configuration.nix
     ../../modules/system/common.nix
     ../../modules/system/nixos.nix
   ];
 
-  wsl.enable = true;
-  wsl.defaultUser = username;
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # GPU. WSL hands the host GPU over as /dev/dxg rather than as a DRM node, so
-  # hardware OpenGL comes from Mesa's d3d12 Gallium driver driving the Windows
-  # user mode driver, which this option symlinks into the store and onto
-  # /run/opengl-driver. Two things then still have to be said out loud, or
-  # everything silently lands on llvmpipe instead.
-  wsl.useWindowsDriver = true;
-  hardware.graphics.enable = true;
-  environment.sessionVariables = {
-    # With no DRM node to probe, the Mesa loader has nothing to infer a driver
-    # from and settles for software rendering, so name the driver outright.
-    GALLIUM_DRIVER = "d3d12";
+  networking.hostName = hostName;
+  networking.networkmanager.enable = true;
 
-    # d3d12 reaches the Windows driver by dlopen'ing "libdxcore.so" under its
-    # bare name, and nothing puts that directory on the linker's search path.
-    LD_LIBRARY_PATH = [ "${config.wsl.wslLib}/lib" ];
-
-    # Both the integrated and the discrete adapter answer; prefer the latter.
-    MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA";
+  # Under WSL, NixOS-WSL declares the user; here nothing else does. Set a
+  # password with `passwd` after the first boot.
+  users.users.${username} = {
+    isNormalUser = true;
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
   };
 
+  hardware.graphics.enable = true;
+
   # The NixOS release whose defaults this system's stateful data was created
-  # against. Leave it at the release of the first install; read the manual
-  # before changing it.
-  system.stateVersion = "26.05";
+  # against. Set it to the release of the first install, the value
+  # `nixos-generate-config` writes into its configuration.nix, and leave it.
+  system.stateVersion = "26.11";
 }

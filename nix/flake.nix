@@ -9,13 +9,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # System layer for macOS. The Linux host uses the NixOS modules that ship
-    # with nixpkgs itself, so there is no matching input for it.
+    # System layer for macOS. The Linux hosts use the NixOS modules that ship
+    # with nixpkgs itself, so there is no matching input for them.
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Imported by hosts/wsl only.
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -108,6 +109,12 @@
     {
       nixosConfigurations.nixos = mkHost {
         hostName = "nixos";
+        system = "x86_64-linux";
+        username = "zi";
+      };
+
+      nixosConfigurations.wsl = mkHost {
+        hostName = "wsl";
         system = "x86_64-linux";
         username = "zi";
       };
