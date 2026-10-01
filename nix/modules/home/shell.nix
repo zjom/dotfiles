@@ -1,6 +1,6 @@
 # The interactive shell. fish is the login shell on every host (see
 # modules/system/{nixos,darwin}.nix); bash and zsh are left unconfigured.
-{ config, ... }:
+{ config, lib, ... }:
 
 let
   cfg = config.my.shell;
@@ -157,12 +157,38 @@ in
       };
     };
 
-    binds = {
-      "alt-r".command = "ranger";
-      "alt-R".command = "ranger_cd";
-      "alt-s".command = "sesh_sessions";
-      "alt-S".command = "sesh_all";
-      "f12".command = "activate_dev_shell";
-    };
+    # A bind with no mode lands in fish's `default` mode, which under vi
+    # bindings is normal mode only -- so emit each one again for insert mode.
+    binds =
+      lib.concatMapAttrs
+        (key: bind: {
+          ${key} = bind;
+          "${key}-insert" = bind // {
+            name = key;
+            mode = "insert";
+          };
+        })
+        {
+          "alt-r" = {
+            command = "ranger";
+            repaint = true;
+          };
+          "alt-R" = {
+            command = "ranger_cd";
+            repaint = true;
+          };
+          "alt-s" = {
+            command = "sesh_sessions";
+            repaint = true;
+          };
+          "alt-S" = {
+            command = "sesh_all";
+            repaint = true;
+          };
+          "f12" = {
+            command = "activate_dev_shell";
+            repaint = true;
+          };
+        };
   };
 }
