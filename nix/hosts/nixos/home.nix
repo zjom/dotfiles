@@ -12,6 +12,22 @@
 let
   link = path: config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/${path}";
   lock = "${lib.getExe pkgs.swaylock} -f";
+
+  vague = {
+    bg = "141415";
+    inactiveBg = "1c1c24";
+    line = "252530";
+    visual = "333738";
+    fg = "cdcdcd";
+    floatBorder = "878787";
+    comment = "606079";
+    keyword = "6e94b2";
+    func = "c48282";
+    string = "e8b589";
+    plus = "7fa563";
+    error = "d8647e";
+    warning = "f3be7c";
+  };
 in
 {
   home.username = username;
@@ -48,17 +64,65 @@ in
 
   programs.fuzzel = {
     enable = true;
-    settings.main = {
-      font = "JetBrains Mono:size=11";
-      terminal = "kitty";
+    settings = {
+      main = {
+        font = "JetBrains Mono:size=11";
+        terminal = "kitty";
+      };
+      border = {
+        width = 1;
+        radius = 4;
+      };
+      colors = with vague; {
+        background = "${bg}ff";
+        text = "${fg}ff";
+        prompt = "${keyword}ff";
+        placeholder = "${comment}ff";
+        input = "${fg}ff";
+        match = "${string}ff";
+        selection = "${line}ff";
+        selection-text = "${fg}ff";
+        selection-match = "${string}ff";
+        counter = "${comment}ff";
+        border = "${floatBorder}ff";
+      };
     };
   };
 
   programs.swaylock = {
     enable = true;
-    settings = {
-      color = "0e1419";
+    settings = with vague; {
+      color = bg;
       show-failed-attempts = true;
+      font = "JetBrains Mono";
+      indicator-radius = 80;
+      indicator-thickness = 6;
+
+      inside-color = bg;
+      inside-clear-color = bg;
+      inside-caps-lock-color = bg;
+      inside-ver-color = bg;
+      inside-wrong-color = bg;
+
+      ring-color = line;
+      ring-clear-color = warning;
+      ring-caps-lock-color = warning;
+      ring-ver-color = keyword;
+      ring-wrong-color = error;
+
+      key-hl-color = keyword;
+      caps-lock-key-hl-color = string;
+      bs-hl-color = func;
+      caps-lock-bs-hl-color = func;
+
+      line-uses-inside = true;
+      separator-color = "00000000";
+
+      text-color = fg;
+      text-clear-color = warning;
+      text-caps-lock-color = warning;
+      text-ver-color = keyword;
+      text-wrong-color = error;
     };
   };
 
@@ -129,30 +193,52 @@ in
       };
       tray.spacing = 8;
     };
-    style = ''
+    style = with vague; ''
       * {
         font-family: "JetBrains Mono", "Symbols Nerd Font";
         font-size: 12px;
         min-height: 0;
       }
       window#waybar {
-        background: #0e1419;
-        color: #f8f8f2;
+        background: #${bg};
+        color: #${fg};
+        border-bottom: 1px solid #${line};
       }
       #workspaces button {
         padding: 0 6px;
-        color: #6272a4;
+        color: #${comment};
         border-radius: 0;
       }
+      #workspaces button:hover {
+        background: #${line};
+        box-shadow: none;
+        text-shadow: none;
+      }
       #workspaces button.active {
-        color: #f8f8f2;
-        box-shadow: inset 0 -2px #e11299;
+        color: #${fg};
+        box-shadow: inset 0 -2px #${keyword};
+      }
+      #workspaces button.urgent {
+        color: #${error};
+      }
+      tooltip {
+        background: #${inactiveBg};
+        border: 1px solid #${floatBorder};
+      }
+      tooltip label {
+        color: #${fg};
       }
       #clock, #tray, #network, #pulseaudio, #battery {
         padding: 0 10px;
       }
+      #network.disconnected, #pulseaudio.muted {
+        color: #${comment};
+      }
+      #battery.charging {
+        color: #${plus};
+      }
       #battery.warning:not(.charging) {
-        color: #ff5555;
+        color: #${error};
       }
     '';
   };
