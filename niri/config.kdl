@@ -21,6 +21,7 @@ input {
     }
 
     focus-follows-mouse max-scroll-amount="0%"
+    warp-mouse-to-focus
 }
 
 // `niri msg outputs` lists the outputs and their modes.
@@ -29,6 +30,7 @@ input {
 // }
 
 layout {
+    background-color "#141415"
     gaps 8
     center-focused-column "never"
 
@@ -41,7 +43,7 @@ layout {
 
     focus-ring {
         width 2
-        active-color "#e11299"
+        active-color "#698dda"
         inactive-color "#44475a"
     }
 
