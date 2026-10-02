@@ -41,6 +41,7 @@ in
   };
 
   home.packages = with pkgs; [
+    bluetui
     brightnessctl
     imv
     kitty
@@ -245,6 +246,7 @@ in
       modules-right = [
         "tray"
         "network"
+        "bluetooth"
         "pulseaudio"
         "battery"
       ];
@@ -254,6 +256,16 @@ in
         format-ethernet = "wired";
         format-disconnected = "offline";
         on-click = "kitty nmtui";
+      };
+      bluetooth = {
+        format = "bt";
+        format-off = "bt off";
+        format-disabled = "bt off";
+        format-connected = "bt {device_alias}";
+        format-connected-battery = "bt {device_alias} {device_battery_percentage}%";
+        tooltip-format-connected = "{device_enumerate}";
+        tooltip-format-enumerate-connected = "{device_alias}";
+        on-click = "kitty bluetui";
       };
       pulseaudio = {
         format = "vol {volume}%";
@@ -302,10 +314,10 @@ in
       tooltip label {
         color: #${fg};
       }
-      #clock, #tray, #network, #pulseaudio, #battery {
+      #clock, #tray, #network, #bluetooth, #pulseaudio, #battery {
         padding: 0 10px;
       }
-      #network.disconnected, #pulseaudio.muted {
+      #network.disconnected, #bluetooth.off, #bluetooth.disabled, #pulseaudio.muted {
         color: #${comment};
       }
       #battery.charging {
