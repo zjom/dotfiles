@@ -41,6 +41,7 @@ in
   };
 
   home.packages = with pkgs; [
+    aseprite
     bluetui
     brightnessctl
     imv
