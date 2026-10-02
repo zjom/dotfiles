@@ -54,7 +54,7 @@ layout {
 
 prefer-no-csd
 
-screenshot-path "~/Pictures/Screenshots/%Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/pictures/screenshots/%Y-%m-%d %H-%M-%S.png"
 
 hotkey-overlay {
     skip-at-startup
