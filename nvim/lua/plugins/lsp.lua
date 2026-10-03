@@ -98,6 +98,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
       end, "Toggle Inlay [H]ints")
     end
+
+    -- setup Markdown Oxide daily note commands
+    if client and client.name == "markdown_oxide" then
+      vim.api.nvim_create_user_command(
+        "Daily",
+        function(args)
+          local input = args.args
+
+          vim.lsp.buf.execute_command({ command = "jump", arguments = { input } })
+        end,
+        { desc = 'Open daily note', nargs = "*" }
+      )
+    end
   end,
 })
 
@@ -119,6 +132,7 @@ local servers = {
   "just",
   "lua_ls",
   "marksman",
+  "markdown_oxide",
   "nixd",
   "ocamllsp",
   "oxlint",

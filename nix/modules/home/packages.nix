@@ -17,6 +17,7 @@
     jq
     man-pages
     man-pages-posix
+    markdown-oxide
     neovim
     nixd
     nixfmt
