@@ -10,7 +10,6 @@
     ./git.nix
     ./packages.nix
     ./shell.nix
-    ./snot.nix
     ./tmux.nix
     ./tools.nix
   ];

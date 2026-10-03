@@ -22,7 +22,6 @@
     nixd
     nixfmt
     nodejs
-    opencode
     oxfmt
     python3
     ranger

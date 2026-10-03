@@ -22,12 +22,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Snot tooling, installed by modules/home/snot.nix.
-    snot = {
-      url = "github:zjom/snot";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # gitignore fetcher; installed by modules/home/get-ignore.nix.
     get-ignore = {
       url = "github:zjom/get-ignore";
