@@ -41,6 +41,7 @@ in
   };
 
   home.packages = with pkgs; [
+    anki
     aseprite
     bluetui
     brightnessctl
