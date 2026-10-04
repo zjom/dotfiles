@@ -116,7 +116,7 @@
     enable = true;
     settings = {
       main = {
-        font = "JetBrains Mono:size=11";
+        font = "JetBrains Mono:size=15";
         terminal = "kitty";
       };
       border = {
