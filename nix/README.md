@@ -116,8 +116,9 @@ Nix itself stays under the Lix installer's control; see the comment on
 ## Dev shells
 
 Language toolchains are deliberately absent from the global profile. Each is a
-shell instead: `c`, `elixir`, `go`, `lua`, `node`, `ocaml`, `python`, `rust`,
-`typst`, `zig`.
+shell instead, one per file in `shells/`: `c`, `elixir`, `go`, `infra`, `lua`,
+`ocaml`, `python`, `rust`, `typst`, `web`, `zig`. A new file there becomes a
+shell of the same name.
 
 ```sh
 nix develop '~/dotfiles/nix#rust'

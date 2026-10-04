@@ -22,7 +22,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # gitignore fetcher; installed by modules/home/get-ignore.nix.
+    # gitignore fetcher; installed by modules/home/packages.nix.
     get-ignore = {
       url = "github:zjom/get-ignore";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -139,19 +139,10 @@
       # holding `use flake ~/dotfiles/nix#rust` to have direnv do it on cd.
       devShells = forAllSystems (
         pkgs:
-        lib.genAttrs [
-          "c"
-          "elixir"
-          "go"
-          "infra"
-          "lua"
-          "ocaml"
-          "python"
-          "rust"
-          "typst"
-          "web"
-          "zig"
-        ] (name: import ./shells/${name}.nix { inherit pkgs; })
+        lib.mapAttrs' (
+          file: _:
+          lib.nameValuePair (lib.removeSuffix ".nix" file) (import ./shells/${file} { inherit pkgs; })
+        ) (builtins.readDir ./shells)
       );
 
       formatter = forAllSystems (pkgs: pkgs.nixfmt);

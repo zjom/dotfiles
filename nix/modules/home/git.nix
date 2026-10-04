@@ -21,8 +21,7 @@
   programs.gh = {
     enable = true;
 
-    # Writes the credential.https://github.com helper for us. The hand-written
-    # .gitconfig pointed at /opt/homebrew/bin/gh, a path that no longer exists.
+    # Writes the credential.https://github.com helper for us.
     gitCredentialHelper = {
       enable = true;
       hosts = [

@@ -1,7 +1,6 @@
 # tmux.conf itself is an out-of-store symlink (see dotfiles.nix), so Home
 # Manager cannot write into ~/.config/tmux. The plugins therefore land in the
-# data directory instead, and tmux.conf sources them by path -- which is all
-# tpm was doing, minus the git clones it kept outside Nix.
+# data directory instead, and tmux.conf sources them by path.
 { pkgs, ... }:
 
 let

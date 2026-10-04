@@ -45,8 +45,8 @@
     };
   };
 
-  # Replaces the font casks. kitty asks for plain "JetBrains Mono" and draws
-  # Nerd Font symbols itself; Meslo stays a Nerd Font as it was in Homebrew.
+  # kitty asks for plain "JetBrains Mono" and draws Nerd Font symbols itself;
+  # Meslo is the Nerd Font build.
   fonts.packages = with pkgs; [
     fira-code
     hack-font
@@ -54,7 +54,7 @@
     nerd-fonts.meslo-lg
   ];
 
-  # Touch ID for sudo, working inside tmux too. Replaces brew's pam-reattach.
+  # Touch ID for sudo, working inside tmux too.
   security.pam.services.sudo_local = {
     reattach = true;
     touchIdAuth = true;
