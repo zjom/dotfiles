@@ -22,7 +22,6 @@ in
       enable = true;
       nix-direnv.enable = true;
       silent = true;
-      enableFishIntegration = true;
     };
 
     dprint = {
@@ -50,7 +49,7 @@ in
 
     eza = {
       enable = true;
-      enableFishIntegration = true;
+      icons = "always";
     };
 
     fd = {
@@ -60,7 +59,6 @@ in
 
     fzf = {
       enable = true;
-      enableFishIntegration = true;
       tmux.enableShellIntegration = true;
       defaultOptions = [
         "--cycle"
@@ -94,6 +92,13 @@ in
 
     lazygit.enable = true;
 
+    # `nh os switch` / `nh darwin switch` in place of the *-rebuild commands:
+    # elevates on its own, and shows a diff of what changed.
+    nh = {
+      enable = true;
+      flake = config.my.flakeRoot;
+    };
+
     ripgrep = {
       enable = true;
       arguments = [
@@ -109,16 +114,8 @@ in
       enableTmuxIntegration = true;
     };
 
-    starship = {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      enableFishIntegration = true;
-    };
+    starship.enable = true;
 
-    zoxide = {
-      enable = true;
-      enableFishIntegration = true;
-    };
+    zoxide.enable = true;
   };
 }

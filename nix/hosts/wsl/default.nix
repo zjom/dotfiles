@@ -9,8 +9,6 @@
 {
   imports = [
     inputs.nixos-wsl.nixosModules.wsl
-    ../../modules/system/common.nix
-    ../../modules/system/nixos.nix
   ];
 
   wsl.enable = true;

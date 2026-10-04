@@ -1,19 +1,8 @@
 # Home Manager configuration for the MacBook only. The shared modules are
 # imported by the flake alongside this file.
-{
-  config,
-  pkgs,
-  hostName,
-  username,
-  ...
-}:
+{ config, pkgs, ... }:
 
 {
-  home.username = username;
-  home.homeDirectory = "/Users/${username}";
-
-  my.shell.aliases.rebuild = "sudo darwin-rebuild switch --flake '${config.my.flakeRoot}#${hostName}'";
-
   programs.aerospace = {
     enable = true;
     launchd.enable = true;

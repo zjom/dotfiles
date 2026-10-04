@@ -53,7 +53,8 @@
       #
       #   hosts/<name>/default.nix  -> system level, this host only
       #   hosts/<name>/home.nix     -> Home Manager level, this host only
-      #   modules/system/*.nix      -> system level, shared
+      #   modules/system/common.nix -> system level, every host
+      #   modules/system/<os>.nix   -> system level, every host of that platform
       #   modules/home/*.nix        -> Home Manager level, shared
       mkHost =
         {
@@ -87,6 +88,8 @@
           modules = [
             { nixpkgs.hostPlatform = system; }
 
+            ./modules/system/common.nix
+            (if isDarwin then ./modules/system/darwin.nix else ./modules/system/nixos.nix)
             ./hosts/${hostName}
 
             hmModule

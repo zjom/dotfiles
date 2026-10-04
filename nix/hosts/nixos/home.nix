@@ -4,8 +4,6 @@
   config,
   lib,
   pkgs,
-  hostName,
-  username,
   ...
 }:
 
@@ -14,11 +12,6 @@ let
   lock = "${lib.getExe pkgs.swaylock} -f";
 in
 {
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
-
-  my.shell.aliases.rebuild = "sudo nixos-rebuild switch --flake '${config.my.flakeRoot}#${hostName}'";
-
   xdg.configFile = {
     "niri".source = link "niri";
     "kitty".source = link "kitty";

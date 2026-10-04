@@ -1,28 +1,36 @@
 # The interactive shell. fish is the login shell on every host (see
 # modules/system/{nixos,darwin}.nix); bash and zsh are left unconfigured.
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  hostName,
+  ...
+}:
 
 let
-  cfg = config.my.shell;
+  nhPlatform = if pkgs.stdenv.hostPlatform.isDarwin then "darwin" else "os";
 
   # fzf's file preview, shared by `ff` and `nr`.
   fzfPreview = "--preview 'bat --color=always --style=numbers {} 2>/dev/null || file --brief {}' --bind 'focus:transform-header:file --brief {}'";
 in
 {
-  my.shell.aliases = {
+  programs.fish.shellAliases = {
     c = "clear";
     cat = "bat";
     clean = "sudo nix-collect-garbage -d";
     ff = "open_in_nvim";
-    ls = "eza --icons always";
     nr = "open_in_nvim_rg";
     nv = "nvim";
     nvi = "nvim";
     nvm = "nvim";
     q = "exit";
+    # The hostname is spelled out: nh would otherwise pick the configuration
+    # from the machine's hostname, which under WSL is "nixos".
+    rebuild = "nh ${nhPlatform} switch -H ${hostName}";
     rc = "ranger_cd";
     tm = "tmux";
-    tree = "eza --icons always --tree";
+    tree = "eza --tree";
     tt = "touch";
     vim = "nvim";
     oc = "opencode";
@@ -46,7 +54,6 @@ in
 
   programs.fish = {
     enable = true;
-    shellAliases = cfg.aliases;
     interactiveShellInit = ''
       set -g fish_greeting
       set -g fish_key_bindings fish_vi_key_bindings

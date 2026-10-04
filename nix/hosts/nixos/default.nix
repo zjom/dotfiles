@@ -12,8 +12,6 @@
     # Generated on the machine by `nixos-generate-config`; see the README.
     ./hardware-configuration.nix
     ./desktop.nix
-    ../../modules/system/common.nix
-    ../../modules/system/nixos.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

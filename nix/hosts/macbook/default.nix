@@ -2,11 +2,6 @@
 { pkgs, username, ... }:
 
 {
-  imports = [
-    ../../modules/system/common.nix
-    ../../modules/system/darwin.nix
-  ];
-
   # macOS defaults, launchd agents, Homebrew and the rest of the nix-darwin
   # options belong here: they have no counterpart on the NixOS host.
   #   https://nix-darwin.github.io/nix-darwin/manual/

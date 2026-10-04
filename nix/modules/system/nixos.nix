@@ -4,6 +4,8 @@
 {
   users.users.${username}.shell = pkgs.fish;
 
+  documentation.dev.enable = true;
+
   nix.settings = {
     experimental-features = [
       "nix-command"

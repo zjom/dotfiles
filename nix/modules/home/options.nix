@@ -23,8 +23,8 @@ in
       default = "${config.my.dotfilesRoot}/nix";
       defaultText = "\${config.my.dotfilesRoot}/nix";
       description = ''
-        Directory holding this flake. Used to build the `rebuild` alias, so it
-        has to be a path on the machine rather than a store path.
+        Directory holding this flake, handed to nh as NH_FLAKE. It has to be a
+        path on the machine rather than a store path.
       '';
     };
 
@@ -33,19 +33,6 @@ in
       description = ''
         Colour scheme shared by every program that is themed here. Values are
         hex without the leading `#`.
-      '';
-    };
-
-    shell.aliases = mkOption {
-      type = types.attrsOf types.str;
-      default = { };
-      example = {
-        gs = "git status";
-      };
-      description = ''
-        Aliases for the interactive shell (fish). Definitions from several
-        modules are merged, so a host can add to the shared set without
-        restating it.
       '';
     };
   };
