@@ -11,7 +11,7 @@
   imports = [
     # Generated on the machine by `nixos-generate-config`; see the README.
     ./hardware-configuration.nix
-    ./desktop.nix
+    ../../modules/system/niri.nix
   ];
 
   boot.loader.systemd-boot.enable = true;

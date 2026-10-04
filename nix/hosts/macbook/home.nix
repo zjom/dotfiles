@@ -3,6 +3,8 @@
 { config, pkgs, ... }:
 
 {
+  imports = [ ../../modules/home/gui.nix ];
+
   programs.aerospace = {
     enable = true;
     launchd.enable = true;
@@ -10,16 +12,14 @@
   xdg.configFile."aerospace/aerospace.toml".source =
     config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/aerospace/aerospace.toml";
 
-  # Just the package: programs.kitty would generate its own kitty.conf in
-  # ~/.config/kitty and collide with the directory symlink below.
   home.packages = with pkgs; [
-    kitty
-
-    # macOS-only CLIs, previously installed with Homebrew.
     duti
     pngpaste
   ];
-  xdg.configFile."kitty".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/kitty";
 
+  # Installed outside Nix; source them only where they exist.
+  programs.fish.interactiveShellInit = ''
+    test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null
+    test -f ~/Library/Google/google-cloud-sdk/path.fish.inc; and source ~/Library/Google/google-cloud-sdk/path.fish.inc
+  '';
 }

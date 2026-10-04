@@ -57,10 +57,6 @@ in
     interactiveShellInit = ''
       set -g fish_greeting
       set -g fish_key_bindings fish_vi_key_bindings
-
-      # Installed outside Nix; source them only where they exist.
-      test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null
-      test -f ~/Library/Google/google-cloud-sdk/path.fish.inc; and source ~/Library/Google/google-cloud-sdk/path.fish.inc
     '';
 
     # Each lands in ~/.config/fish/functions, so they autoload in

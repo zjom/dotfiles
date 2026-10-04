@@ -1,6 +1,7 @@
-# The desktop: niri on its own, started from a greetd login on the console.
-# What runs inside the session (bar, launcher, notifications, locking) is
-# per-user and lives in home.nix; niri's own config is ../../../niri.
+# The niri desktop, system side: niri on its own, started from a greetd login
+# on the console. Opt-in: imported by the hosts that want it, alongside
+# modules/home/desktop for what runs inside the session. niri's own config is
+# ../../../niri.
 { pkgs, ... }:
 
 {
