@@ -28,6 +28,14 @@ in
       '';
     };
 
+    colors = mkOption {
+      type = types.attrsOf types.str;
+      description = ''
+        Colour scheme shared by every program that is themed here. Values are
+        hex without the leading `#`.
+      '';
+    };
+
     shell.aliases = mkOption {
       type = types.attrsOf types.str;
       default = { };

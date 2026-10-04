@@ -1,6 +1,6 @@
 # Command line tools that are configured here rather than in the dotfiles
 # checkout, because Home Manager also has to wire their shell integration.
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   # Directories that are never worth searching, walking or listing.
@@ -62,28 +62,34 @@ in
       enable = true;
       enableFishIntegration = true;
       tmux.enableShellIntegration = true;
-
-      colors = {
-        fg = "#f8f8f2";
-        bg = "#0e1419";
-        hl = "#e11299";
-        "fg+" = "#f8f8f2";
-        "bg+" = "#44475a";
-        "hl+" = "#e11299";
-        info = "#f1fa8c";
-        prompt = "#50fa7b";
-        pointer = "#ff79c6";
-        marker = "#ff79c6";
-        spinner = "#a4ffff";
-        header = "#6272a4";
-      };
-
       defaultOptions = [
         "--cycle"
         "--pointer=▎"
         "--marker=▎"
         "--walker-skip=${builtins.concatStringsSep "," noise}"
       ];
+      colors = builtins.mapAttrs (_: c: "#${c}") (
+        with config.my.colors;
+        {
+          fg = fg;
+          bg = bg;
+          hl = string;
+          "fg+" = fg;
+          "bg+" = line;
+          "hl+" = string;
+          gutter = bg;
+          query = fg;
+          info = comment;
+          border = floatBorder;
+          separator = line;
+          scrollbar = line;
+          prompt = keyword;
+          pointer = func;
+          marker = plus;
+          spinner = warning;
+          header = comment;
+        }
+      );
     };
 
     lazygit.enable = true;

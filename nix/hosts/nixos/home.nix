@@ -12,22 +12,6 @@
 let
   link = path: config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/${path}";
   lock = "${lib.getExe pkgs.swaylock} -f";
-
-  vague = {
-    bg = "141415";
-    inactiveBg = "1c1c24";
-    line = "252530";
-    visual = "333738";
-    fg = "cdcdcd";
-    floatBorder = "878787";
-    comment = "606079";
-    keyword = "6e94b2";
-    func = "c48282";
-    string = "e8b589";
-    plus = "7fa563";
-    error = "d8647e";
-    warning = "f3be7c";
-  };
 in
 {
   home.username = username;
@@ -150,7 +134,7 @@ in
         width = 1;
         radius = 4;
       };
-      colors = with vague; {
+      colors = with config.my.colors; {
         background = "${bg}ff";
         text = "${fg}ff";
         prompt = "${keyword}ff";
@@ -168,7 +152,7 @@ in
 
   programs.swaylock = {
     enable = true;
-    settings = with vague; {
+    settings = with config.my.colors; {
       color = bg;
       show-failed-attempts = true;
       font = "JetBrains Mono";
@@ -281,7 +265,7 @@ in
       };
       tray.spacing = 8;
     };
-    style = with vague; ''
+    style = with config.my.colors; ''
       * {
         font-family: "JetBrains Mono", "Symbols Nerd Font";
         font-size: 12px;
