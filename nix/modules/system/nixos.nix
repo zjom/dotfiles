@@ -6,6 +6,14 @@
 
   documentation.dev.enable = true;
 
+  # macOS has no fontconfig; the fonts themselves are in common.nix.
+  fonts.fontconfig.defaultFonts = {
+    monospace = [ "JetBrains Mono" ];
+    sansSerif = [ "Noto Sans" ];
+    serif = [ "Noto Serif" ];
+    emoji = [ "Noto Color Emoji" ];
+  };
+
   nix.settings = {
     experimental-features = [
       "nix-command"

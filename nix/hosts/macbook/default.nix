@@ -1,5 +1,5 @@
 # System level configuration for the MacBook.
-{ pkgs, username, ... }:
+{ username, ... }:
 
 {
   # macOS defaults, launchd agents, Homebrew and the rest of the nix-darwin
@@ -44,15 +44,6 @@
       "Dropover" = 1355679052;
     };
   };
-
-  # kitty asks for plain "JetBrains Mono" and draws Nerd Font symbols itself;
-  # Meslo is the Nerd Font build.
-  fonts.packages = with pkgs; [
-    fira-code
-    hack-font
-    jetbrains-mono
-    nerd-fonts.meslo-lg
-  ];
 
   # Touch ID for sudo, working inside tmux too.
   security.pam.services.sudo_local = {
