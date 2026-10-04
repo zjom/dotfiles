@@ -25,8 +25,8 @@ in
     nvi = "nvim";
     nvm = "nvim";
     q = "exit";
-    # The hostname is spelled out: nh would otherwise pick the configuration
-    # from the machine's hostname, which under WSL is "nixos".
+    # The configuration is named outright: nh would otherwise go by the
+    # machine's hostname, which under WSL is "nixos" rather than "wsl".
     rebuild = "nh ${nhPlatform} switch -H ${hostName}";
     rc = "ranger_cd";
     tm = "tmux";

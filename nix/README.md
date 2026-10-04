@@ -7,13 +7,19 @@ user environment together.
 
 ## Layout
 
-| Path                       | Scope                                                        |
-| -------------------------- | ------------------------------------------------------------ |
-| `modules/home/`            | Home Manager, shared by every host                           |
-| `modules/system/`          | System level; `common.nix`, then `nixos.nix` or `darwin.nix` |
-| `hosts/<name>/default.nix` | System level, that host only                                 |
-| `hosts/<name>/home.nix`    | Home Manager, that host only                                 |
-| `shells/`                  | Per-language dev shells                                      |
+| Path                         | Scope                                                    |
+| ---------------------------- | -------------------------------------------------------- |
+| `modules/home/default.nix`   | Home Manager, every host (imports the shared modules)    |
+| `modules/system/common.nix`  | System level, every host                                 |
+| `modules/system/<os>.nix`    | System level, every NixOS or every nix-darwin host       |
+| `modules/home/{gui,desktop}` | Home Manager, opt-in: imported by the hosts that want it |
+| `modules/system/niri.nix`    | System level, opt-in: imported by the hosts that want it |
+| `hosts/<name>/default.nix`   | System level, that host only                             |
+| `hosts/<name>/home.nix`      | Home Manager, that host only                             |
+| `shells/`                    | Per-language dev shells                                  |
+
+`mkHost` in `flake.nix` imports the every-host modules itself, so a host file
+lists only its hardware and the opt-in features it uses.
 
 The configuration this flake does _not_ generate lives one level up, one flat
 directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
@@ -25,26 +31,28 @@ fish is the login shell on every host, configured in `modules/home/shell.nix`.
 bash and zsh are installed but carry no configuration of their own.
 
 `modules/home/options.nix` declares the options this configuration adds for
-itself, all under the `my` prefix. `my.shell.aliases` is the one worth knowing:
-shared and host-only definitions are merged, so `hosts/*/home.nix` adds the
-`rebuild` alias without restating the shared set.
+itself, all under the `my` prefix: where the dotfiles checkout and this flake
+live, and the colour scheme.
 
 Where a difference is a property of the platform rather than of the machine,
 put it in `modules/system/{nixos,darwin}.nix`, or guard it inside a shared
-Home Manager module with `pkgs.stdenv.isDarwin`.
+Home Manager module with `pkgs.stdenv.hostPlatform.isDarwin`.
 
 ## Rebuilding
 
-Every host has a `rebuild` alias pointing at this flake.
+Every host has a `rebuild` alias, which runs [nh](https://github.com/nix-community/nh)
+against this flake (`NH_FLAKE`) with the host's name spelled out:
 
 ```sh
-# NixOS, bare metal
-sudo nixos-rebuild switch --flake '~/dotfiles/nix#nixos'
+nh os switch -H loq        # NixOS, bare metal
+nh os switch -H wsl        # NixOS, WSL
+nh darwin switch -H macbook
+```
 
-# NixOS, WSL
-sudo nixos-rebuild switch --flake '~/dotfiles/nix#wsl'
+Before nh is installed, use the plain commands:
 
-# macOS
+```sh
+sudo nixos-rebuild switch --flake '~/dotfiles/nix#loq'
 sudo darwin-rebuild switch --flake '~/dotfiles/nix#macbook'
 ```
 
@@ -57,7 +65,7 @@ new module before rebuilding.
 
 ## Installing NixOS
 
-`hosts/nixos` imports a `hardware-configuration.nix` that only the machine
+`hosts/loq` imports a `hardware-configuration.nix` that only the machine
 itself can produce, so the host does not evaluate until it exists. From the
 installer, with the target partitioned and mounted at `/mnt`:
 
@@ -65,23 +73,23 @@ installer, with the target partitioned and mounted at `/mnt`:
 nix-shell -p git
 nixos-generate-config --root /mnt
 git clone <this repository> /mnt/home/zi/dotfiles
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/nix/hosts/nixos/
-git -C /mnt/home/zi/dotfiles add nix/hosts/nixos/hardware-configuration.nix
-nixos-install --flake '/mnt/home/zi/dotfiles/nix#nixos'
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/nix/hosts/loq/
+git -C /mnt/home/zi/dotfiles add nix/hosts/loq/hardware-configuration.nix
+nixos-install --flake '/mnt/home/zi/dotfiles/nix#loq'
 ```
 
-Before the last step, make `system.stateVersion` in `hosts/nixos/default.nix`
+Before the last step, make `system.stateVersion` in `hosts/loq/default.nix`
 match the one in the generated `/mnt/etc/nixos/configuration.nix`. After the
 first boot, give the user a password with `passwd zi` (as
 root) and fix the ownership of `~/dotfiles`.
 
 ## The NixOS desktop
 
-`#nixos` is a Lenovo LOQ laptop running [niri](https://github.com/YaLTeR/niri),
+`#loq` is a Lenovo LOQ laptop running [niri](https://github.com/YaLTeR/niri),
 logged into from `tuigreet` on greetd. The system side is
-`hosts/nixos/desktop.nix`; the session's bar (waybar), launcher (fuzzel),
+`modules/system/niri.nix`; the session's bar (waybar), launcher (fuzzel),
 notifications (mako) and locking (swaylock, swayidle) are in
-`hosts/nixos/home.nix`; niri itself reads `../niri/config.kdl`.
+`modules/home/desktop`; niri itself reads `../niri/config.kdl`.
 
 As under AeroSpace, Alt is the window manager's modifier and Super is left to
 kitty. Alt+Shift+/ lists the bindings. The Intel GPU drives the desktop; run

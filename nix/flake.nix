@@ -116,8 +116,8 @@
         };
     in
     {
-      nixosConfigurations.nixos = mkHost {
-        hostName = "nixos";
+      nixosConfigurations.loq = mkHost {
+        hostName = "loq";
         system = "x86_64-linux";
         username = "zi";
       };
