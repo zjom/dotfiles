@@ -14,6 +14,8 @@ pkgs.mkShell {
     just-lsp
     clang-tools # clangd + clang-format
     bear # `bear -- make` writes compile_commands.json for clangd
+    meson
+    ninja
     gdb
     valgrind
   ];
