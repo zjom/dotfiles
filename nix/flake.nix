@@ -3,7 +3,14 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+
+    # The top-level configuration every file under ./modules belongs to, and
+    # the importer that loads them all.
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
+    import-tree.url = "github:vic/import-tree";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,135 +23,21 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Imported by hosts/wsl only.
+    # Imported by modules/hosts/wsl.nix only.
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # gitignore fetcher; installed by modules/home/packages.nix.
+    # gitignore fetcher; installed by modules/packages.nix.
     get-ignore = {
       url = "github:zjom/get-ignore";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      home-manager,
-      nix-darwin,
-      ...
-    }:
-    let
-      inherit (nixpkgs) lib;
-
-      systems = [
-        "x86_64-linux"
-        "aarch64-darwin"
-      ];
-
-      forAllSystems = f: lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
-
-      # Builds one host. Home Manager is wired in as a system module on both
-      # platforms, so a single `rebuild` activates the system and the user
-      # environment together, and both read the same shared modules.
-      #
-      #   hosts/<name>/default.nix  -> system level, this host only
-      #   hosts/<name>/home.nix     -> Home Manager level, this host only
-      #   modules/system/common.nix -> system level, every host
-      #   modules/system/<os>.nix   -> system level, every host of that platform
-      #   modules/home/*.nix        -> Home Manager level, shared
-      mkHost =
-        {
-          hostName,
-          system,
-          username,
-        }:
-        let
-          isDarwin = lib.hasSuffix "-darwin" system;
-
-          builder = if isDarwin then nix-darwin.lib.darwinSystem else lib.nixosSystem;
-
-          hmModule =
-            if isDarwin then
-              home-manager.darwinModules.home-manager
-            else
-              home-manager.nixosModules.home-manager;
-
-          specialArgs = {
-            inherit
-              inputs
-              self
-              hostName
-              username
-              ;
-          };
-        in
-        builder {
-          inherit specialArgs;
-
-          modules = [
-            { nixpkgs.hostPlatform = system; }
-
-            ./modules/system/common.nix
-            (if isDarwin then ./modules/system/darwin.nix else ./modules/system/nixos.nix)
-            ./hosts/${hostName}
-
-            hmModule
-            {
-              home-manager = {
-                # Reuse the system's nixpkgs (and its allowUnfree) instead of
-                # instantiating a second one.
-                useGlobalPkgs = true;
-                useUserPackages = true;
-
-                # Rename rather than fail when activation wants to write over a
-                # file that is already there by hand.
-                backupFileExtension = "hm-bak";
-
-                extraSpecialArgs = specialArgs;
-
-                users.${username}.imports = [
-                  ./modules/home
-                  ./hosts/${hostName}/home.nix
-                ];
-              };
-            }
-          ];
-        };
-    in
-    {
-      nixosConfigurations.loq = mkHost {
-        hostName = "loq";
-        system = "x86_64-linux";
-        username = "zi";
-      };
-
-      nixosConfigurations.wsl = mkHost {
-        hostName = "wsl";
-        system = "x86_64-linux";
-        username = "zi";
-      };
-
-      darwinConfigurations.macbook = mkHost {
-        hostName = "macbook";
-        system = "aarch64-darwin";
-        username = "zihanjin";
-      };
-
-      # Per-language toolchains, kept out of the global profile so projects
-      # pin what they need: `nix develop '~/dotfiles/nix#rust'`, or an .envrc
-      # holding `use flake ~/dotfiles/nix#rust` to have direnv do it on cd.
-      devShells = forAllSystems (
-        pkgs:
-        lib.mapAttrs' (
-          file: _:
-          lib.nameValuePair (lib.removeSuffix ".nix" file) (import ./shells/${file} { inherit pkgs; })
-        ) (builtins.readDir ./shells)
-      );
-
-      formatter = forAllSystems (pkgs: pkgs.nixfmt);
-    };
+  # Every file under ./modules is a flake-parts module, imported by
+  # import-tree: one feature per file, contributing to whichever of the
+  # NixOS, nix-darwin and Home Manager layers it touches. See README.md.
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 }

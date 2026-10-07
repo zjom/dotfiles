@@ -1,0 +1,23 @@
+# tmux, configured from ../../tmux. tmux.conf is an out-of-store symlink, so
+# Home Manager cannot write into ~/.config/tmux. The plugins therefore land in
+# the data directory instead, and tmux.conf sources them by path.
+{
+  homeManager.base =
+    { config, pkgs, ... }:
+    let
+      plugin = name: pkg: {
+        "tmux/plugins/${name}".source = "${pkg}/share/tmux-plugins/${name}";
+      };
+    in
+    {
+      home.packages = [ pkgs.tmux ];
+
+      xdg.configFile."tmux".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/tmux";
+
+      xdg.dataFile =
+        plugin "sensible" pkgs.tmuxPlugins.sensible
+        // plugin "yank" pkgs.tmuxPlugins.yank
+        // plugin "minimal-tmux-status" pkgs.tmuxPlugins.minimal-tmux-status;
+    };
+}

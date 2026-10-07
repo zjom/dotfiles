@@ -1,4 +1,4 @@
-// niri configuration. Symlinked to ~/.config/niri by modules/home/desktop, and
+// niri configuration. Symlinked to ~/.config/niri by nix/modules/desktop/niri.nix, and
 // niri reloads it on save. Reference:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
 //
