@@ -4,3 +4,4 @@ github-copilot
 **/*.log
 **/*_bak.*
 .direnv
+/result
