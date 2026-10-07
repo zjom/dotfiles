@@ -27,7 +27,7 @@ in
     q = "exit";
     # The configuration is named outright: nh would otherwise go by the
     # machine's hostname, which under WSL is "nixos" rather than "wsl".
-    rebuild = "nh ${nhPlatform} switch -H ${hostName}";
+    rebuild = "nh ${nhPlatform} switch ${config.my.flakeRoot} -H ${hostName}";
     rc = "ranger_cd";
     tm = "tmux";
     tree = "eza --tree";
