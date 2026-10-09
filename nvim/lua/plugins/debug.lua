@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field
 vim.pack.add({
   "https://github.com/mfussenegger/nvim-dap",
   "https://github.com/igorlfs/nvim-dap-view",
@@ -48,12 +49,38 @@ dap.configurations.c = {
 dap.configurations.cpp = dap.configurations.c
 dap.configurations.rust = dap.configurations.c
 
-dap.listeners.after["event_initialized"]["zjom"] = function(_session, _body)
-  vim.keymap.set("n", "<left>", "<cmd>DapStepOut<cr>")
-  vim.keymap.set("n", "<up>", "<cmd>DapRestartFrame<cr>")
-  vim.keymap.set("n", "<right>", "<cmd>DapStepInto<cr>")
-  vim.keymap.set("n", "<down>", "<cmd>DapStepOver<cr>")
+local saved = {}
+
+local function set_temp(mode, lhs, rhs)
+  saved[#saved + 1] = vim.fn.maparg(lhs, mode, false, true) -- dict, may be empty
+  saved[#saved].__lhs, saved[#saved].__mode = lhs, mode
+  vim.keymap.set(mode, lhs, rhs)
 end
+
+local function restore()
+  for _, m in ipairs(saved) do
+    if m.rhs or m.callback then
+      vim.fn.mapset(m.__mode, false, m)        -- put the original back
+    else
+      pcall(vim.keymap.del, m.__mode, m.__lhs) -- there wasn't one
+    end
+  end
+  saved = {}
+end
+dap.listeners.after.event_initialized["zjom"] = function()
+  set_temp("n", "<up>", dap.restart_frame)
+  set_temp("n", "<left>", dap.step_out)
+  set_temp("n", "<right>", dap.step_into)
+  set_temp("n", "<down>", dap.step_over)
+  set_temp("n", "<D-b>", dap.toggle_breakpoint)
+  set_temp("n", "<D-o>", dap.step_over)
+  set_temp("n", "<D-i>", dap.step_into)
+  set_temp("n", "<D-r>", dap.restart_frame)
+  set_temp("n", "<D-u>", dap.continue)
+end
+
+dap.listeners.before.event_terminated["zjom"] = restore
+dap.listeners.before.event_exited["zjom"] = restore
 
 
 vim.keymap.set("n", "<F2>", "<cmd>DapToggleBreakpoint<cr>", { desc = "[D]ap toggle [B]reakpoint" })
