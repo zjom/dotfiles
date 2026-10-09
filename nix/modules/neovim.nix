@@ -15,8 +15,7 @@
         tree-sitter
       ];
 
-      xdg.configFile."nvim".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/nvim";
+      xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/nvim";
 
       home.sessionVariables = {
         EDITOR = "nvim";

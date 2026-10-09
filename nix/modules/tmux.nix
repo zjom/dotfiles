@@ -12,8 +12,7 @@
     {
       home.packages = [ pkgs.tmux ];
 
-      xdg.configFile."tmux".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/tmux";
+      xdg.configFile."tmux".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/tmux";
 
       xdg.dataFile =
         plugin "sensible" pkgs.tmuxPlugins.sensible

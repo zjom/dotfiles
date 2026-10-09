@@ -39,7 +39,6 @@ in
   homeManager.desktop =
     { config, ... }:
     {
-      xdg.configFile."niri".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/niri";
+      xdg.configFile."niri".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/niri";
     };
 }

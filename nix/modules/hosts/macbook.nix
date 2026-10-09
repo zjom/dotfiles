@@ -42,57 +42,57 @@ in
             )
           ];
 
-            # macOS defaults, launchd agents, Homebrew and the rest of the nix-darwin
-            # options belong here: they have no counterpart on the NixOS host.
-            #   https://nix-darwin.github.io/nix-darwin/manual/
+          # macOS defaults, launchd agents, Homebrew and the rest of the nix-darwin
+          # options belong here: they have no counterpart on the NixOS host.
+          #   https://nix-darwin.github.io/nix-darwin/manual/
 
-            # Required by the nix-darwin options that act on behalf of a single user.
-            system.primaryUser = config.my.username;
+          # Required by the nix-darwin options that act on behalf of a single user.
+          system.primaryUser = config.my.username;
 
-            users.users.${config.my.username} = {
-              name = config.my.username;
-              home = "/Users/${config.my.username}";
+          users.users.${config.my.username} = {
+            name = config.my.username;
+            home = "/Users/${config.my.username}";
+          };
+
+          # Homebrew is kept only for what Nix cannot install well: GUI apps and App
+          # Store purchases. `cleanup = "zap"` uninstalls anything not listed here on
+          # every rebuild -- including its application data -- so a stray
+          # `brew install` never survives and no tool is ever installed twice.
+          homebrew = {
+            enable = true;
+
+            onActivation = {
+              autoUpdate = true;
+              upgrade = true;
+              cleanup = "zap";
             };
 
-            # Homebrew is kept only for what Nix cannot install well: GUI apps and App
-            # Store purchases. `cleanup = "zap"` uninstalls anything not listed here on
-            # every rebuild -- including its application data -- so a stray
-            # `brew install` never survives and no tool is ever installed twice.
-            homebrew = {
-              enable = true;
+            brews = [
+              "mas" # used by brew bundle to install masApps
+            ];
 
-              onActivation = {
-                autoUpdate = true;
-                upgrade = true;
-                cleanup = "zap";
-              };
+            casks = [
+              "alfred"
+              "iina"
+              "jordanbaird-ice"
+              "orbstack"
+              "shottr"
+              "spotify"
+            ];
 
-              brews = [
-                "mas" # used by brew bundle to install masApps
-              ];
-
-              casks = [
-                "alfred"
-                "iina"
-                "jordanbaird-ice"
-                "orbstack"
-                "shottr"
-                "spotify"
-              ];
-
-              masApps = {
-                "Dropover" = 1355679052;
-              };
+            masApps = {
+              "Dropover" = 1355679052;
             };
+          };
 
-            # Touch ID for sudo, working inside tmux too.
-            security.pam.services.sudo_local = {
-              reattach = true;
-              touchIdAuth = true;
-            };
+          # Touch ID for sudo, working inside tmux too.
+          security.pam.services.sudo_local = {
+            reattach = true;
+            touchIdAuth = true;
+          };
 
-            # The nix-darwin state version, an integer unrelated to the NixOS one.
-            system.stateVersion = 6;
+          # The nix-darwin state version, an integer unrelated to the NixOS one.
+          system.stateVersion = 6;
         }
       )
     ];
