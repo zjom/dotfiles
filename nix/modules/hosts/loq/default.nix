@@ -57,8 +57,7 @@ in
           };
           console.useXkbConfig = true;
 
-          # Under WSL, NixOS-WSL declares the user; here nothing else does. Set a
-          # password with `passwd` after the first boot.
+          # Set a password with `passwd` after the first boot.
           users.users.${config.my.username} = {
             isNormalUser = true;
             description = "Zihan Jin";
