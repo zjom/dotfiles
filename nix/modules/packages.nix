@@ -14,7 +14,6 @@
         bottom
         file
         jq
-        markdown-oxide
         nixd
         nixfmt
         oxfmt
