@@ -80,8 +80,9 @@ in
 
             printf -v self %q "$(realpath "$0")"
             list | lm10 \
+              --width 40% \
               --prompt '⚡  ' \
-              --header '^a all  ^t tmux  ^g configs  ^x zoxide  ^f find  ^d tmux kill' \
+              --header '^a  ^t  ^x  ^f  ^d' \
               --bind "Control+a=change-prompt(⚡  )+reload($self --list)" \
               --bind "Control+t=change-prompt(🪟  )+reload($self --list -t)" \
               --bind "Control+x=change-prompt(📁  )+reload($self --list -z)" \
