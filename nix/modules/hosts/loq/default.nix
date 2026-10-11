@@ -21,12 +21,15 @@ in
           my.username = "zi";
           my.hostName = "loq";
 
+          nixpkgs.overlays = [ inputs.tldraw.overlays.default ];
+
           home-manager.sharedModules = [
             {
               home.packages = with pkgs; [
                 anki
                 aseprite
                 obs-studio
+                tldraw-offline
               ];
             }
           ];

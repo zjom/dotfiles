@@ -34,6 +34,12 @@
       url = "github:zjom/get-ignore";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # tldraw offline AppImage; overlaid and installed by modules/hosts/loq.
+    tldraw = {
+      url = "path:../flakes/tldraw";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # Every file under ./modules is a flake-parts module, imported by
