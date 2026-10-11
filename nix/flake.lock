@@ -91,6 +91,26 @@
         "type": "github"
       }
     },
+    "lm10": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1791715963,
+        "narHash": "sha256-VP+e7zGutvV33Sms3Fok/5GmUWDtSrvQbIO4m4rqe+g=",
+        "owner": "zjom",
+        "repo": "lm10",
+        "rev": "29c1178f3f4d7a31f59d4763664c905318f76ebd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zjom",
+        "repo": "lm10",
+        "type": "github"
+      }
+    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -155,6 +175,7 @@
         "get-ignore": "get-ignore",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
+        "lm10": "lm10",
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",

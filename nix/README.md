@@ -106,7 +106,7 @@ root) and fix the ownership of `~/dotfiles`.
 `#loq` is a Lenovo LOQ laptop running [niri](https://github.com/YaLTeR/niri),
 logged into from `tuigreet` on greetd. It is all in
 `modules/desktop`: the system side and the hookup in `niri.nix`, the
-session's launcher (fuzzel) and notifications (mako) in `session.nix`, the bar
+session's launcher (lm10) and notifications (mako) in `session.nix`, the bar
 in `waybar.nix`, locking (swaylock, swayidle) in `lock.nix`; niri itself reads `../niri/config.kdl`.
 
 As under AeroSpace, Alt is the window manager's modifier and Super is left to

@@ -35,6 +35,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Picker menu, the session's launcher; installed by modules/desktop/session.nix.
+    lm10 = {
+      url = "github:zjom/lm10";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # tldraw offline AppImage; overlaid and installed by modules/hosts/loq.
     tldraw = {
       url = "path:../flakes/tldraw";
