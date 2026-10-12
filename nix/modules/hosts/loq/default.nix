@@ -42,6 +42,20 @@ in
           networking.hostName = "loq";
           networking.networkmanager.enable = true;
 
+          # Join the tailnet once with `sudo tailscale up` after the first switch.
+          services.tailscale = {
+            enable = true;
+            openFirewall = true;
+            # Loosens reverse path filtering so advertised subnet routes work.
+            useRoutingFeatures = "client";
+            # Applied with `tailscale set` on every boot; extraUpFlags would only
+            # take effect alongside an authKeyFile.
+            extraSetFlags = [
+              "--operator=${config.my.username}"
+              "--accept-routes"
+            ];
+          };
+
           i18n.defaultLocale = "en_GB.UTF-8";
           i18n.extraLocaleSettings = {
             LC_ADDRESS = "en_AU.UTF-8";
