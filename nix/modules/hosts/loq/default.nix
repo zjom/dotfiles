@@ -10,6 +10,7 @@ in
     modules = [
       nixos.base
       nixos.desktop
+      inputs.openlogi.nixosModules.default
 
       # Generated on the machine by `nixos-generate-config`; see the README.
       ./_hardware-configuration.nix
@@ -110,6 +111,25 @@ in
           };
 
           programs.firefox.enable = true;
+
+          # Logitech mice and keyboards. The module also installs the udev rules
+          # for hidraw/uinput access and starts openlogi-agent with the session.
+          programs.openlogi = {
+            enable = true;
+            launchAtLogin = true;
+            # Upstream only adds GPUI's dlopen'd graphics libraries to openlogi-desktop's RUNPATH; without them openlogi-overlay panics with NoWaylandLib. See https://github.com/AprilNEA/OpenLogi/pull/785
+            package = inputs.openlogi.packages.${pkgs.stdenv.hostPlatform.system}.openlogi.overrideAttrs (old: {
+              postFixup = (old.postFixup or "") + ''
+                patchelf --add-rpath "${
+                  pkgs.lib.makeLibraryPath [
+                    pkgs.libGL
+                    pkgs.wayland
+                    pkgs.vulkan-loader
+                  ]
+                }" "$out/bin/openlogi-overlay"
+              '';
+            });
+          };
 
           # The NixOS release whose defaults this system's stateful data was created
           # against. Set it to the release of the first install, the value

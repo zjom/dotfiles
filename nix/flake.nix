@@ -41,6 +41,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Logitech device manager; its NixOS module is imported by modules/hosts/loq.
+    openlogi = {
+      url = "github:AprilNEA/OpenLogi";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # tldraw offline AppImage; overlaid and installed by modules/hosts/loq.
     tldraw = {
       url = "path:../flakes/tldraw";
