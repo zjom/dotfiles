@@ -1,0 +1,11 @@
+#!/bin/sh
+# Session menu: lock, log out, suspend and so on.
+exec "${LM10:-lm10}" --width 40% <<'ENTRIES'
+-n Lock -X loginctl lock-session
+-n 'Log out' -X sh -c 'loginctl terminate-session "$XDG_SESSION_ID"'
+-n Suspend -X systemctl suspend
+-n Hibernate -X systemctl hibernate
+-n Reboot -X systemctl reboot
+-n 'Reboot into firmware setup' -X systemctl reboot --firmware-setup
+-n 'Power off' -X systemctl poweroff
+ENTRIES
