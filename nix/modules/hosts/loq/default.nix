@@ -17,12 +17,13 @@ in
 
       (
         { config, pkgs, ... }:
+        let
+          zen-draw = inputs.zen-draw.packages.${pkgs.stdenv.hostPlatform.system}.default;
+        in
         {
           nixpkgs.hostPlatform = "x86_64-linux";
           my.username = "zi";
           my.hostName = "loq";
-
-          nixpkgs.overlays = [ inputs.tldraw.overlays.default ];
 
           home-manager.sharedModules = [
             {
@@ -30,7 +31,7 @@ in
                 anki
                 aseprite
                 obs-studio
-                tldraw-offline
+                zen-draw
               ];
             }
           ];

@@ -201,7 +201,7 @@
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
         "openlogi": "openlogi",
-        "tldraw": "tldraw"
+        "zen-draw": "zen-draw"
       }
     },
     "rust-overlay": {
@@ -225,21 +225,25 @@
         "type": "github"
       }
     },
-    "tldraw": {
+    "zen-draw": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
         ]
       },
       "locked": {
-        "path": "../flakes/tldraw",
-        "type": "path"
+        "lastModified": 1791868245,
+        "narHash": "sha256-gsqx4Gg2/r3USGpzbuAQs9PMhAYOYoMMGr7Jqaodixk=",
+        "owner": "zjom",
+        "repo": "zen-draw",
+        "rev": "4c0426d85a67f6b26aedcb2d7b920d6ba057306c",
+        "type": "github"
       },
       "original": {
-        "path": "../flakes/tldraw",
-        "type": "path"
-      },
-      "parent": []
+        "owner": "zjom",
+        "repo": "zen-draw",
+        "type": "github"
+      }
     }
   },
   "root": "root",

@@ -47,9 +47,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # tldraw offline AppImage; overlaid and installed by modules/hosts/loq.
-    tldraw = {
-      url = "path:../flakes/tldraw";
+    # zen-draw; installed by modules/hosts/loq.
+    zen-draw = {
+      url = "github:zjom/zen-draw";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
