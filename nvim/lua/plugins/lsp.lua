@@ -107,7 +107,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- To override lspconfig options: update `nvim/after/lsp/<server>.lua`
 -- See `:help lsp-config-merge`
 local servers = {
-  "basedpyright",
+  -- "basedpyright",
+  "ty",
   "clangd",
   "cssls",
   "elixirls",
