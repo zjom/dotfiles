@@ -12,11 +12,13 @@
     {
       home.packages = with pkgs; [
         bottom
+        claude-code
         file
         jq
         nixd
         nixfmt
         oxfmt
+        shfmt
         tombi
         unzip
         wget

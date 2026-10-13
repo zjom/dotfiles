@@ -24,35 +24,28 @@ in
       programs = {
         bat.enable = true;
 
+        devenv = {
+          enable = true;
+          enableFishIntegration = true;
+          settings = {
+            shell = {
+              prompt_prefix = false;
+            };
+            tui = {
+              statusline = {
+                enabled = false;
+              };
+            };
+          };
+        };
+
         # `use flake` in an .envrc loads a dev shell on cd. nix-direnv caches the
         # shell so it is not rebuilt on every entry.
         direnv = {
           enable = true;
           nix-direnv.enable = true;
+          enableGitIntegration = true;
           silent = true;
-        };
-
-        dprint = {
-          enable = true;
-          settings = {
-            plugins = map (plugin: "${plugin}/plugin.wasm") (
-              with pkgs.dprint-plugins;
-              [
-                dprint-plugin-json
-                dprint-plugin-markdown
-                dprint-plugin-toml
-                g-plane-pretty_yaml
-              ]
-            );
-            excludes = map (dir: "**/${dir}") noise ++ [
-              "**/*-lock.json"
-              "**/flake.lock"
-            ];
-            json = { };
-            markdown = { };
-            toml = { };
-            yaml = { };
-          };
         };
 
         eza = {
