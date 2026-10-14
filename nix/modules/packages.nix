@@ -15,6 +15,7 @@
         claude-code
         file
         jq
+        nb
         nixd
         nixfmt
         oxfmt

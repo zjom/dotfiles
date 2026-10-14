@@ -176,6 +176,23 @@
               end
             '';
           };
+
+          nn = {
+            description = "";
+            body = ''
+              if test (count $argv) -eq 0
+                  echo "usage: nn <note title>" >&2
+                  return 1
+              end
+
+              set -l title (string join ' ' -- $argv)
+              set -l d (date +%y%m%d)
+              # lowercase, collapse anything non-alphanumeric into single hyphens, trim stray hyphens
+              set -l slug (string lower -- $title | string replace -ra '[^a-z0-9]+' '-' | string trim -c '-')
+
+              nb a "$d-$slug.md" -t "$d - $title"
+            '';
+          };
         };
 
         # A bind with no mode lands in fish's `default` mode, which under vi
