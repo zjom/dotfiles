@@ -35,10 +35,10 @@ in
           format = "bt";
           format-off = "bt off";
           format-disabled = "bt off";
-          format-connected = "bt {device_alias}";
-          format-connected-battery = "bt {device_alias} {device_battery_percentage}%";
+          format-connected = "bt {num_connections}";
           tooltip-format-connected = "{device_enumerate}";
           tooltip-format-enumerate-connected = "{device_alias}";
+          tooltip-format-enumerate-connected-battery = "{device_alias} {device_battery_percentage}%";
           on-click = "kitty bluetui";
         };
         pulseaudio = {
