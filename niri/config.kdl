@@ -83,6 +83,7 @@ binds {
     Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }
     Mod+Shift+Escape hotkey-overlay-title="Session ctl" {spawn "lm10-session-ctl";}
     Mod+F1 hotkey-overlay-title="Scripts" {spawn "lm10-scripts";}
+    Mod+F2 hotkey-overlay-title="Spotify" {spawn "lm10-spotify";}
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }

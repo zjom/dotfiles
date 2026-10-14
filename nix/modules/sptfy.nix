@@ -79,13 +79,37 @@
         };
       };
 
+      # spotify-player without its TUI, so `spotify_player playback ...` and
+      # the lm10-spotify picker talk to a running client instead of each
+      # starting their own. -d forks and detaches, hence Type=forking.
+      systemd.user.services.spotify-player = lib.mkIf isLinux {
+        Unit = {
+          Description = "spotify-player daemon";
+          Documentation = "https://github.com/aome510/spotify-player";
+          After = [ "spotifyd.service" ];
+          Wants = [ "spotifyd.service" ];
+        };
+        Install.WantedBy = [ "default.target" ];
+        Service = {
+          Type = "forking";
+          ExecStart = "${lib.getExe' config.programs.spotify-player.package "spotify_player"} --daemon";
+          Restart = "on-failure";
+          RestartSec = 12;
+        };
+      };
+
       programs.spotify-player = {
         enable = true;
         settings = {
+          client_id = "6698cb5b027840b9a170b92747ed8903";
           # Leave playback to spotifyd and connect to it by name.
           enable_streaming = "Never";
           default_device = deviceName;
           playback_window_position = "Top";
+          # Playlist reads default to the shared ncspot client, whose quota is
+          # constantly exhausted. Send them through our own client first; ncspot
+          # is still the fallback on any 4xx (e.g. Spotify-owned playlists).
+          ncspot_only_get_endpoints = [ ];
           enable_notify = false;
         };
       };

@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+# Spotify picker: drives spotify_player (and through it spotifyd). It opens on
+# the playback controls; the binds swap in playlists, albums, artists,
+# devices or a search for the query. Like lm10-sesh, it makes its own lists
+# (lm10-spotify --list WHAT), so the reload binds can run it too. Needs jq.
+#
+# Liked songs are only offered as a whole: spotify_player 0.25 can't read
+# this library with `get key user-liked-tracks`.
+set -euo pipefail
+
+sp=spotify_player
+
+# Prints an entry as a line, quoted with %q, which lm10 reads back.
+entry() {
+  local name=$1
+  shift
+  printf -- '-X -n %q --' "$name"
+  printf -- ' %q' "$@"
+  printf '\n'
+}
+
+# "id<TAB>label" lines from jq over `spotify_player CMD...`.
+rows() {
+  local filter=$1
+  shift
+  "$sp" "$@" | jq -r "$filter"
+}
+
+controls() {
+  entry '⏯  Play / pause' "$sp" playback play-pause
+  entry '⏭  Next' "$sp" playback next
+  entry '⏮  Previous' "$sp" playback previous
+  entry '🔀  Toggle shuffle' "$sp" playback shuffle
+  entry '🔁  Cycle repeat' "$sp" playback repeat
+  entry '🔊  Volume +10' "$sp" playback volume --offset -- 10
+  entry '🔉  Volume -10' "$sp" playback volume --offset -- -10
+  entry '♥  Like current track' "$sp" like
+  entry '💔  Unlike current track' "$sp" like --unlike
+  entry '📻  Radio from current track' sh -c \
+    "$sp playback start radio --id \"\$($sp get key playback | jq -r .item.id)\" track"
+  entry '💚  Play liked songs' "$sp" playback start liked
+  entry '💚  Shuffle liked songs' "$sp" playback start liked --random
+}
+
+# Context entries (playlist, album, artist) from "id<TAB>label" lines.
+contexts() {
+  local type=$1 id label
+  while IFS=$'\t' read -r id label; do
+    entry "$label" "$sp" playback start context --id "$id" "$type"
+  done
+}
+
+list() {
+  case ${1:-} in
+  playlists)
+    rows '.[] | [.id, "\(.name)  · \(.owner[0])"] | @tsv' get key user-playlists |
+      contexts playlist
+    ;;
+  albums)
+    rows '.[] | [.id, "\(.name)  · \([.artists[].name] | join(", "))"] | @tsv' \
+      get key user-saved-albums | contexts album
+    ;;
+  artists)
+    rows '.[] | [.id, .name] | @tsv' get key user-followed-artists | contexts artist
+    ;;
+  devices)
+    local id label
+    rows '.[] | [.id, "\(.name)  · \(.type)\(if .is_active then "  (active)" else "" end)"] | @tsv' \
+      get key devices | while IFS=$'\t' read -r id label; do
+      entry "$label" "$sp" connect --id "$id"
+    done
+    ;;
+  search)
+    shift
+    [[ -n ${1:-} ]] || return 0
+    local json typ id label
+    json=$("$sp" search "$1")
+    jq -r '
+      (.tracks[]    | ["track",    .id, "🎵  \(.name)  · \([.artists[].name] | join(", "))"]),
+      (.albums[]    | ["album",    .id, "💿  \(.name)  · \([.artists[].name] | join(", "))"]),
+      (.artists[]   | ["artist",   .id, "🎤  \(.name)"]),
+      (.playlists[] | ["playlist", .id, "📜  \(.name)  · \(.owner[0])"])
+      | @tsv' <<<"$json" | while IFS=$'\t' read -r typ id label; do
+      if [[ $typ == track ]]; then
+        entry "$label" "$sp" playback start track --id "$id"
+      else
+        entry "$label" "$sp" playback start context --id "$id" "$typ"
+      fi
+    done
+    ;;
+  *) controls ;;
+  esac
+}
+
+if [[ ${1:-} == --list ]]; then
+  shift
+  list "$@"
+  exit
+fi
+
+# What's playing, for the header; blank if nothing is.
+now=$("$sp" get key playback 2>/dev/null | jq -r '
+  select(.item) | "\(if .is_playing then "▶" else "⏸" end)  \(.item.name)  · \([.item.artists[].name] | join(", "))"
+  ' 2>/dev/null || true)
+
+printf -v self %q "$(realpath "$0")"
+list | "${LM10:-lm10}" \
+  --width 40% \
+  --prompt '🎧  ' \
+  --header "${now:+$now\n}^a ctl  ^o devices  ^s search" \
+  --bind "Control+a=change-prompt(🎧  )+reload($self --list)" \
+  --bind "Control+s=change-prompt(🔎  )+reload($self --list search {q})+change-query()" \
+  --bind "Control+o=change-prompt(🔈  )+reload($self --list devices)"
