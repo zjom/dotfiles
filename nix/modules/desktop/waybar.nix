@@ -17,6 +17,7 @@ in
         modules-left = [ "niri/workspaces" ];
         modules-center = [ "clock" ];
         modules-right = [
+          "mpris"
           "tray"
           "network"
           "bluetooth"
@@ -49,6 +50,26 @@ in
           format = "bat {capacity}%";
           format-charging = "chg {capacity}%";
           states.warning = 20;
+        };
+        # What spotifyd (or any MPRIS player) is playing. Left-click
+        # play-pauses, right-click opens the Spotify picker.
+        mpris = {
+          format = "{status_icon} {dynamic}";
+          format-paused = "{status_icon} {dynamic}";
+          format-stopped = "";
+          dynamic-order = [
+            "artist"
+            "title"
+          ];
+          dynamic-separator = " - ";
+          dynamic-len = 45;
+          status-icons = {
+            playing = "▶";
+            paused = "⏸";
+          };
+          tooltip-format = "{title}\n{artist}\n{album}\n{position} / {length}";
+          interval = 1;
+          on-click-right = "lm10-spotify";
         };
         tray.spacing = 8;
       };
@@ -87,10 +108,13 @@ in
         tooltip label {
           color: #${fg};
         }
-        #clock, #tray, #network, #bluetooth, #pulseaudio, #battery {
+        #clock, #mpris, #tray, #network, #bluetooth, #pulseaudio, #battery {
           padding: 0 10px;
         }
         #network.disconnected, #bluetooth.off, #bluetooth.disabled, #pulseaudio.muted {
+          color: #${comment};
+        }
+        #mpris.paused {
           color: #${comment};
         }
         #battery.charging {
