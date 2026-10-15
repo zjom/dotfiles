@@ -57,6 +57,15 @@ in
             ];
           };
 
+          # SSH is reachable over the tailnet only; the port stays closed on
+          # every other interface.
+          services.openssh = {
+            enable = true;
+            openFirewall = false;
+            settings.PermitRootLogin = "no";
+          };
+          networking.firewall.interfaces.${config.services.tailscale.interfaceName}.allowedTCPPorts = [ 22 ];
+
           i18n.defaultLocale = "en_GB.UTF-8";
           i18n.extraLocaleSettings = {
             LC_ADDRESS = "en_AU.UTF-8";
