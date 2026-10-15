@@ -3,8 +3,9 @@
 # host under modules/hosts. The module system merges the lists, so a host adds
 # packages to this list and does not replace it.
 #
-# This list intentionally does not contain language toolchains. Language
-# toolchains belong to the dev shells under shells/.
+# The dev shells under shells/ contain the full language toolchains. This list
+# contains only the base interpreters and cargo, for scripts and one-off
+# commands outside a dev shell.
 { inputs, ... }:
 
 let
@@ -15,13 +16,16 @@ let
         with pkgs;
         [
           bottom
+          cargo
           claude-code
           file
           jq
           nb
           nixd
           nixfmt
+          nodejs_26
           oxfmt
+          python3
           shfmt
           tombi
           unzip

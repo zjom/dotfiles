@@ -70,7 +70,7 @@ There are two types of node:
   | `files` | fish, tmux, ranger and eza: `ranger_cd`, the alt-r binding, the `ls` aliases |
   | `prompt` | the hooks of starship, zoxide and direnv in fish |
   | `editor` | nvim as `EDITOR` and as the editor of git; the pane navigation between tmux and nvim |
-  | `git-ui` | lazygit in a tmux popup |
+  | `git-ui` | lazygit in a tmux popup; the `lg` alias |
   | `github` | the credential helper of git, through gh |
   | `devshell` | the dev shell picker on F12; the git ignore entry for `.direnv/` |
   | `bitwarden` | `bw` and `bws`, with their secrets in the keyring of the OS |
@@ -274,3 +274,4 @@ These decisions apply only to this repository:
 | D20 | fd gets its ignore patterns from `--ignore-file`. fd still reads its global ignore file. | fd cannot skip the global ignore file unless `XDG_CONFIG_HOME` changes. A change of `XDG_CONFIG_HOME` also applies to each child process of `fd --exec`. No file in this repository writes the global ignore file. |
 | D21 | The launcher uses a `buildCommand` entry to link the lm10 scripts into the `bin/` directory of the lm10 wrapper. | A composite can set only `wrappers.*` options. The scripts are glue, not a separate program. lm10-apps lists the scripts in the directory of its own resolved path. |
 | D22 | The system fish is the wrapper. The wrapper sources `/etc/fish/config.fish` before its own configuration. | The `--no-config` flag also skips `/etc/fish/config.fish`. NixOS and nix-darwin configure `PATH` in that file. Without that file, a login shell has no system environment. |
+| D23 | The fish leaf registers the `__fish_on_interactive` handler of fish itself. | The `--no-config` flag also skips the `config.fish` file of fish itself. That file registers the handler that runs the interactive setup. Without that setup, fish ignores `fish_key_bindings`, so vi mode stays off. |

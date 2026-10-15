@@ -41,6 +41,16 @@ in
           if status is-interactive
               set -g fish_greeting
               set -g fish_key_bindings fish_vi_key_bindings
+
+              # --no-config also skips the config.fish of fish itself, which
+              # starts the interactive setup at the first prompt. Without that
+              # setup, fish never loads $fish_key_bindings (decision D23).
+              if not functions -q __fish_on_interactive
+                  function __fish_on_interactive --on-event fish_prompt --on-event fish_read
+                      functions -e __fish_on_interactive
+                      __fish_config_interactive
+                  end
+              end
           end
 
           function nn --description "New nb note, named after today's date and its title"
