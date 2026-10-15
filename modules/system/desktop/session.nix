@@ -118,7 +118,7 @@
       };
 
       # Clipboard history: cliphist stores each copy (wl-paste --watch). The
-      # service starts with graphical-session.target. scripts/lm10/lm10-clip
+      # service starts with graphical-session.target. scripts/lm10/lm10-clipboard
       # selects entries from this history.
       services.cliphist.enable = true;
 

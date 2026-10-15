@@ -27,10 +27,10 @@
               Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty" "--single-instance"; }
               Mod+E hotkey-overlay-title="Ranger" { spawn "kitty" "--single-instance" "--" "ranger"; }
               Mod+Space hotkey-overlay-title="Launcher" { spawn "lm10-apps"; }
-              Mod+Shift+Escape hotkey-overlay-title="Session ctl" { spawn "lm10-session-ctl"; }
               Mod+F1 hotkey-overlay-title="Scripts" { spawn "lm10-apps" "scripts"; }
               Mod+F2 hotkey-overlay-title="Spotify" { spawn "lm10-spotify"; }
-              Mod+Shift+V hotkey-overlay-title="Clipboard history" { spawn "lm10-clip"; }
+              Mod+F3 hotkey-overlay-title="Clipboard history" { spawn "lm10-clipboard"; }
+              Mod+F4 hotkey-overlay-title="Session ctl" { spawn "lm10-session-ctl"; }
           }
         ''}"
       '';

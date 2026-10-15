@@ -2,7 +2,7 @@
 # Clipboard history picker for cliphist (services.cliphist stores each copy).
 # When you select an entry, the script copies the entry to the clipboard again.
 # ^d deletes the selected entry. ^w deletes the full history. Like lm10-sesh,
-# the script makes its own list (lm10-clip --list), so the reload binds can also
+# the script makes its own list (lm10-clipboard --list), so the reload binds can also
 # run the script.
 set -euo pipefail
 
