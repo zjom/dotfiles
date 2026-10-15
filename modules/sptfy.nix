@@ -8,7 +8,28 @@
 # It reads the same config file as the daemon, so the credentials land in the
 # cache_path below, where the service finds them. spotify-player signs in
 # separately on its first start (or with `spotify_player authenticate`).
+#
+# spotifyd is a daemon with state, so it stays with Home Manager (a non-goal of
+# the nodes). spotify-player is nodes.spotify-player; this file points it at
+# this machine's spotifyd and runs it as a daemon too.
+{ config, ... }:
+
+let
+  inherit (config) nodes;
+
+  # spotifyd announces itself under the configuration's name; spotify-player
+  # connects to that device.
+  player =
+    { config, ... }:
+    {
+      imports = [ nodes.spotify-player ];
+      wrappers.spotify-player.settings.default_device = config.my.hostName;
+    };
+in
 {
+  flake.modules.nixos.base = player;
+  flake.modules.darwin.base = player;
+
   flake.modules.homeManager.base =
     {
       config,
@@ -92,25 +113,9 @@
         Install.WantedBy = [ "default.target" ];
         Service = {
           Type = "forking";
-          ExecStart = "${lib.getExe' config.programs.spotify-player.package "spotify_player"} --daemon";
+          ExecStart = "${lib.getExe' osConfig.wrappers.spotify-player.wrapper "spotify_player"} --daemon";
           Restart = "on-failure";
           RestartSec = 12;
-        };
-      };
-
-      programs.spotify-player = {
-        enable = true;
-        settings = {
-          client_id = "6698cb5b027840b9a170b92747ed8903";
-          # Leave playback to spotifyd and connect to it by name.
-          enable_streaming = "Never";
-          default_device = deviceName;
-          playback_window_position = "Top";
-          # Playlist reads default to the shared ncspot client, whose quota is
-          # constantly exhausted. Send them through our own client first; ncspot
-          # is still the fallback on any 4xx (e.g. Spotify-owned playlists).
-          ncspot_only_get_endpoints = [ ];
-          enable_notify = false;
         };
       };
     };

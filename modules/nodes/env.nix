@@ -17,6 +17,7 @@
         devshell
         bitwarden
         nh
+        spotify-player
       ];
 
       # The composites above start different programs (fish, nvim, lazygit,
