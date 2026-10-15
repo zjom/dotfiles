@@ -10,7 +10,7 @@ in
     modules = [
       darwin.base
       nodes.env
-      nodes.kitty
+      nodes.mac-desktop
 
       (
         { config, ... }:
@@ -29,14 +29,15 @@ in
 
           home-manager.sharedModules = [
             (
-              { config, pkgs, ... }:
+              { osConfig, pkgs, ... }:
               {
+                # The server of nodes.aerospace, started at login. The wrapper
+                # carries its configuration, so Home Manager writes none.
                 programs.aerospace = {
                   enable = true;
+                  package = osConfig.wrappers.aerospace.wrapper;
                   launchd.enable = true;
                 };
-                xdg.configFile."aerospace/aerospace.toml".source =
-                  config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/aerospace/aerospace.toml";
 
                 home.packages = with pkgs; [
                   duti
