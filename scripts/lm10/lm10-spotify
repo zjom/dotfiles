@@ -109,5 +109,5 @@ list | "${LM10:-lm10}" \
   --prompt '🎧  ' \
   --header "${now:+$now\n}^a ctl  ^o devices  ^s search" \
   --bind "Control+a=change-prompt(🎧  )+reload($self --list)" \
-  --bind "Control+s=change-prompt(🔎  )+reload($self --list search {q})+change-query()" \
+  --bind "Control+s=change-prompt(🔎  )+reload($self --list search {q})" \
   --bind "Control+o=change-prompt(🔈  )+reload($self --list devices)"
