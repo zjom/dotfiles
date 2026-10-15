@@ -23,6 +23,7 @@ pkgs.mkShell {
     oxfmt
     oxlint
     vscode-langservers-extracted
+    tailwindcss-language-server
   ];
 
   shellHook = ''
