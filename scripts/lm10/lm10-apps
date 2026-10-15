@@ -1,11 +1,16 @@
 #!/usr/bin/env fish
 # App launcher: lists the installed desktop applications (.desktop files) and
-# runs the picked one detached, like a desktop's app menu. Copied from lm10's
-# examples/apps.fish. Needs fd.
+# the other lm10 scripts beside this one, and runs the picked one detached,
+# like a desktop's app menu. The apps part is copied from lm10's
+# examples/apps.fish. Like lm10-sesh, it makes its own lists
+# (lm10-apps --list [apps|scripts]), so the reload binds can run it too;
+# lm10-apps apps|scripts opens on just that list. Needs fd.
 
 set -q XDG_DATA_HOME; or set XDG_DATA_HOME ~/.local/share
 set -q XDG_DATA_DIRS; or set XDG_DATA_DIRS /usr/local/share:/usr/share
 set -q LM10; or set LM10 lm10
+
+set -l self (realpath (status filename))
 
 # The first value of a key in the given lines.
 function field -a key
@@ -13,23 +18,66 @@ function field -a key
     echo $v[1]
 end
 
-# The first file with a given desktop id wins, so ~/.local/share overrides
-# (or, with Hidden=true, removes) the system's entries.
-set -l seen
-for dir in (string split : -- $XDG_DATA_HOME:$XDG_DATA_DIRS)/applications
-    test -d $dir; or continue
-    for file in (fd -L -u -e desktop --base-directory $dir)
-        set -l id (string replace -a / - -- $file)
-        contains -- $id $seen; and continue
-        set -a seen $id
+function apps
+    # The first file with a given desktop id wins, so ~/.local/share overrides
+    # (or, with Hidden=true, removes) the system's entries.
+    set -l seen
+    for dir in (string split : -- $XDG_DATA_HOME:$XDG_DATA_DIRS)/applications
+        test -d $dir; or continue
+        for file in (fd -L -u -e desktop --base-directory $dir)
+            set -l id (string replace -a / - -- $file)
+            contains -- $id $seen; and continue
+            set -a seen $id
 
-        set -l e (sed -n '/^\[Desktop Entry\]/,/^\[/p' $dir/$file)
-        set -l exec (field Exec $e | string replace -ar '%[fFuUdDnNickvm]' '' | string replace -a %% % | string trim -r)
-        test (field Type $e) = Application -a -n "$exec"; or continue
-        contains true (field NoDisplay $e) (field Hidden $e) (field Terminal $e); and continue
+            set -l e (sed -n '/^\[Desktop Entry\]/,/^\[/p' $dir/$file)
+            set -l exec (field Exec $e | string replace -ar '%[fFuUdDnNickvm]' '' | string replace -a %% % | string trim -r)
+            test (field Type $e) = Application -a -n "$exec"; or continue
+            contains true (field NoDisplay $e) (field Hidden $e) (field Terminal $e); and continue
 
-        # Exec is already quoted the way lm10 lines are.
-        set -l name (string replace -a "'" "'\\''" -- (field Name $e))
-        echo "-X -n '$name' -- $exec"
+            # Exec is already quoted the way lm10 lines are.
+            set -l name (string replace -a "'" "'\\''" -- (field Name $e))
+            echo "-X -n '📦  $name' -- $exec"
+        end
     end
-end | sort -f | $LM10
+end
+
+# The executables beside this script, but this one.
+function scripts -a self
+    for script in (dirname $self)/*
+        test -f $script -a -x $script -a $script != $self; or continue
+        echo "-X -n "(string escape -- "📜  "(basename $script))" -- "(string escape -- $script)
+    end
+end
+
+function list -a self what
+    switch "$what"
+        case apps
+            apps
+        case scripts
+            scripts $self
+        case '*'
+            apps
+            scripts $self
+    end | sort -f
+end
+
+if test "$argv[1]" = --list
+    list $self $argv[2]
+    exit
+end
+
+set -l prompt 🚀
+switch "$argv[1]"
+    case apps
+        set prompt 📦
+    case scripts
+        set prompt 📜
+end
+
+set -l q (string escape -- $self)
+list $self $argv[1] | $LM10 \
+    --prompt "$prompt  " \
+    --header '^a all  ^o apps  ^s scripts' \
+    --bind "Control+a=change-prompt(🚀  )+reload($q --list)" \
+    --bind "Control+o=change-prompt(📦  )+reload($q --list apps)" \
+    --bind "Control+s=change-prompt(📜  )+reload($q --list scripts)"

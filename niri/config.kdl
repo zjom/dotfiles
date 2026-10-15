@@ -82,7 +82,7 @@ binds {
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }
     Mod+Shift+Escape hotkey-overlay-title="Session ctl" {spawn "lm10-session-ctl";}
-    Mod+F1 hotkey-overlay-title="Scripts" {spawn "lm10-scripts";}
+    Mod+F1 hotkey-overlay-title="Scripts" {spawn "lm10-apps" "scripts";}
     Mod+F2 hotkey-overlay-title="Spotify" {spawn "lm10-spotify";}
     Mod+Shift+V hotkey-overlay-title="Clipboard history" {spawn "lm10-clip";}
 
