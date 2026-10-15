@@ -52,13 +52,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # A manager for Logitech devices. modules/hosts/loq imports its NixOS
-    # module.
-    openlogi = {
-      url = "github:AprilNEA/OpenLogi";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # zen-draw. modules/hosts/loq installs it.
     zen-draw = {
       url = "github:zjom/zen-draw";

@@ -16,7 +16,6 @@ in
       nixos.audio
       nixos.nvidia-prime
       nodes.env
-      inputs.openlogi.nixosModules.default
 
       # `nixos-generate-config` generates this file on the machine. See
       # README.md.
