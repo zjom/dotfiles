@@ -6,7 +6,7 @@ let
   inherit (config) colors;
 in
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     { pkgs, ... }:
     let
       # Directories that are never worth searching, walking or listing.

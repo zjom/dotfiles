@@ -12,7 +12,7 @@
 # login session asks for the master password, and the resulting session key is
 # kept in the keyring so every other shell reuses it until `bw lock`.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     { lib, pkgs, ... }:
     let
       inherit (pkgs.stdenv.hostPlatform) isDarwin;

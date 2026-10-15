@@ -2,7 +2,7 @@
 # elevates on its own, and shows a diff of what changed. `rebuild` runs it
 # against this flake on every host.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     {
       config,
       osConfig,

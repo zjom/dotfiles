@@ -2,7 +2,7 @@
 # Home Manager cannot write into ~/.config/tmux. The plugins therefore land in
 # the data directory instead, and tmux.conf sources them by path.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     { config, pkgs, ... }:
     let
       plugin = name: pkg: {

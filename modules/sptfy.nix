@@ -9,7 +9,7 @@
 # cache_path below, where the service finds them. spotify-player signs in
 # separately on its first start (or with `spotify_player authenticate`).
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     {
       config,
       osConfig,

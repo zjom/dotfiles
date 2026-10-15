@@ -2,10 +2,11 @@
 #   nix develop '~/dotfiles#c'
 { pkgs }:
 
-pkgs.mkShell {
+with pkgs;
+mkShell {
   name = "c-dev";
 
-  packages = with pkgs; [
+  packages = [
     gcc
     gnumake
     cmake
@@ -17,8 +18,9 @@ pkgs.mkShell {
     meson
     ninja
     gdb
-    valgrind
-  ];
+  ]
+  # Marked broken on Darwin.
+  ++ lib.optional stdenv.hostPlatform.isLinux valgrind;
 
   shellHook = ''
     echo "$(gcc --version | head -1) | clangd $(clangd --version | grep -o '[0-9]\+\.[0-9.]*' | head -1)"

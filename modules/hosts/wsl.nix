@@ -5,7 +5,7 @@ top@{ inputs, ... }:
 {
   flake.nixosConfigurations.wsl = inputs.nixpkgs.lib.nixosSystem {
     modules = [
-      top.config.nixos.base
+      top.config.flake.modules.nixos.base
       inputs.nixos-wsl.nixosModules.wsl
 
       (

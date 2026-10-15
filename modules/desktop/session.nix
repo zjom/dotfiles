@@ -6,7 +6,7 @@ let
   inherit (config) colors;
 in
 {
-  homeManager.desktop =
+  flake.modules.homeManager.desktop =
     { lib, pkgs, ... }:
     let
       lm10 = inputs.lm10.packages.${pkgs.stdenv.hostPlatform.system}.default;

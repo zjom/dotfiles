@@ -3,7 +3,7 @@
 { config, inputs, ... }:
 
 let
-  inherit (config) nixos;
+  inherit (config.flake.modules) nixos;
 in
 {
   flake.nixosConfigurations.loq = inputs.nixpkgs.lib.nixosSystem {

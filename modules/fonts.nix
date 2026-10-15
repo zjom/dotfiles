@@ -18,7 +18,7 @@ let
     };
 in
 {
-  nixos.base = {
+  flake.modules.nixos.base = {
     imports = [ fonts ];
 
     # macOS has no fontconfig.
@@ -30,5 +30,5 @@ in
     };
   };
 
-  darwin.base = fonts;
+  flake.modules.darwin.base = fonts;
 }

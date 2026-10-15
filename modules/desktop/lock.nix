@@ -5,7 +5,7 @@ let
   inherit (config) colors;
 in
 {
-  homeManager.desktop =
+  flake.modules.homeManager.desktop =
     { lib, pkgs, ... }:
     let
       lock = "${lib.getExe pkgs.swaylock} -f";

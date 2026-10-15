@@ -5,10 +5,10 @@
 { config, ... }:
 
 let
-  inherit (config) homeManager;
+  inherit (config.flake.modules) homeManager;
 in
 {
-  nixos.desktop =
+  flake.modules.nixos.desktop =
     { pkgs, ... }:
     {
       home-manager.sharedModules = [
@@ -36,7 +36,7 @@ in
       environment.sessionVariables.NIXOS_OZONE_WL = "1";
     };
 
-  homeManager.desktop =
+  flake.modules.homeManager.desktop =
     { config, ... }:
     {
       xdg.configFile."niri".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/niri";

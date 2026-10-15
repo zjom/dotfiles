@@ -23,6 +23,6 @@ let
     };
 in
 {
-  nixos.base = identity;
-  darwin.base = identity;
+  flake.modules.nixos.base = identity;
+  flake.modules.darwin.base = identity;
 }

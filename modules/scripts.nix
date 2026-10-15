@@ -3,7 +3,7 @@
 # the machine: on each switch, and on Linux again whenever something under it
 # changes, so adding, removing or chmod +x-ing a script needs no switch.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     {
       config,
       lib,

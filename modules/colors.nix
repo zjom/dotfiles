@@ -1,4 +1,4 @@
-# The vague colour scheme, as hex without the leading `#`, so it can be used
+# The vague colour scheme, for the Home Manager modules not yet moved to nodes.
 # by programs that want either form. A top-level value: modules read it as
 # `config.colors` of the top-level configuration, not of the system or home.
 { lib, ... }:

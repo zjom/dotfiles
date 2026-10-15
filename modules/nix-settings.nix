@@ -1,6 +1,6 @@
 # Nix itself: its settings and garbage collection.
 {
-  nixos.base = {
+  flake.modules.nixos.base = {
     nix.settings = {
       experimental-features = [
         "nix-command"
@@ -28,5 +28,5 @@
   # with `nix.package = pkgs.lix`, and first move /etc/nix/nix.conf aside so
   # activation is allowed to replace it. Only then do the `nix.settings` and
   # `nix.gc` options above have a counterpart here.
-  darwin.base.nix.enable = false;
+  flake.modules.darwin.base.nix.enable = false;
 }

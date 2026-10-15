@@ -6,6 +6,6 @@ let
     };
 in
 {
-  nixos.base = timezone;
-  darwin.base = timezone;
+  flake.modules.nixos.base = timezone;
+  flake.modules.darwin.base = timezone;
 }

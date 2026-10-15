@@ -5,7 +5,7 @@ let
   inherit (config) colors;
 in
 {
-  homeManager.desktop = {
+  flake.modules.homeManager.desktop = {
     programs.waybar = {
       enable = true;
       # Started with graphical-session.target, which niri-session reaches.

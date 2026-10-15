@@ -4,7 +4,7 @@
 # the Nix store, so it can be edited without a rebuild; the feature modules
 # that do so read `my.dotfilesRoot`.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     { config, lib, ... }:
     let
       inherit (lib) mkOption types;

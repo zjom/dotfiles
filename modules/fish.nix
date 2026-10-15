@@ -1,7 +1,7 @@
 # fish, the login shell on every host. bash and zsh are installed but carry
 # no configuration of their own.
 {
-  nixos.base =
+  flake.modules.nixos.base =
     { config, pkgs, ... }:
     {
       # Enabling it system-wide installs fish, lists it in /etc/shells and has
@@ -10,7 +10,7 @@
       users.users.${config.my.username}.shell = pkgs.fish;
     };
 
-  darwin.base =
+  flake.modules.darwin.base =
     { config, ... }:
     {
       programs.fish.enable = true;
@@ -34,7 +34,7 @@
       '';
     };
 
-  homeManager.base =
+  flake.modules.homeManager.base =
     { config, lib, ... }:
 
     let

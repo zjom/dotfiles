@@ -1,6 +1,6 @@
 # kitty, configured from ../../kitty, on hosts with a display of their own.
 {
-  homeManager.gui =
+  flake.modules.homeManager.gui =
     { config, pkgs, ... }:
     {
       # Just the package: programs.kitty would generate its own kitty.conf in

@@ -11,6 +11,14 @@
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
+    # Wrapper modules: each program's configuration baked into its package,
+    # plus install modules exposing `wrappers.<name>` on NixOS, nix-darwin and
+    # Home Manager. See modules/graph.nix.
+    wrappers = {
+      url = "github:BirdeeHub/nix-wrapper-modules";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

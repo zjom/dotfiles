@@ -1,6 +1,6 @@
 # ranger, configured from ../../ranger.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     { config, pkgs, ... }:
     {
       home.packages = [ pkgs.ranger ];

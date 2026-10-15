@@ -2,7 +2,7 @@
 top@{ inputs, ... }:
 
 let
-  inherit (top.config) darwin homeManager;
+  inherit (top.config.flake.modules) darwin homeManager;
 in
 {
   flake.darwinConfigurations.macbook = inputs.nix-darwin.lib.darwinSystem {

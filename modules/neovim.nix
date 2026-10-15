@@ -3,7 +3,7 @@
 # shells out to: a C compiler for tree-sitter grammars, cargo for blink.cmp's
 # fuzzy matcher, and the node/python providers.
 {
-  homeManager.base =
+  flake.modules.homeManager.base =
     { config, pkgs, ... }:
     {
       home.packages = with pkgs; [

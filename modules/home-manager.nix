@@ -5,7 +5,7 @@
 { config, inputs, ... }:
 
 let
-  inherit (config) homeManager;
+  inherit (config.flake.modules) homeManager;
 
   wiring =
     hmModule:
@@ -28,10 +28,10 @@ let
     };
 in
 {
-  nixos.base = wiring inputs.home-manager.nixosModules.home-manager;
-  darwin.base = wiring inputs.home-manager.darwinModules.home-manager;
+  flake.modules.nixos.base = wiring inputs.home-manager.nixosModules.home-manager;
+  flake.modules.darwin.base = wiring inputs.home-manager.darwinModules.home-manager;
 
-  homeManager.base =
+  flake.modules.homeManager.base =
     { lib, ... }:
     {
       # Hosts may override this; they should not need to.
