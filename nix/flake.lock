@@ -177,11 +177,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1791834108,
-        "narHash": "sha256-gqI21hTTfVvfAlUJbXlIvqY3kQVPK1OrCiWcvd3GbXk=",
+        "lastModified": 1792046080,
+        "narHash": "sha256-vW7JoFO0OMJ1VH1lkGj6i4OqRac8ADG7i5rTRfXn6Oo=",
         "owner": "AprilNEA",
         "repo": "OpenLogi",
-        "rev": "01749f92d06c112a14333c27398c293985b17801",
+        "rev": "7b954e264c3d91d11dca907f50e84ae503e0937a",
         "type": "github"
       },
       "original": {
