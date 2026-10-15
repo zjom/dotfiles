@@ -1,34 +1,10 @@
+# gh, logged in once per machine with `gh auth login`. gh writes that login
+# into its own configuration directory, so it is not a node (decision D14);
+# git reaches it by name through the github node's credential helper.
 {
   flake.modules.homeManager.base = {
-    programs.git = {
-      enable = true;
-
-      settings = {
-        user = {
-          name = "Zihan Jin";
-          email = "admin@zihanjin.com";
-        };
-        core = {
-          editor = "nvim";
-        };
-        init = {
-          defaultBranch = "main";
-        };
-      };
-    };
-
     programs.gh = {
       enable = true;
-
-      # Writes the credential.https://github.com helper for us.
-      gitCredentialHelper = {
-        enable = true;
-        hosts = [
-          "https://github.com"
-          "https://gist.github.com"
-        ];
-      };
-
       settings = {
         version = "1";
         git_protocol = "ssh";

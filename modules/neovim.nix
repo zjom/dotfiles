@@ -1,26 +1,13 @@
-# Neovim, configured from ../../nvim. Language servers come from whichever dev
-# shell it was launched in; the packages here are the few things Neovim itself
-# shells out to: a C compiler for tree-sitter grammars, cargo for blink.cmp's
-# fuzzy matcher, and the node/python providers.
+# vim.pack keeps nvim-pack-lock.json in stdpath("config"), ~/.config/nvim.
+# Linking that directory to the checkout keeps the lockfile in the repository,
+# where `vim.pack.update()` rewrites it, so the plugins stay pinned by a
+# committed file (decision D13). The wrapped Neovim of nodes.nvim never loads
+# anything else from it: its init.lua is not run and it is off the
+# runtimepath.
 {
   flake.modules.homeManager.base =
-    { config, pkgs, ... }:
+    { config, ... }:
     {
-      home.packages = with pkgs; [
-        cargo
-        gcc
-        neovim
-        nodejs
-        python3
-        tree-sitter
-      ];
-
       xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/nvim";
-
-      home.sessionVariables = {
-        EDITOR = "nvim";
-        VISUAL = "nvim";
-        MANPAGER = "nvim +Man!";
-      };
     };
 }

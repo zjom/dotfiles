@@ -8,24 +8,28 @@
 
 {
   flake.modules.homeManager.base =
-    { pkgs, ... }:
+    { lib, pkgs, ... }:
     {
-      home.packages = with pkgs; [
-        bottom
-        claude-code
-        file
-        jq
-        nb
-        nixd
-        nixfmt
-        oxfmt
-        shfmt
-        tombi
-        unzip
-        wget
+      home.packages =
+        with pkgs;
+        [
+          bottom
+          claude-code
+          file
+          jq
+          nb
+          nixd
+          nixfmt
+          oxfmt
+          shfmt
+          tombi
+          unzip
+          wget
 
-        # gitignore fetcher, built from its own flake rather than nixpkgs.
-        inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
-      ];
+          # gitignore fetcher, built from its own flake rather than nixpkgs.
+          inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
+        ]
+        # secret-tool, to store the keyring entries the bitwarden node reads.
+        ++ lib.optional stdenv.hostPlatform.isLinux libsecret;
     };
 }

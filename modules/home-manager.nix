@@ -36,5 +36,8 @@ in
     {
       # Hosts may override this; they should not need to.
       home.stateVersion = lib.mkDefault "26.05";
+
+      # Defines the XDG_* variables in the session environment.
+      xdg.enable = true;
     };
 }

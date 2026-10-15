@@ -4,12 +4,14 @@
 
 let
   inherit (config.flake.modules) nixos;
+  inherit (config) nodes;
 in
 {
   flake.nixosConfigurations.loq = inputs.nixpkgs.lib.nixosSystem {
     modules = [
       nixos.base
       nixos.desktop
+      nodes.env
       inputs.openlogi.nixosModules.default
 
       # Generated on the machine by `nixos-generate-config`; see the README.

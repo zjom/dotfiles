@@ -2,12 +2,15 @@
 top@{ inputs, ... }:
 
 let
-  inherit (top.config.flake.modules) darwin homeManager;
+  inherit (top.config.flake.modules) darwin;
+  inherit (top.config) nodes;
 in
 {
   flake.darwinConfigurations.macbook = inputs.nix-darwin.lib.darwinSystem {
     modules = [
       darwin.base
+      nodes.env
+      nodes.kitty
 
       (
         { config, ... }:
@@ -16,8 +19,15 @@ in
           my.username = "zihanjin";
           my.hostName = "macbook";
 
+          # Installed outside Nix; source them only where they exist.
+          wrappers.fish.configFile.content = ''
+            if status is-interactive
+                test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null
+                test -f ~/Library/Google/google-cloud-sdk/path.fish.inc; and source ~/Library/Google/google-cloud-sdk/path.fish.inc
+            end
+          '';
+
           home-manager.sharedModules = [
-            homeManager.gui
             (
               { config, pkgs, ... }:
               {
@@ -32,12 +42,6 @@ in
                   duti
                   pngpaste
                 ];
-
-                # Installed outside Nix; source them only where they exist.
-                programs.fish.interactiveShellInit = ''
-                  test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null
-                  test -f ~/Library/Google/google-cloud-sdk/path.fish.inc; and source ~/Library/Google/google-cloud-sdk/path.fish.inc
-                '';
               }
             )
           ];

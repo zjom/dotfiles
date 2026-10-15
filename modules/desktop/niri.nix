@@ -1,20 +1,20 @@
 # The niri desktop: niri on its own, started from a greetd login on the
-# console. Importing nixos.desktop brings in the Home Manager side too --
-# homeManager.desktop for what runs inside the session, homeManager.gui for
-# kitty. niri's own config is ../../niri.
+# console. Importing nixos.desktop brings in the Home Manager side too
+# (homeManager.desktop, for what runs inside the session) and kitty.
+# niri's own config is ../../niri.
 { config, ... }:
 
 let
   inherit (config.flake.modules) homeManager;
+  inherit (config) nodes;
 in
 {
   flake.modules.nixos.desktop =
     { pkgs, ... }:
     {
-      home-manager.sharedModules = [
-        homeManager.desktop
-        homeManager.gui
-      ];
+      imports = [ nodes.kitty ];
+
+      home-manager.sharedModules = [ homeManager.desktop ];
 
       programs.niri.enable = true;
 

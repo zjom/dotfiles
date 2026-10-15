@@ -1,4 +1,4 @@
-# Where the dotfiles checkout and this flake live on the machine.
+# Where the dotfiles checkout lives on the machine.
 # Configuration that is edited far more often than it is rebuilt is kept as a
 # live symlink into the checkout (`mkOutOfStoreSymlink`) instead of a copy in
 # the Nix store, so it can be edited without a rebuild; the feature modules
@@ -17,19 +17,8 @@
           defaultText = "\${config.home.homeDirectory}/dotfiles";
           description = ''
             Working copy of the dotfiles repository. Configuration that is
-            edited far more often than it is rebuilt (nvim, tmux) is symlinked
-            out of the Nix store into this checkout, so edits take effect
-            immediately.
-          '';
-        };
-
-        flakeRoot = mkOption {
-          type = types.str;
-          default = config.my.dotfilesRoot;
-          defaultText = "\${config.my.dotfilesRoot}";
-          description = ''
-            Directory holding this flake, handed to nh as NH_FLAKE. It has to
-            be a path on the machine rather than a store path.
+            edited far more often than it is rebuilt is symlinked out of the
+            Nix store into this checkout, so edits take effect immediately.
           '';
         };
       };

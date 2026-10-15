@@ -15,6 +15,8 @@
         git-ui
         github
         devshell
+        bitwarden
+        nh
       ];
 
       # The composites above start different programs (fish, nvim, lazygit,
