@@ -21,7 +21,7 @@ in
         # `direnv hook` writes the path of the unwrapped binary into the hook,
         # so the hook would run direnv without the wrapper's DIRENV_CONFIG.
         # Hand it the configuration directly (by store path: direnv refers to
-        # nothing back, so there is no cycle).
+        # nothing back, so there is no cycle; decision D19).
         env.DIRENV_CONFIG = dirOf config.wrappers.direnv.constructFiles.direnvrc.outPath;
 
         configFile.content = ''

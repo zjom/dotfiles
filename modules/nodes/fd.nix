@@ -3,7 +3,7 @@
 # fd has no flag to skip its global ignore file (~/.config/fd/ignore), and
 # moving XDG_CONFIG_HOME for it would leak into every `fd --exec` child. So the
 # ignores come from --ignore-file, and a hand-made global file would still add
-# to them. Nothing in this repository writes one.
+# to them. Nothing in this repository writes one (decision D20).
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

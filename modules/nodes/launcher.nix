@@ -32,7 +32,8 @@
         { config, ... }:
         {
           # Linked into the lm10 wrapper's bin/. lm10-apps lists the scripts
-          # beside its own resolved path, which is the scripts' directory.
+          # beside its own resolved path, which is the scripts' directory
+          # (decision D21).
           buildCommand.launcherScripts = {
             after = [
               "makeWrapper"

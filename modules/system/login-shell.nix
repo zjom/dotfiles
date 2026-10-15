@@ -5,7 +5,7 @@
 # The wrapper passes --no-config, which also skips /etc/fish/config.fish, the
 # file through which NixOS and nix-darwin set up PATH and the rest of the
 # environment. Platform glue (spec rule 19): source it first, ahead of the
-# node's own configuration.
+# node's own configuration (decision D22).
 { config, ... }:
 
 let
