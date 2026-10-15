@@ -1,7 +1,7 @@
 # The niri desktop: niri on its own, started from a greetd login on the
 # console. Importing nixos.desktop brings in the Home Manager side too --
 # homeManager.desktop for what runs inside the session, homeManager.gui for
-# kitty. niri's own config is ../../../niri.
+# kitty. niri's own config is ../../niri.
 { config, ... }:
 
 let

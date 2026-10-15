@@ -1,5 +1,5 @@
 # Typst toolchain + tinymist.
-#   nix develop '~/dotfiles/nix#typst'
+#   nix develop '~/dotfiles#typst'
 { pkgs }:
 
 pkgs.mkShell {

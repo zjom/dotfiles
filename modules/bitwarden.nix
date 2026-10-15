@@ -47,7 +47,7 @@
           body = ''
             set -lx BWS_ACCESS_TOKEN (${lookup "bws"})
             or begin
-                echo "bws: no access token in the keyring, see nix/modules/bitwarden.nix" >&2
+                echo "bws: no access token in the keyring, see modules/bitwarden.nix" >&2
                 return 1
             end
             command bws $argv

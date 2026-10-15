@@ -1,5 +1,5 @@
 # OCaml toolchain + ocaml-lsp.
-#   nix develop '~/dotfiles/nix#ocaml'
+#   nix develop '~/dotfiles#ocaml'
 { pkgs }:
 
 pkgs.mkShell {

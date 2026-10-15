@@ -1,5 +1,5 @@
 # C toolchain + clangd.
-#   nix develop '~/dotfiles/nix#c'
+#   nix develop '~/dotfiles#c'
 { pkgs }:
 
 pkgs.mkShell {

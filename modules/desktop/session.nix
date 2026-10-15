@@ -22,7 +22,7 @@ in
         xwayland-satellite
 
         # The launcher. lm10 only picks from the lines it is given; the
-        # scripts in ../../../scripts/lm10 feed it (linked by ../scripts.nix).
+        # scripts in ../../scripts/lm10 feed it (linked by ../scripts.nix).
         # They use fd and sesh, which tools.nix installs.
         lm10
       ];

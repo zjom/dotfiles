@@ -1,5 +1,5 @@
 # Go toolchain + gopls.
-#   nix develop '~/dotfiles/nix#go'
+#   nix develop '~/dotfiles#go'
 { pkgs }:
 
 pkgs.mkShell {

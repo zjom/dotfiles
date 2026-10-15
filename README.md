@@ -1,4 +1,4 @@
-# nix
+# dotfiles
 
 One flake for every machine: a bare metal NixOS host, a NixOS host running
 under WSL, and a MacBook running nix-darwin. Home Manager is a module of the
@@ -44,9 +44,9 @@ Files whose path starts with `_` are skipped by import-tree. That is how
 lives among them. The dev shells in `shells/` are plain `{ pkgs }:` files,
 outside `modules/` altogether.
 
-The configuration this flake does _not_ generate lives one level up, one flat
-directory per program: `../nvim`, `../tmux`, `../ranger`, `../kitty`,
-`../aerospace`, `../niri`. The feature module for each symlinks it into place
+The configuration this flake does _not_ generate lives beside `modules/`, one flat
+directory per program: `nvim/`, `tmux/`, `ranger/`, `kitty/`,
+`aerospace/`, `niri/`. The feature module for each symlinks it into place
 out of the Nix store, so editing them takes effect without a rebuild.
 
 fish is the login shell on every host, configured in `modules/fish.nix`.
@@ -70,8 +70,8 @@ nh darwin switch -H macbook
 Before nh is installed, use the plain commands:
 
 ```sh
-sudo nixos-rebuild switch --flake '~/dotfiles/nix#loq'
-sudo darwin-rebuild switch --flake '~/dotfiles/nix#macbook'
+sudo nixos-rebuild switch --flake '~/dotfiles#loq'
+sudo darwin-rebuild switch --flake '~/dotfiles#macbook'
 ```
 
 Quote the flake reference. fish does not need it, but zsh with `extendedglob`
@@ -91,9 +91,9 @@ installer, with the target partitioned and mounted at `/mnt`:
 nix-shell -p git
 nixos-generate-config --root /mnt
 git clone <this repository> /mnt/home/zi/dotfiles
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/nix/modules/hosts/loq/_hardware-configuration.nix
-git -C /mnt/home/zi/dotfiles add nix/modules/hosts/loq/_hardware-configuration.nix
-nixos-install --flake '/mnt/home/zi/dotfiles/nix#loq'
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/modules/hosts/loq/_hardware-configuration.nix
+git -C /mnt/home/zi/dotfiles add modules/hosts/loq/_hardware-configuration.nix
+nixos-install --flake '/mnt/home/zi/dotfiles#loq'
 ```
 
 Before the last step, make `system.stateVersion` in `modules/hosts/loq/default.nix`
@@ -107,7 +107,7 @@ root) and fix the ownership of `~/dotfiles`.
 logged into from `tuigreet` on greetd. It is all in
 `modules/desktop`: the system side and the hookup in `niri.nix`, the
 session's launcher (lm10) and notifications (mako) in `session.nix`, the bar
-in `waybar.nix`, locking (swaylock, swayidle) in `lock.nix`; niri itself reads `../niri/config.kdl`.
+in `waybar.nix`, locking (swaylock, swayidle) in `lock.nix`; niri itself reads `niri/config.kdl`.
 
 As under AeroSpace, Alt is the window manager's modifier and Super is left to
 kitty. Alt+Shift+/ lists the bindings. The Intel GPU drives the desktop; run
@@ -118,7 +118,7 @@ everything WSL-specific, the GPU passthrough included, stays in `modules/hosts/w
 
 ## Bootstrapping macOS
 
-nix-darwin is not installed yet. Once, from this directory:
+nix-darwin is not installed yet. Once, from the repository root:
 
 ```sh
 nix build '.#darwinConfigurations.macbook.system'
@@ -139,13 +139,13 @@ shell instead, one per file in `shells/`: `c`, `elixir`, `go`, `infra`, `lua`,
 shell of the same name.
 
 ```sh
-nix develop '~/dotfiles/nix#rust'
+nix develop '~/dotfiles#rust'
 ```
 
 direnv is enabled, so a project picks its own with a one-line `.envrc`:
 
 ```sh
-echo 'use flake ~/dotfiles/nix#go' > .envrc && direnv allow
+echo 'use flake ~/dotfiles#go' > .envrc && direnv allow
 ```
 
 Neovim reads its language servers from whichever shell it was launched in --

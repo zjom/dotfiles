@@ -1,7 +1,7 @@
 # Lua toolchain. The language server and stylua are also
 # in the global profile, since Neovim's own configuration is Lua; this shell is
 # for projects that need an interpreter and luarocks as well.
-#   nix develop '~/dotfiles/nix#lua'
+#   nix develop '~/dotfiles#lua'
 { pkgs }:
 
 pkgs.mkShell {

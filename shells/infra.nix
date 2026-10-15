@@ -1,5 +1,5 @@
 # OpenTofu + tooling
-#   nix develop '~/dotfiles/nix#infra'
+#   nix develop '~/dotfiles#infra'
 
 { pkgs }:
 

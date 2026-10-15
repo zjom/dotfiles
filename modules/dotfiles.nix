@@ -25,8 +25,8 @@
 
         flakeRoot = mkOption {
           type = types.str;
-          default = "${config.my.dotfilesRoot}/nix";
-          defaultText = "\${config.my.dotfilesRoot}/nix";
+          default = config.my.dotfilesRoot;
+          defaultText = "\${config.my.dotfilesRoot}";
           description = ''
             Directory holding this flake, handed to nh as NH_FLAKE. It has to
             be a path on the machine rather than a store path.

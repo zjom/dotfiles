@@ -1,4 +1,4 @@
-# Every executable under ../../scripts, at any depth, symlinked by name into
+# Every executable under ../scripts, at any depth, symlinked by name into
 # $XDG_BIN_HOME. The flake cannot see that directory, so the links are made on
 # the machine: on each switch, and on Linux again whenever something under it
 # changes, so adding, removing or chmod +x-ing a script needs no switch.

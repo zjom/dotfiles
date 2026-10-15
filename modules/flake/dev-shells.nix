@@ -1,6 +1,6 @@
 # Per-language toolchains, kept out of the global profile so projects pin what
-# they need: `nix develop '~/dotfiles/nix#rust'`, or an .envrc holding
-# `use flake ~/dotfiles/nix#rust` to have direnv do it on cd.
+# they need: `nix develop '~/dotfiles#rust'`, or an .envrc holding
+# `use flake ~/dotfiles#rust` to have direnv do it on cd.
 #
 # The shells themselves are plain `{ pkgs }:` files in ../../shells rather than
 # modules, one per file; a new file there becomes a shell of the same name.
