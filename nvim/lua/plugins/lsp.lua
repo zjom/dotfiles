@@ -102,7 +102,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- LSPs and related tools are installed declaratively via Nix (see
--- shells/ and modules/packages.nix).
+-- shells/ and modules/system/packages.nix).
 -- To manage lspconfig: update `nvim/lsp/<server>.lua`
 -- To override lspconfig options: update `nvim/after/lsp/<server>.lua`
 -- See `:help lsp-config-merge`

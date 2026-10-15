@@ -31,15 +31,11 @@ in
           my.username = "zi";
           my.hostName = "loq";
 
-          home-manager.sharedModules = [
-            {
-              home.packages = with pkgs; [
-                anki
-                aseprite
-                obs-studio
-                zen-draw
-              ];
-            }
+          environment.systemPackages = with pkgs; [
+            anki
+            aseprite
+            obs-studio
+            zen-draw
           ];
 
           boot.loader.systemd-boot.enable = true;

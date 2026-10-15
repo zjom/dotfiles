@@ -2,15 +2,10 @@
 # associations, cursor and theme. The bar and locking have files of their own;
 # the launcher is nodes.launcher.
 {
-  flake.modules.homeManager.desktop =
+  flake.modules.nixos.desktop =
+    { pkgs, ... }:
     {
-      lib,
-      osConfig,
-      pkgs,
-      ...
-    }:
-    {
-      home.packages = with pkgs; [
+      environment.systemPackages = with pkgs; [
         bluetui
         brightnessctl
         imv
@@ -19,7 +14,16 @@
         # niri starts it on demand to run X11 programs.
         xwayland-satellite
       ];
+    };
 
+  flake.modules.homeManager.desktop =
+    {
+      lib,
+      osConfig,
+      pkgs,
+      ...
+    }:
+    {
       # xdg-open under niri falls back to its generic launcher, which does not
       # honour Terminal=true, so the terminal programs get entries that start
       # kitty themselves.

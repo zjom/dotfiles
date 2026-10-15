@@ -13,7 +13,7 @@ in
       nodes.mac-desktop
 
       (
-        { config, ... }:
+        { config, pkgs, ... }:
         {
           nixpkgs.hostPlatform = "aarch64-darwin";
           my.username = "zihanjin";
@@ -29,7 +29,7 @@ in
 
           home-manager.sharedModules = [
             (
-              { osConfig, pkgs, ... }:
+              { osConfig, ... }:
               {
                 # The server of nodes.aerospace, started at login. The wrapper
                 # carries its configuration, so Home Manager writes none.
@@ -38,13 +38,13 @@ in
                   package = osConfig.wrappers.aerospace.wrapper;
                   launchd.enable = true;
                 };
-
-                home.packages = with pkgs; [
-                  duti
-                  pngpaste
-                ];
               }
             )
+          ];
+
+          environment.systemPackages = with pkgs; [
+            duti
+            pngpaste
           ];
 
           # macOS defaults, launchd agents, Homebrew and the rest of the nix-darwin

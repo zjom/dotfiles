@@ -8,6 +8,7 @@
   flake.modules.homeManager.base =
     { config, ... }:
     {
-      xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/nvim";
+      xdg.configFile."nvim".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/nvim";
     };
 }
