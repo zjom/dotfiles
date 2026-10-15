@@ -4,9 +4,9 @@
 # `use flake ~/dotfiles#rust` in an .envrc file. direnv then enters the shell
 # when you change to the directory.
 #
-# Each shell is a plain `{ pkgs }:` file in ../../shells, not a module. There is
-# one shell in each file. A new file in that directory becomes a shell with the
-# same name.
+# Each shell is a plain `{ pkgs }:` file in ../../shells, not a module.
+# There is one shell in each file. A new file in that directory becomes a
+# shell with the same name.
 { lib, ... }:
 
 let
