@@ -1,5 +1,6 @@
-// niri configuration. Symlinked to ~/.config/niri by modules/desktop/niri.nix, and
-// niri reloads it on save. Reference:
+// niri configuration, baked into the niri node (modules/nodes/niri.nix). The
+// bindings that start other programs are added by modules/nodes/desktop.nix.
+// Reference:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
 //
 // The bindings follow ../aerospace/aerospace.toml: Alt drives the window
@@ -74,17 +75,10 @@ window-rule {
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Programs.
-    Mod+Q hotkey-overlay-title="Sesh picker" { spawn "lm10-sesh"; }
-    Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty" "--single-instance"; }
-    Mod+E hotkey-overlay-title="Ranger" { spawn "kitty" "--single-instance" "--" "ranger"; }
-    Mod+Space hotkey-overlay-title="Launcher" { spawn "lm10-apps"; }
+    // Programs. Those of the graph (kitty, ranger, the lm10 pickers) are bound
+    // in modules/nodes/desktop.nix.
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }
-    Mod+Shift+Escape hotkey-overlay-title="Session ctl" {spawn "lm10-session-ctl";}
-    Mod+F1 hotkey-overlay-title="Scripts" {spawn "lm10-apps" "scripts";}
-    Mod+F2 hotkey-overlay-title="Spotify" {spawn "lm10-spotify";}
-    Mod+Shift+V hotkey-overlay-title="Clipboard history" {spawn "lm10-clip";}
 
     XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+ -l 1.0"; }
     XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }

@@ -1,7 +1,7 @@
 # The niri desktop: niri on its own, started from a greetd login on the
-# console. Importing nixos.desktop brings in the Home Manager side too
-# (homeManager.desktop, for what runs inside the session) and kitty.
-# niri's own config is ../../niri.
+# console. Importing nixos.desktop brings in nodes.desktop (niri, the bar,
+# notifications, the locker, kitty and the pickers, all configured) and the
+# Home Manager side: the services and session state of homeManager.desktop.
 { config, ... }:
 
 let
@@ -10,13 +10,17 @@ let
 in
 {
   flake.modules.nixos.desktop =
-    { pkgs, ... }:
+    { config, pkgs, ... }:
     {
-      imports = [ nodes.kitty ];
+      imports = [ nodes.desktop ];
 
       home-manager.sharedModules = [ homeManager.desktop ];
 
-      programs.niri.enable = true;
+      # The wrapped niri, so niri-session runs the configured one.
+      programs.niri = {
+        enable = true;
+        package = config.wrappers.niri.wrapper;
+      };
 
       # A text greeter, so there is no second graphical stack just to log in.
       services.greetd = {
@@ -34,11 +38,5 @@ in
 
       # Electron and Chromium apps run natively on Wayland instead of XWayland.
       environment.sessionVariables.NIXOS_OZONE_WL = "1";
-    };
-
-  flake.modules.homeManager.desktop =
-    { config, ... }:
-    {
-      xdg.configFile."niri".source = config.lib.file.mkOutOfStoreSymlink "${config.my.dotfilesRoot}/niri";
     };
 }

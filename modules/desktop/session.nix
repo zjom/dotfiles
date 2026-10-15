@@ -1,16 +1,14 @@
-# What runs inside the niri session: launcher, notifications, file
-# associations, cursor and theme. The bar and locking have files of their own.
-{ config, inputs, ... }:
-
-let
-  inherit (config) colors;
-in
+# What runs inside the niri session: notifications, clipboard history, file
+# associations, cursor and theme. The bar and locking have files of their own;
+# the launcher is nodes.launcher.
 {
   flake.modules.homeManager.desktop =
-    { lib, pkgs, ... }:
-    let
-      lm10 = inputs.lm10.packages.${pkgs.stdenv.hostPlatform.system}.default;
-    in
+    {
+      lib,
+      osConfig,
+      pkgs,
+      ...
+    }:
     {
       home.packages = with pkgs; [
         bluetui
@@ -20,11 +18,6 @@ in
         wl-clipboard
         # niri starts it on demand to run X11 programs.
         xwayland-satellite
-
-        # The launcher. lm10 only picks from the lines it is given; the
-        # scripts in ../../scripts/lm10 feed it (linked by ../scripts.nix).
-        # They use fd and sesh, which tools.nix installs.
-        lm10
       ];
 
       # xdg-open under niri falls back to its generic launcher, which does not
@@ -114,35 +107,10 @@ in
       };
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
-      xdg.configFile."lm10/lm10.ini".text = lib.generators.toINI { } {
-        main = {
-          font = "JetBrains Mono 15";
-          border-width = 1;
-          border-radius = 4;
-        };
-        colors = with colors; {
-          background = "#${bg}ff";
-          text = "#${fg}ff";
-          prompt = "#${keyword}ff";
-          placeholder = "#${comment}ff";
-          input = "#${fg}ff";
-          cursor = "#${fg}ff";
-          match = "#${string}ff";
-          selection = "#${line}ff";
-          selection-text = "#${fg}ff";
-          selection-match = "#${string}ff";
-          counter = "#${comment}ff";
-          border = "#${floatBorder}ff";
-        };
-      };
-
+      # nodes.mako, D-Bus activated through its own (patched) service file.
       services.mako = {
         enable = true;
-        settings = {
-          font = "JetBrains Mono 10";
-          default-timeout = 5000;
-          border-radius = 4;
-        };
+        package = osConfig.wrappers.mako.wrapper;
       };
 
       # Clipboard history: stores every copy (wl-paste --watch), started with

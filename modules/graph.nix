@@ -24,18 +24,34 @@ let
   };
 
   # Standalone evaluation for `nix run`: no NixOS, no darwin.
+  evalNode =
+    pkgs: node:
+    (lib.evalModules {
+      class = "envGraph";
+      modules = [
+        node
+        { _module.args.pkgs = pkgs; }
+      ];
+    }).config;
+
+  enabledWrappers = cfg: lib.filter (w: w.enable) (lib.attrValues cfg.wrappers);
+
+  # A node is a target on a system only where every program in it is
+  # packaged: the desktop nodes are Linux-only (decision D18). A package
+  # that is missing altogether throws, which counts as unavailable.
+  available =
+    pkgs: _: node:
+    (builtins.tryEval (
+      lib.all (w: lib.meta.availableOn pkgs.stdenv.hostPlatform w.package) (
+        enabledWrappers (evalNode pkgs node)
+      )
+    )).value;
+
   mkEnv =
     pkgs: name: node:
     let
-      cfg =
-        (lib.evalModules {
-          class = "envGraph";
-          modules = [
-            node
-            { _module.args.pkgs = pkgs; }
-          ];
-        }).config;
-      enabled = lib.filter (w: w.enable) (lib.attrValues cfg.wrappers);
+      cfg = evalNode pkgs node;
+      enabled = enabledWrappers cfg;
     in
     pkgs.symlinkJoin {
       name = "env-${name}";
@@ -90,9 +106,9 @@ in
 
     perSystem = { pkgs, ... }: {
       packages =
-        lib.mapAttrs (mkEnv pkgs) config.nodes
+        lib.mapAttrs (mkEnv pkgs) (lib.filterAttrs (available pkgs) config.nodes)
         // lib.optionalAttrs (config.nodes ? env) { default = mkEnv pkgs "env" config.nodes.env; };
-      checks = lib.mapAttrs (mkEnv pkgs) config.nodes;
+      checks = lib.mapAttrs (mkEnv pkgs) (lib.filterAttrs (available pkgs) config.nodes);
     };
 
     # Publish nodes for other people's flakes. `generic` = importable into
