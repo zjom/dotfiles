@@ -11,6 +11,10 @@ in
     modules = [
       nixos.base
       nixos.desktop
+      nixos.intel-cpu
+      nixos.laptop
+      nixos.audio
+      nixos.nvidia-prime
       nodes.env
       inputs.openlogi.nixosModules.default
 
@@ -98,42 +102,10 @@ in
             ];
           };
 
-          # Graphics. The panel hangs off the Intel GPU, which renders the desktop.
-          # The NVIDIA GPU stays powered down until something is started on it with
-          # `nvidia-offload <program>`.
-          hardware.graphics.enable = true;
-          hardware.graphics.enable32Bit = true;
-          services.xserver.videoDrivers = [
-            "modesetting"
-            "nvidia"
-          ];
-          hardware.nvidia = {
-            # The open kernel module is the recommended one from Turing on.
-            open = true;
-            modesetting.enable = true;
-            powerManagement.enable = true;
-            powerManagement.finegrained = true;
-            prime = {
-              offload.enable = true;
-              offload.enableOffloadCmd = true;
-              # From /sys/class/drm/card*/device: 0000:00:02.0 and 0000:01:00.0.
-              intelBusId = "PCI:0@0:2:0";
-              nvidiaBusId = "PCI:1@0:0:0";
-            };
-          };
-
-          hardware.enableRedistributableFirmware = true;
-          hardware.bluetooth.enable = true;
-          services.power-profiles-daemon.enable = true;
-          services.upower.enable = true;
-
-          services.pulseaudio.enable = false;
-          security.rtkit.enable = true;
-          services.pipewire = {
-            enable = true;
-            alsa.enable = true;
-            alsa.support32Bit = true;
-            pulse.enable = true;
+          # From /sys/class/drm/card*/device: 0000:00:02.0 and 0000:01:00.0.
+          hardware.nvidia.prime = {
+            intelBusId = "PCI:0@0:2:0";
+            nvidiaBusId = "PCI:1@0:0:0";
           };
 
           programs.firefox.enable = true;
