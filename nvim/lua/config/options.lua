@@ -4,6 +4,10 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- The checkout this configuration is edited in. Neovim runs the copy in the
+-- Nix store (modules/nodes/nvim.nix), so stdpath("config") does not point here.
+vim.g.config_checkout = vim.fs.normalize("~/dotfiles/nvim")
+
 -- [[ Setting options ]]
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!

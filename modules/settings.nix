@@ -15,6 +15,19 @@
         };
     in
     {
+      # Directories never worth searching, walking or listing: fd, ripgrep
+      # and fzf's walker all skip them.
+      options.settings.searchIgnores = lib.mkOption {
+        type = lib.types.listOf lib.types.str;
+        default = [
+          ".git"
+          ".jj"
+          "node_modules"
+          ".venv"
+          "venv"
+        ];
+      };
+
       # The vague colour scheme, as hex without the leading `#`, so it can be
       # used by programs that want either form.
       options.settings.colors = {

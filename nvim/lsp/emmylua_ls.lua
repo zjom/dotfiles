@@ -4,7 +4,7 @@ return {
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
 			if
-				path ~= vim.fn.stdpath("config")
+				path ~= vim.g.config_checkout
 				and (vim.uv.fs_stat(path .. "/.emmyrc.json") or vim.uv.fs_stat(path .. "/.luarc.json"))
 			then
 				client.config.settings = {}
