@@ -145,6 +145,10 @@ in
         };
       };
 
+      # Clipboard history: stores every copy (wl-paste --watch), started with
+      # graphical-session.target. scripts/lm10/lm10-clip picks from it.
+      services.cliphist.enable = true;
+
       # Answers privilege prompts from GUI programs.
       services.polkit-gnome.enable = true;
     };

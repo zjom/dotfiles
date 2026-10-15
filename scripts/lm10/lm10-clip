@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# Clipboard history picker over cliphist (services.cliphist stores every copy).
+# Picking an entry copies it back; ^d deletes the selected one and ^w wipes
+# the history. Like lm10-sesh, it makes its own list (lm10-clip --list), so
+# the reload binds can run it too.
+set -euo pipefail
+
+# Prints entries as lines lm10 reads back. The name is single-quoted with
+# control characters dropped, since a preview may hold tabs or escapes; the
+# id is a number. The id is the last argv word, {4}.
+list() {
+  cliphist list | while IFS=$'\t' read -r id preview; do
+    preview=$(tr -d '[:cntrl:]' <<<"$preview")
+    printf -- "-X -n '%s' -- sh -c 'cliphist decode \"\$1\" | wl-copy' sh %s\n" \
+      "${preview//\'/\'\\\'\'}" "$id"
+  done
+}
+
+if [[ ${1:-} == --list ]]; then
+  list
+  exit
+fi
+
+printf -v self %q "$(realpath "$0")"
+list | "${LM10:-lm10}" \
+  --width 50% \
+  --prompt '📋  ' \
+  --header '^d delete  ^w wipe' \
+  --bind "Control+d=execute(echo {4} | cliphist delete)+reload($self --list)" \
+  --bind "Control+w=execute(cliphist wipe)+reload($self --list)"
