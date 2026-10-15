@@ -1,5 +1,5 @@
-# Leaf node: waybar, the bar. The buttons that start other programs are set
-# by the desktop composite.
+# Leaf node: waybar, the bar. The desktop composite sets the buttons that start
+# other programs.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -25,8 +25,8 @@ in
 
       entry = lib.mkDefault "waybar";
 
-      # The upstream module passes --config and --style, so ~/.config/waybar is
-      # ignored.
+      # The upstream module passes --config and --style, so waybar ignores
+      # ~/.config/waybar.
       wrappers.waybar = {
         enable = true;
 
@@ -69,8 +69,8 @@ in
             format-charging = "chg {capacity}%";
             states.warning = 20;
           };
-          # What spotifyd (or any MPRIS player) is playing. Left-click
-          # play-pauses.
+          # The track that spotifyd (or another MPRIS player) plays. A
+          # left-click toggles between play and pause.
           mpris = {
             format = "{status_icon} {dynamic}";
             format-paused = "{status_icon} {dynamic}";
@@ -91,8 +91,8 @@ in
           tray.spacing = 8;
         };
 
-        # Set as a path: the module's default style file is built from the
-        # wrong option.
+        # This value is a path because the module builds its default style file
+        # from the wrong option.
         "style.css".path = pkgs.writeText "waybar-style.css" (
           with colors;
           ''

@@ -1,11 +1,11 @@
-# fish, the login shell on every host: the wrapped fish of nodes.fish, with
-# whatever composites the host adds to it. bash and zsh are installed but carry
-# no configuration of their own.
+# fish, the login shell on each host. This fish is the wrapped fish of
+# nodes.fish, with the composites that the host adds. bash and zsh are
+# installed, but bash and zsh have no configuration of their own.
 #
-# The wrapper passes --no-config, which also skips /etc/fish/config.fish, the
-# file through which NixOS and nix-darwin set up PATH and the rest of the
-# environment. Platform glue (spec rule 19): source it first, ahead of the
-# node's own configuration (decision D22).
+# The wrapper passes --no-config. This flag also skips /etc/fish/config.fish.
+# NixOS and nix-darwin use that file to set PATH and the other environment
+# variables. This module is platform glue (spec rule 19). It sources that file
+# before the configuration of the node (decision D22).
 { config, ... }:
 
 let
@@ -16,8 +16,9 @@ let
     {
       imports = [ nodes.fish ];
 
-      # The system's fish is the wrapper itself, so /run/current-system/sw/bin/fish
-      # is the configured one and the two never collide in systemPackages.
+      # The fish of the system is the wrapper itself. Thus,
+      # /run/current-system/sw/bin/fish is the configured fish, and the two fish
+      # packages do not conflict in systemPackages.
       programs.fish = {
         enable = true;
         package = config.wrappers.fish.wrapper;
@@ -42,15 +43,15 @@ in
     {
       imports = [ loginShell ];
 
-      # Makes /etc/zshrc and /etc/bashrc load the Nix profiles, which is what
-      # puts the Home Manager environment on PATH for a login shell. These keep
-      # scripts and a fallback shell working.
+      # Makes /etc/zshrc and /etc/bashrc load the Nix profiles. These profiles
+      # put the Home Manager environment on PATH for a login shell. Thus,
+      # scripts and the fallback shell continue to work.
       programs.zsh.enable = true;
       programs.bash.enable = true;
 
-      # nix-darwin only sets `users.users.<name>.shell` for users in
-      # `knownUsers`, which it warns against for the admin user. Set the login
-      # shell directly.
+      # nix-darwin sets `users.users.<name>.shell` only for users in
+      # `knownUsers`. nix-darwin recommends that you do not put the admin user
+      # in `knownUsers`. Thus, set the login shell directly.
       system.activationScripts.postActivation.text = ''
         fish=/run/current-system/sw/bin/fish
         if [ "$(dscl . -read /Users/${config.my.username} UserShell)" != "UserShell: $fish" ]; then

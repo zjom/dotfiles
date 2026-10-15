@@ -1,5 +1,5 @@
-# Composite node: fish and tmux as one session, with sesh to pick sessions.
-# Owns only the glue between them.
+# Composite node: fish and tmux as one session, with sesh to select sessions.
+# This node contains only the glue between these programs.
 { config, ... }:
 {
   nodes.shell = {
@@ -16,12 +16,13 @@
     wrappers.fish = {
       shellAliases.tm = "tmux";
 
-      # fzf's shell bindings open in a tmux popup when inside tmux.
+      # Inside tmux, the shell bindings of fzf open in a tmux popup.
       env.FZF_TMUX = "1";
 
       configFile.content = ''
-        # A function rather than an alias: the wrapper writes aliases in double
-        # quotes, which would run the picker when the alias is defined.
+        # This definition is a function, not an alias. The wrapper writes
+        # aliases in double quotes. With double quotes, the shell runs the
+        # picker when it defines the alias.
         function s --description "Pick any sesh session with fzf and connect to it"
             sesh connect (sesh list --icons | fzf --ansi)
         end
@@ -33,7 +34,7 @@
             sesh connect $session
         end
 
-        # Kept in sync with the `c-o` binding below.
+        # Keep this list equal to the `c-o` binding below.
         function sesh_all --description "The full sesh picker, in a tmux popup"
             set -l session (
               sesh list --icons | fzf-tmux -p 80%,70% \
@@ -65,12 +66,14 @@
     };
 
     wrappers.tmux.configAfter = ''
-      # tmux seeds default-shell from $SHELL when the server starts, and `nix develop`
-      # exports $SHELL as the dev shell's own bash -- so a server first launched from
-      # inside one hands bash to every later pane, window and session. Pin fish.
+      # When the tmux server starts, tmux sets default-shell from $SHELL.
+      # `nix develop` sets $SHELL to the bash of the dev shell. Thus, if the
+      # server starts inside a dev shell, all later panes, windows and sessions
+      # get bash. This setting pins fish.
       run-shell 'f=$(command -v fish) && tmux set-option -g default-shell "$f"'
 
-      # Sesh session switcher, kept in sync with fish's sesh_all.
+      # The sesh session switcher. Keep this binding equal to the sesh_all
+      # function of fish.
       bind "c-o" run-shell "sesh connect \"$(
         sesh list --icons | fzf-tmux -p 80%,70% \
           --no-sort --ansi --border-label ' sesh ' --prompt '⚡  ' \

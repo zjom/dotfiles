@@ -1,5 +1,5 @@
-# Leaf node: zoxide. It has no configuration file; its database is state in
-# the XDG data directory.
+# Leaf node: zoxide. zoxide has no configuration file. The database of zoxide is
+# state in the XDG data directory.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

@@ -1,4 +1,5 @@
--- Borrowed from https://github.com/lewis6991/dotfiles/blob/0071d6f1a97f8f6080eb592c4838d92f77901e84/config/nvim/lua/gizmos/marksigns.lua
+-- Copied from
+-- https://github.com/lewis6991/dotfiles/blob/0071d6f1a97f8f6080eb592c4838d92f77901e84/config/nvim/lua/gizmos/marksigns.lua
 
 local ns = vim.api.nvim_create_namespace("zjom/marks")
 
@@ -13,7 +14,7 @@ end
 
 vim.api.nvim_set_decoration_provider(ns, {
 	on_win = function(_, _, bufnr, top_row, bot_row)
-		-- Only enable mark signs for buffers with a filename.
+		-- Show mark signs only for buffers that have a file name.
 		if vim.api.nvim_buf_get_name(bufnr) == "" then
 			return
 		end
@@ -22,7 +23,7 @@ vim.api.nvim_set_decoration_provider(ns, {
 
 		local current_file = vim.api.nvim_buf_get_name(bufnr)
 
-		-- Global marks
+		-- Global marks.
 		for _, mark in ipairs(vim.fn.getmarklist()) do
 			if mark.mark:match("^.[a-zA-Z]$") then
 				local mark_file = vim.fn.fnamemodify(mark.file, ":p:a")
@@ -32,7 +33,7 @@ vim.api.nvim_set_decoration_provider(ns, {
 			end
 		end
 
-		-- Local marks
+		-- Local marks.
 		for _, mark in ipairs(vim.fn.getmarklist(bufnr)) do
 			if mark.mark:match("^.[a-zA-Z]$") then
 				decor_mark(bufnr, mark)
@@ -41,7 +42,7 @@ vim.api.nvim_set_decoration_provider(ns, {
 	end,
 })
 
--- Redraw screen when marks are changed via `m` commands
+-- Redraw the screen when an `m` command changes the marks.
 vim.on_key(function(_, typed)
 	if typed:sub(1, 1) ~= "m" then
 		return

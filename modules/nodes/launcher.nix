@@ -1,8 +1,8 @@
-# Composite node: the lm10 pickers in ../../scripts/lm10 -- apps, sessions,
-# Spotify, the clipboard history, the session menu. The scripts are the glue:
-# each one feeds lm10 lines that start kitty, sesh, spotify_player and so on
-# by name. They are installed beside lm10 itself; lm10-apps lists the scripts
-# next to it.
+# Composite node: the lm10 pickers in ../../scripts/lm10. The pickers are for
+# apps, sessions, Spotify, the clipboard history and the session menu. The
+# scripts are the glue. Each script gives lm10 lines that start kitty, sesh,
+# spotify_player and other programs by name. The scripts are installed next to
+# lm10 itself. lm10-apps lists the scripts in its own directory.
 { config, ... }:
 {
   nodes.launcher =
@@ -31,9 +31,9 @@
       wrappers.lm10 =
         { config, ... }:
         {
-          # Linked into the lm10 wrapper's bin/. lm10-apps lists the scripts
-          # beside its own resolved path, which is the scripts' directory
-          # (decision D21).
+          # Linked into the bin/ directory of the lm10 wrapper. lm10-apps lists
+          # the scripts in the directory of its own resolved path. This
+          # directory is the directory of the scripts (decision D21).
           buildCommand.launcherScripts = {
             after = [
               "makeWrapper"

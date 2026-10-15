@@ -1,6 +1,6 @@
-# gh, logged in once per machine with `gh auth login`. gh writes that login
-# into its own configuration directory, so it is not a node (decision D14);
-# git reaches it by name through the github node's credential helper.
+# gh. On each machine, log in one time with `gh auth login`. gh writes the login
+# into its own configuration directory, so gh is not a node (decision D14). git
+# calls gh by name through the credential helper of the github node.
 {
   flake.modules.homeManager.base = {
     programs.gh = {

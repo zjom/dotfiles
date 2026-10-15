@@ -1,5 +1,5 @@
-# Leaf node: ranger, configured from ../../ranger. History and bookmarks stay
-# state in the XDG data directory.
+# Leaf node: ranger, configured from ../../ranger. The history and the bookmarks
+# stay as state in the XDG data directory.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -20,7 +20,7 @@ in
       wrappers.ranger = {
         enable = true;
         package = pkgs.ranger;
-        # In place of ~/.config/ranger.
+        # This directory replaces ~/.config/ranger.
         flags."--confdir" = "${../../ranger}";
       };
     };

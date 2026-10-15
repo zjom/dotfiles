@@ -1,5 +1,6 @@
-# Leaf node: mako, the notification daemon. It is started by D-Bus
-# activation; the wrapper patches its service file to run the wrapper.
+# Leaf node: mako, the notification daemon. D-Bus activation starts mako. The
+# wrapper changes the service file of mako so that the service file runs the
+# wrapper.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -17,7 +18,7 @@ in
 
       entry = lib.mkDefault "mako";
 
-      # The upstream module passes --config, so ~/.config/mako is ignored.
+      # The upstream module passes --config, so mako ignores ~/.config/mako.
       wrappers.mako = {
         enable = true;
         settings = {

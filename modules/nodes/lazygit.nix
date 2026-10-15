@@ -1,5 +1,5 @@
 # Leaf node: lazygit, with its default settings. LG_CONFIG_FILE moves only the
-# configuration; lazygit's state.yml stays in ~/.config/lazygit.
+# configuration. The state.yml file of lazygit stays in ~/.config/lazygit.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

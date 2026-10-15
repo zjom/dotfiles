@@ -1,6 +1,6 @@
-# Composite node: the dev shells in ../../shells, entered with F12 or by
-# direnv's `use flake`. Owns only the glue between fish, fzf, fd, direnv and
-# git.
+# Composite node: the dev shells in ../../shells. You enter a dev shell with F12
+# or with the `use flake` command of direnv. This node contains only the glue
+# between fish, fzf, fd, direnv and git.
 { config, ... }:
 {
   nodes.devshell =
@@ -16,21 +16,21 @@
 
       entry = "fish";
 
-      # direnv's cache directories are never worth committing.
+      # git must never commit the cache directories of direnv.
       wrappers.git.settings.core.excludesFile = "${pkgs.writeText "gitignore" ".direnv/\n"}";
 
       wrappers.fish.configFile.content = ''
         function activate_dev_shell --description "Activate a dev shell"
-            # The checkout of this repository on every host.
+            # The checkout of this repository on each host.
             set -l flake_root ~/dotfiles
             set -l shell (fd --type f --extension nix . $flake_root/shells --exec echo '{/.}' \
                           | sort \
                           | fzf --prompt='dev shell ⚡ ' --height=40% --reverse --border)
 
             if test -n "$shell"
-                # nix develop exports $SHELL as the dev shell's bash. Anything
-                # started from here (tmux above all) would inherit it, so carry
-                # the real login shell through.
+                # nix develop sets $SHELL to the bash of the dev shell. Each
+                # program that starts from here (most importantly tmux) gets
+                # that value. Thus, pass the real login shell to the dev shell.
                 set -l outer_shell $SHELL
                 nix develop "$flake_root#$shell" -c env SHELL=$outer_shell fish
             else

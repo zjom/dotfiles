@@ -21,13 +21,13 @@ require("blink.cmp").setup({
     preset = "default",
   },
   appearance = {
-    -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-    -- Adjusts spacing to ensure icons are aligned
+    -- 'mono' (default) for 'Nerd Font Mono', or 'normal' for 'Nerd Font'.
+    -- Changes the spacing so that the icons align.
     nerd_font_variant = "mono",
   },
   completion = {
-    -- By default, you may press `<c-space>` to show the documentation.
-    -- Optionally, set `auto_show = true` to show the documentation after a delay.
+    -- By default, press `<c-space>` to show the documentation. To show the
+    -- documentation automatically after a delay, set `auto_show = true`.
     documentation = { auto_show = true, auto_show_delay_ms = 500 },
   },
   sources = {

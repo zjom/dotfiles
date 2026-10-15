@@ -1,5 +1,6 @@
-# Leaf node: fzf. Its options live in FZF_DEFAULT_OPTS, set on the fzf binary
-# itself, so fzf-tmux and every other caller get them too.
+# Leaf node: fzf. The options of fzf are in FZF_DEFAULT_OPTS. The wrapper sets
+# this variable on the fzf binary, so fzf-tmux and all other callers also get
+# the options.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

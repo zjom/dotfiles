@@ -1,13 +1,14 @@
-// niri configuration, baked into the niri node (modules/nodes/niri.nix). The
-// bindings that start other programs are added by modules/nodes/desktop.nix.
+// The niri configuration. The niri node (modules/nodes/niri.nix) puts this
+// file into its package. modules/nodes/desktop.nix adds the bindings that start
+// other programs.
 // Reference:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
 //
-// The bindings follow ../aerospace/aerospace.toml: Alt drives the window
-// manager, leaving Super to kitty (tabs on Super+1-5, splits on Super+hjkl).
+// The bindings are the same as in ../aerospace/aerospace.toml. Alt controls the
+// window manager. kitty uses Super (tabs on Super+1-5, splits on Super+hjkl).
 
 input {
-    // Alt rather than Super, as under AeroSpace.
+    // Alt, not Super, the same as under AeroSpace.
     mod-key "Alt"
     mod-key-nested "Super"
 
@@ -61,7 +62,7 @@ hotkey-overlay {
     skip-at-startup
 }
 
-// Firefox's picture-in-picture player floats.
+// The picture-in-picture player of Firefox floats.
 window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
@@ -75,8 +76,8 @@ window-rule {
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Programs. Those of the graph (kitty, ranger, the lm10 pickers) are bound
-    // in modules/nodes/desktop.nix.
+    // Programs. modules/nodes/desktop.nix binds the programs of the graph
+    // (kitty, ranger, the lm10 pickers).
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }
 
@@ -119,8 +120,8 @@ binds {
     Mod+Shift+Home { move-column-to-first; }
     Mod+Shift+End  { move-column-to-last; }
 
-    // Pull a window into, or push it out of, the column beside it -- the
-    // nearest thing to AeroSpace's join-with.
+    // Move a window into the adjacent column, or out of its current column.
+    // This function is the nearest equivalent of join-with in AeroSpace.
     Mod+BracketLeft  { consume-or-expel-window-left; }
     Mod+BracketRight { consume-or-expel-window-right; }
     Mod+Comma        { toggle-column-tabbed-display; }
@@ -175,7 +176,7 @@ binds {
     Mod+WheelScrollRight { focus-column-right; }
     Mod+WheelScrollLeft  { focus-column-left; }
 
-    // Screenshots; also copied to the clipboard.
+    // Screenshots. niri also copies each screenshot to the clipboard.
     Print       { screenshot; }
     Ctrl+Print  { screenshot-screen; }
     Mod+Print   { screenshot-window; }

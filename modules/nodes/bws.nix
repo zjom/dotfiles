@@ -1,6 +1,6 @@
-# Leaf node: the Bitwarden Secrets Manager CLI. Its access token is never
-# part of the configuration; the bitwarden composite reads it from the
-# keyring for each call.
+# Leaf node: the Bitwarden Secrets Manager CLI. The access token of the CLI is
+# never part of the configuration. The bitwarden composite reads the access
+# token from the keyring for each call.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

@@ -1,5 +1,5 @@
-# Locking: swayidle starts nodes.swaylock. swayidle is a service of the
-# session, so it stays with Home Manager.
+# Screen lock: swayidle starts nodes.swaylock. swayidle is a service of the
+# session, so swayidle stays with Home Manager.
 {
   flake.modules.homeManager.desktop =
     { lib, osConfig, ... }:
@@ -7,8 +7,8 @@
       lock = "${lib.getExe osConfig.wrappers.swaylock.wrapper} -f";
     in
     {
-      # Lock after 5 minutes idle, blank the screen a minute later, and always
-      # lock before suspending.
+      # Lock the screen after 5 minutes of idle time. Blank the screen 1
+      # minute later. Always lock the screen before the machine suspends.
       services.swayidle = {
         enable = true;
         timeouts = [

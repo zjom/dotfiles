@@ -1,5 +1,6 @@
-# Composite node: the niri desktop. Owns only the glue between niri, the bar,
-# the terminal and the pickers: the bindings and buttons that start them.
+# Composite node: the niri desktop. This node contains only the glue between
+# niri, the bar, the terminal and the pickers: the bindings and the buttons that
+# start these programs.
 { config, ... }:
 {
   nodes.desktop =
@@ -15,10 +16,10 @@
         launcher
       ];
 
-      # The launcher starts lm10-apps; the desktop starts niri (decision D8).
+      # The launcher starts lm10-apps. The desktop starts niri (decision D8).
       entry = lib.mkForce "niri";
 
-      # niri merges the binds of an included file into its own.
+      # niri merges the binds of an included file with its own binds.
       wrappers.niri."config.kdl".content = lib.mkAfter ''
         include "${pkgs.writeText "desktop-binds.kdl" ''
           binds {
@@ -37,7 +38,7 @@
       wrappers.waybar.settings = {
         network.on-click = "kitty nmtui";
         bluetooth.on-click = "kitty bluetui";
-        # Right-click opens the Spotify picker.
+        # A right-click opens the Spotify picker.
         mpris.on-click-right = "lm10-spotify";
       };
     };

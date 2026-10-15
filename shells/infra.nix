@@ -1,4 +1,4 @@
-# OpenTofu + tooling
+# OpenTofu and related tools.
 #   nix develop '~/dotfiles#infra'
 
 { pkgs }:

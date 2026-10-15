@@ -1,7 +1,7 @@
-# Who and what a system is: the user it is built for and the name of its
-# configuration in this flake. Set by each host in modules/hosts, read by
-# system modules as `config.my.*` and by Home Manager modules as
-# `osConfig.my.*`.
+# The identity of a system: the user that the system is built for, and the name
+# of the configuration of the system in this flake. Each host in modules/hosts
+# sets these values. System modules read the values as `config.my.*`. Home
+# Manager modules read the values as `osConfig.my.*`.
 let
   identity =
     { lib, ... }:

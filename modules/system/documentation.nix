@@ -1,4 +1,5 @@
-# Man pages: the system's development pages and the Linux man-pages project.
+# Man pages: the development pages of the system and the Linux man-pages
+# project.
 {
   flake.modules.nixos.base =
     { pkgs, ... }:

@@ -1,14 +1,15 @@
-# Leaf node: spotify-player, the terminal Spotify client. Playback is left to
-# a Spotify Connect daemon (spotifyd, run by Home Manager in modules/system/spotifyd.nix);
-# which device that is depends on the machine, so each host sets
-# `wrappers.spotify-player.settings.default_device`. The login is state in the
-# cache folder, outside the configuration.
+# Leaf node: spotify-player, the terminal client for Spotify. A Spotify Connect
+# daemon plays the audio. Home Manager runs this daemon (spotifyd) in
+# modules/system/spotifyd.nix. The device depends on the machine, so each host
+# sets `wrappers.spotify-player.settings.default_device`. The login is state in
+# the cache directory, outside the configuration.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
 
-  # nix-wrapper-modules has no module for spotify-player: a local one, with the
-  # app.toml settings as an option so a host can extend them.
+  # nix-wrapper-modules has no module for spotify-player. This module is a local
+  # module. The app.toml settings are an option, so a host can extend the
+  # settings.
   module =
     {
       config,
@@ -31,7 +32,7 @@ let
 
       config = {
         package = lib.mkDefault pkgs.spotify-player;
-        # In place of ~/.config/spotify-player.
+        # This directory replaces ~/.config/spotify-player.
         flags."--config-folder" = "${pkgs.linkFarm "spotify-player-config" {
           "app.toml" = toml.generate "app.toml" config.settings;
         }}";
@@ -55,12 +56,15 @@ in
         enable = true;
         settings = {
           client_id = "6698cb5b027840b9a170b92747ed8903";
-          # Leave playback to the Connect daemon and connect to it by name.
+          # The Connect daemon plays the audio. spotify-player connects to the
+          # daemon by name.
           enable_streaming = "Never";
           playback_window_position = "Top";
-          # Playlist reads default to the shared ncspot client, whose quota is
-          # constantly exhausted. Send them through our own client first; ncspot
-          # is still the fallback on any 4xx (e.g. Spotify-owned playlists).
+          # By default, spotify-player reads playlists through the shared ncspot
+          # client. The quota of that client is almost always used up. Thus,
+          # send the requests through our own client first. If the response is a
+          # 4xx error, spotify-player still uses ncspot. An example is a
+          # playlist that Spotify owns.
           ncspot_only_get_endpoints = [ ];
           enable_notify = false;
         };

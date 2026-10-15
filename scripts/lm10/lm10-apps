@@ -1,10 +1,11 @@
 #!/usr/bin/env fish
-# App launcher: lists the installed desktop applications (.desktop files) and
-# the other lm10 scripts beside this one, and runs the picked one detached,
-# like a desktop's app menu. The apps part is copied from lm10's
-# examples/apps.fish. Like lm10-sesh, it makes its own lists
-# (lm10-apps --list [apps|scripts]), so the reload binds can run it too;
-# lm10-apps apps|scripts opens on just that list. Needs fd.
+# App launcher. The script lists the installed desktop applications (.desktop
+# files) and the other lm10 scripts in the directory of this script. The script
+# runs the selected entry as a detached process, like the app menu of a desktop.
+# The apps part is copied from examples/apps.fish of lm10. Like lm10-sesh, the
+# script makes its own lists (lm10-apps --list [apps|scripts]), so the reload
+# binds can also run the script. lm10-apps apps|scripts opens with only that
+# list. The script needs fd.
 
 set -q XDG_DATA_HOME; or set XDG_DATA_HOME ~/.local/share
 set -q XDG_DATA_DIRS; or set XDG_DATA_DIRS /usr/local/share:/usr/share
@@ -19,8 +20,9 @@ function field -a key
 end
 
 function apps
-    # The first file with a given desktop id wins, so ~/.local/share overrides
-    # (or, with Hidden=true, removes) the system's entries.
+    # The first file with a given desktop ID has priority. Thus, a file in
+    # ~/.local/share overrides an entry of the system, or removes it with
+    # Hidden=true.
     set -l seen
     for dir in (string split : -- $XDG_DATA_HOME:$XDG_DATA_DIRS)/applications
         test -d $dir; or continue
@@ -34,14 +36,14 @@ function apps
             test (field Type $e) = Application -a -n "$exec"; or continue
             contains true (field NoDisplay $e) (field Hidden $e) (field Terminal $e); and continue
 
-            # Exec is already quoted the way lm10 lines are.
+            # The Exec value already has the same quoting as lm10 lines.
             set -l name (string replace -a "'" "'\\''" -- (field Name $e))
             echo "-X -n '📦  $name' -- $exec"
         end
     end
 end
 
-# The executables beside this script, but this one.
+# The executables in the directory of this script, except this script.
 function scripts -a self
     for script in (dirname $self)/*
         test -f $script -a -x $script -a $script != $self; or continue

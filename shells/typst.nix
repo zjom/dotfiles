@@ -1,4 +1,4 @@
-# Typst toolchain + tinymist.
+# Typst toolchain, with tinymist.
 #   nix develop '~/dotfiles#typst'
 { pkgs }:
 

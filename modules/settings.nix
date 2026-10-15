@@ -1,7 +1,8 @@
-# Values more than one program needs, as `settings.*` options every node can
-# read. Leaves read them; a composite or a host can override a value and every
-# leaf in that evaluation follows. Each value is its own option with a default,
-# so overriding one does not drop the rest (spec rules 15-17).
+# The values that more than one program needs, as `settings.*` options. All
+# nodes can read these options. The leaves read the options. A composite or a
+# host can override a value, and then all leaves in that evaluation use the new
+# value. Each value is a separate option with a default. Thus, an override of
+# one value does not remove the other values (spec rules 15-17).
 { ... }:
 {
   graph.base =
@@ -15,8 +16,8 @@
         };
     in
     {
-      # Directories never worth searching, walking or listing: fd, ripgrep
-      # and fzf's walker all skip them.
+      # The directories that are never useful to search, walk or list. fd,
+      # ripgrep and the walker of fzf skip these directories.
       options.settings.searchIgnores = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [
@@ -28,8 +29,8 @@
         ];
       };
 
-      # The vague colour scheme, as hex without the leading `#`, so it can be
-      # used by programs that want either form.
+      # The vague colour scheme, as hex values without the leading `#`. Programs
+      # that need either form can use these values.
       options.settings.colors = {
         bg = color "141415";
         inactiveBg = color "1c1c24";

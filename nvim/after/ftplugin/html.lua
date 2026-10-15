@@ -1,10 +1,12 @@
--- Helper function to find and jump to the appropriate heading
+-- Helper function that finds the applicable heading and jumps to that heading.
 local function jump_heading(forward)
-	-- Find the closest heading backwards to determine our current context.
-	-- 'b' = backward, 'c' = accept match at cursor, 'W' = no wrap, 'n' = do not move cursor
+	-- Find the nearest heading before the cursor, to get the current context.
+	-- 'b' = backward, 'c' = accept a match at the cursor, 'W' = no wrap, 'n' =
+	-- do not move the cursor.
 	local context_lnum = vim.fn.search([[<h[1-6]\(>\|\s\)]], "bcWn")
 
-	-- Default to "6" if no previous heading is found (e.g., top of file)
+	-- If there is no heading before the cursor (for example, at the top of the
+	-- file), use "6".
 	local level = "6"
 	if context_lnum > 0 then
 		local line = vim.fn.getline(context_lnum)
@@ -19,7 +21,7 @@ local function jump_heading(forward)
 	vim.fn.search(pattern, search_flags)
 end
 
--- Keymaps
+-- Keymaps.
 vim.keymap.set({ "n", "x" }, "]]", function()
 	jump_heading(true)
 end, { desc = "Jump to next HTML heading of same/higher level" })

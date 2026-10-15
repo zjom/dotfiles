@@ -1,5 +1,5 @@
-# Leaf node: the Bitwarden password vault CLI. It has no configuration; its
-# login and vault cache are state in its data directory.
+# Leaf node: the CLI of the Bitwarden password vault. The CLI has no
+# configuration. The login and the vault cache are state in its data directory.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

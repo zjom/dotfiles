@@ -1,6 +1,6 @@
-# Composite node: git authenticating to GitHub through gh. gh itself is not a
-# node: it writes its login to its own configuration directory, so it stays
-# with Home Manager (decision D14), and git reaches it by name.
+# Composite node: git authenticates to GitHub through gh. gh itself is not a
+# node. gh writes its login to its own configuration directory, so gh stays with
+# Home Manager (decision D14). git calls gh by name.
 { config, ... }:
 {
   nodes.github = {
@@ -11,7 +11,7 @@
     wrappers.git.settings.credential =
       let
         helper = {
-          # Clear any helper set before this one, then ask gh.
+          # Clear each helper that was set before this helper. Then use gh.
           helper = [
             ""
             "!gh auth git-credential"

@@ -1,4 +1,4 @@
-# Zig toolchain + zls.
+# Zig toolchain, with zls.
 #   nix develop '~/dotfiles#zig'
 { pkgs }:
 
@@ -8,10 +8,11 @@ pkgs.mkShell {
   packages = with pkgs; [
     zig
     zls
-    lldb # `zig build` debug info is DWARF; lldb handles it best.
+    lldb # `zig build` writes DWARF debug info. lldb supports DWARF best.
   ];
 
-  # zls resolves builtins and std against this instead of guessing.
+  # zls uses this value to find the builtins and std. Without this value, zls
+  # guesses.
   env.ZIG_LIB_DIR = "${pkgs.zig}/lib/zig";
 
   shellHook = ''

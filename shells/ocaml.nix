@@ -1,4 +1,4 @@
-# OCaml toolchain + ocaml-lsp.
+# OCaml toolchain, with ocaml-lsp.
 #   nix develop '~/dotfiles#ocaml'
 { pkgs }:
 

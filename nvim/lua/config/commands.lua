@@ -1,4 +1,4 @@
--- Borrowed from MariaSolOs's [nvim config](https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/commands.lua)
+-- Copied from the [nvim config](https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/commands.lua) of MariaSolOs.
 
 vim.api.nvim_create_user_command("ToggleFormat", function()
 	vim.g.autoformat = not vim.g.autoformat

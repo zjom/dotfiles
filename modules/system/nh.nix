@@ -1,6 +1,7 @@
-# nh on every host, pointed at this flake's checkout, and the `rebuild` alias
-# that runs it. Both depend on the machine (its user's home, its configuration
-# name), so they are host-level overrides of the nh and fish nodes.
+# nh on each host, with the path of the checkout of this flake, and the
+# `rebuild` alias that runs nh. Both values depend on the machine (the home
+# directory of the user, the name of the configuration). Thus, both values are
+# host-level overrides of the nh node and of the fish node.
 { config, ... }:
 
 let
@@ -17,8 +18,9 @@ let
 
       wrappers.nh.flake = "${config.users.users.${config.my.username}.home}/dotfiles";
 
-      # The configuration is named outright: nh would otherwise go by the
-      # machine's hostname, which under WSL is "nixos" rather than "wsl".
+      # This setting names the configuration explicitly. Without this setting,
+      # nh uses the hostname of the machine. Under WSL, the hostname is "nixos",
+      # not "wsl".
       wrappers.fish.shellAliases.rebuild = "nh ${platform} switch -H ${config.my.hostName}";
     };
 in

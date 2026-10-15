@@ -1,6 +1,6 @@
-# The bar, nodes.waybar, started with graphical-session.target, which
-# niri-session reaches. No settings here: the wrapper carries its own
-# configuration, so Home Manager writes none.
+# The bar, nodes.waybar. The bar starts with graphical-session.target, and
+# niri-session starts that target. This file has no settings. The wrapper
+# contains the configuration, so Home Manager writes no configuration file.
 {
   flake.modules.homeManager.desktop =
     { osConfig, ... }:

@@ -1,6 +1,6 @@
 vim.pack.add({ "https://github.com/folke/which-key.nvim" })
 require("which-key").setup({
-	-- Document existing key chains
+	-- Document the existing key chains.
 	---@type wk.Spec
 	spec = {
 		{ "<leader>b", group = "[B]uffer" },

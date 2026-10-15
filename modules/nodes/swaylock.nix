@@ -19,7 +19,8 @@ in
 
       entry = lib.mkDefault "swaylock";
 
-      # The upstream module passes --config, so ~/.config/swaylock is ignored.
+      # The upstream module passes --config, so swaylock ignores
+      # ~/.config/swaylock.
       wrappers.swaylock = {
         enable = true;
         settings = with colors; {

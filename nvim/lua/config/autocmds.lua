@@ -1,6 +1,6 @@
--- Borrowed from MariaSolOs's [nvim config](https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/autocmds.lua)
+-- Copied from the [nvim config](https://github.com/MariaSolOs/dotfiles/blob/main/.config/nvim/lua/autocmds.lua) of MariaSolOs.
 
--- NOTE: Ordered alphabetically by group name.
+-- NOTE: The groups are in alphabetical order of their names.
 
 vim.api.nvim_create_autocmd("FileType", {
 	group = vim.api.nvim_create_augroup("zjom/big_file", { clear = true }),
@@ -50,7 +50,7 @@ vim.api.nvim_create_autocmd("VimEnter", {
 			return
 		end
 
-		-- Configure git environment.
+		-- Configure the git environment.
 		vim.env.GIT_WORK_TREE = vim.env.HOME
 		vim.env.GIT_DIR = vim.env.HOME .. "/.cfg"
 	end,
@@ -94,7 +94,8 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter", "CmdlineEn
 			vim.wo.relativenumber = false
 		end
 
-		-- Redraw here to avoid having to first write something for the line numbers to update.
+		-- Redraw the screen here. Without this redraw, the line numbers update
+		-- only after the next write.
 		if args.event == "CmdlineEnter" then
 			if not vim.tbl_contains({ "@", "-" }, vim.v.event.cmdtype) then
 				vim.cmd.redraw()
@@ -109,8 +110,8 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
 		local bufnr = args.buf
 
-		-- Enable Treesitter folding when not in huge files and when Treesitter
-		-- is working.
+		-- Enable Treesitter folding only if the file is not huge and Treesitter
+		-- works for the buffer.
 		if vim.bo[bufnr].filetype ~= "bigfile" and pcall(vim.treesitter.start, bufnr) then
 			vim.api.nvim_buf_call(bufnr, function()
 				vim.wo[0][0].foldmethod = "expr"

@@ -16,9 +16,10 @@ in
 
       entry = lib.mkDefault "kitty";
 
-      # The upstream module passes --config, so ~/.config/kitty is ignored.
-      # kitty.conf includes theme.conf by a relative path, which would resolve
-      # against the generated file, so it is pointed at the store copy instead.
+      # The upstream module passes --config, so kitty ignores ~/.config/kitty.
+      # kitty.conf includes theme.conf by a relative path. kitty resolves that
+      # path relative to the generated file. Thus, this setting points to the
+      # copy of theme.conf in the store.
       wrappers.kitty = {
         enable = true;
         extraConfig =

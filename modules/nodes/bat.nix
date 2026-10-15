@@ -1,5 +1,5 @@
-# Leaf node: bat. No settings of its own; the wrapper only keeps it off
-# ~/.config/bat.
+# Leaf node: bat. bat has no settings of its own. The wrapper only makes bat
+# ignore ~/.config/bat.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;

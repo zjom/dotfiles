@@ -1,17 +1,18 @@
--- Set jk to esc insert
+-- In insert mode, jk is equal to Esc.
 vim.keymap.set("i", "jk", "<Esc>")
 
--- Remap for dealing with word wrap and adding jumps to the jumplist.
+-- Move by screen lines when lines wrap, and add jumps with a count to the
+-- jumplist.
 vim.keymap.set("n", "j", [[(v:count > 1 ? 'm`' . v:count : 'g') . 'j']], { expr = true })
 vim.keymap.set("n", "k", [[(v:count > 1 ? 'm`' . v:count : 'g') . 'k']], { expr = true })
 
--- Keeping the cursor centered.
+-- Keep the cursor in the center of the window.
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous result" })
 
--- Indent while remaining in visual mode.
+-- Indent and stay in visual mode.
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 
@@ -31,7 +32,7 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabNext<cr>", { desc = "[N]ext Tab" })
 vim.keymap.set("n", "<leader>t1", "<cmd>tabfirst<cr>", { desc = "First Tab" })
 vim.keymap.set("n", "<leader>t9", "<cmd>tablast<cr>", { desc = "Last Tab" })
 
--- Poweful <esc>.
+-- An <esc> key with more functions.
 vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
 	if require("luasnip").expand_or_jumpable() then
 		require("luasnip").unlink_current()
@@ -40,9 +41,9 @@ vim.keymap.set({ "i", "s", "n" }, "<esc>", function()
 	return "<esc>"
 end, { desc = "Escape, clear hlsearch, and stop snippet session", expr = true })
 
--- Insert mode sanity
+-- Insert mode editing.
 vim.keymap.set({ "i", "c" }, "<M-BS>", "<C-w>", { desc = "Delete previous word" })
--- Escape and save changes.
+-- Leave insert mode and save the changes.
 vim.keymap.set("i", "<C-w>", "<Nop>")
 vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
 	callback = function()
@@ -53,8 +54,8 @@ vim.keymap.set({ "s", "i", "n", "v" }, "<C-w><C-w>", "", {
 	desc = "[W]rite file",
 })
 
--- Insert mode navigation
--- Quickly go to the start/ end of the line while in insert mode.
+-- Insert mode navigation. Go to the start or the end of the line in insert
+-- mode.
 vim.keymap.set({ "i", "c" }, "<C-l>", "<C-o>A", { desc = "Go to the end of the line" })
 vim.keymap.set({ "i", "c" }, "<C-h>", "<C-o>I", { desc = "Go to the start of the line" })
 vim.keymap.set({ "i", "c" }, "<C-b>", "<C-o>B", { desc = "Go to start of previous word" })
@@ -63,23 +64,22 @@ vim.keymap.set({ "i", "c" }, "<C-e>", "<C-o>e<C-o>l", { desc = "Go to end of nex
 -- Mark management.
 vim.keymap.set("c", "dm", "delmarks", { desc = "Delete marks" })
 
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
--- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
--- is not what someone will guess without a bit more experience.
--- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
--- or just use <C-\><C-n> to exit terminal mode
+-- Leave terminal mode in the built-in terminal with a shortcut that is easy to
+-- find. The default shortcut is <C-\><C-n>, which is difficult to guess for a
+-- new user.
+-- NOTE: This shortcut does not work in all terminal emulators or in tmux. If
+-- the shortcut does not work, use a different mapping or use <C-\><C-n>.
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 
--- Keybinds to make split navigation easier.
---  Use CTRL+<hjkl> to switch between windows
+-- Keymaps for split navigation. Use CTRL+<hjkl> to move between windows.
 --
---  See `:help wincmd` for a list of all window commands
+-- See `:help wincmd` for a list of all window commands.
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
 vim.keymap.set("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
 vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
--- Buffer navigation
+-- Buffer navigation.
 vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer [P]revious", silent = true })
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "[B]uffer [N]ext", silent = true })
 vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "[B]uffer [D]elete current", silent = true })

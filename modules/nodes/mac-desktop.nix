@@ -1,5 +1,5 @@
-# Composite node: the macOS desktop. Owns only the AeroSpace bindings that
-# start kitty, with tmux inside it.
+# Composite node: the macOS desktop. This node contains only the AeroSpace
+# bindings that start kitty, with tmux in kitty.
 { config, ... }:
 {
   nodes.mac-desktop = {

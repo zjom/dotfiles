@@ -16,8 +16,8 @@ in
 
       entry = lib.mkDefault "git";
 
-      # The upstream module points GIT_CONFIG_GLOBAL at the generated file, so
-      # ~/.gitconfig and ~/.config/git/config are ignored.
+      # The upstream module sets GIT_CONFIG_GLOBAL to the generated file. Thus,
+      # git ignores ~/.gitconfig and ~/.config/git/config.
       wrappers.git = {
         enable = true;
         settings = {

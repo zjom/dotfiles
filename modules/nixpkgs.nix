@@ -1,10 +1,12 @@
-# One nixpkgs for every consumer. The hosts and the standalone `nix run`
-# evaluation in graph.nix get the same overlays and the same config, so a node
-# builds to the same store path whichever way it is installed (decision D11).
+# One nixpkgs for all consumers. The hosts and the standalone `nix run`
+# evaluation in graph.nix get the same overlays and the same config. Thus, a
+# node builds to the same store path for each installation method (decision
+# D11).
 #
-# Each overlay lives in its own `_`-prefixed file under ./overlays, so
-# import-tree skips it and it stays a plain overlay. Host-only overlays stay in
-# that host's module under modules/hosts.
+# Each overlay is in a separate file under ./overlays. The name of each file
+# starts with `_`, so import-tree skips the file, and the file stays a plain
+# overlay. An overlay for only one host stays in the module of that host under
+# modules/hosts.
 { inputs, ... }:
 
 let

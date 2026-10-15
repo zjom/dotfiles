@@ -1,11 +1,11 @@
 -- [[ mini.nvim ]]
---  A collection of various small independent plugins/modules
+-- A collection of small independent plugins.
 vim.pack.add({ "https://github.com/nvim-mini/mini.nvim" })
 
--- Better Around/Inside textobjects
+-- Improved Around and Inside text objects.
 --
 -- Examples:
---  - va)  - [V]isually select [A]round [)]parenthen
+--  - va)  - [V]isually select [A]round [)]parenthesis
 --  - yinq - [Y]ank [I]nside [N]ext [']quote
 --  - ci'  - [C]hange [I]nside [']quote
 require("mini.ai").setup({
@@ -16,45 +16,46 @@ require("mini.ai").setup({
 	n_lines = 500,
 })
 
--- Add/delete/replace surroundings (brackets, quotes, etc.)
+-- Add, delete and replace surroundings (brackets, quotes and other pairs).
 --
--- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
--- - sd'   - [S]urround [D]elete [']quotes
--- - sr)'  - [S]urround [R]eplace [)] [']
+--  - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
+--  - sd'   - [S]urround [D]elete [']quotes
+--  - sr)'  - [S]urround [R]eplace [)] [']
 require("mini.surround").setup({
-	-- Module mappings. Use `''` (empty string) to disable one.
+	-- Module mappings. To disable a mapping, use `''` (an empty string).
 	mappings = {
-		add = "gsa", -- Add surrounding in Normal and Visual modes
-		delete = "gsd", -- Delete surrounding
-		find = "gsf", -- Find surrounding (to the right)
-		find_left = "gsF", -- Find surrounding (to the left)
-		highlight = "gsh", -- Highlight surrounding
-		replace = "gsr", -- Replace surrounding
-		update_n_lines = "gsn", -- Update `n_lines`
+		add = "gsa", -- Add a surrounding in Normal mode and in Visual mode
+		delete = "gsd", -- Delete a surrounding
+		find = "gsf", -- Find a surrounding (to the right)
+		find_left = "gsF", -- Find a surrounding (to the left)
+		highlight = "gsh", -- Highlight a surrounding
+		replace = "gsr", -- Replace a surrounding
+		update_n_lines = "gsn", -- Update the `n_lines` value
 
-		suffix_last = "gl", -- Suffix to search with "prev" method
-		suffix_next = "gn", -- Suffix to search with "next" method
+		suffix_last = "gl", -- The suffix for a search with the "prev" method
+		suffix_next = "gn", -- The suffix for a search with the "next" method
 	},
 })
 
--- Save the window layout when closing a buffer.
+-- Keep the window layout when a buffer closes.
 vim.keymap.set("n", "<leader>bd", function()
 	require("mini.bufremove").delete(0, false)
 end, { desc = "[B]uffer [D]elete" })
 
--- File explorer
+-- File explorer.
 local function map_split(buf_id, lhs, direction)
 	local minifiles = require("mini.files")
 
 	local function rhs()
 		local window = minifiles.get_explorer_state().target_window
 
-		-- Noop if the explorer isn't open or the cursor is on a directory.
+		-- Do nothing if the explorer is not open or if the cursor is on a
+		-- directory.
 		if window == nil or minifiles.get_fs_entry().fs_type == "directory" then
 			return
 		end
 
-		-- Make a new window and set it as target.
+		-- Create a new window and make the new window the target window.
 		local new_target_window
 		vim.api.nvim_win_call(window, function()
 			vim.cmd(direction .. " split")
@@ -63,14 +64,14 @@ local function map_split(buf_id, lhs, direction)
 
 		minifiles.set_target_window(new_target_window)
 
-		-- Go in and close the explorer.
+		-- Open the entry and close the explorer.
 		minifiles.go_in({ close_on_file = true })
 	end
 
 	vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = "Split " .. string.sub(direction, 12) })
 end
 
--- Yank in register full path of entry under cursor
+-- Yank the full path of the entry under the cursor into a register.
 local yank_path = function()
 	local path = (require("mini.files").get_fs_entry() or {}).path
 	if path == nil then
@@ -98,7 +99,8 @@ local yank_rel_path = function()
 	vim.fn.setreg(vim.v.register, relpath)
 end
 
--- Open path with system default handler (useful for non-text files)
+-- Open the path with the default handler of the system (for files that are not
+-- text files).
 local ui_open = function()
 	vim.ui.open(require("mini.files").get_fs_entry().path)
 end
@@ -137,11 +139,12 @@ require("mini.files").setup({
 				if not e1.is_dir and e2.is_dir then
 					return false
 				end
-				-- Order numerically based on digits if the text before them is equal.
+				-- If the text before the digits is equal, sort by the numeric
+				-- value of the digits.
 				if e1.pre_digits == e2.pre_digits and e1.digits ~= nil and e2.digits ~= nil then
 					return e1.digits < e2.digits
 				end
-				-- Otherwise order alphabetically ignoring case.
+				-- Otherwise, sort in alphabetical order and ignore case.
 				return e1.lower_name < e2.lower_name
 			end
 
@@ -169,14 +172,16 @@ require("mini.files").setup({
 		end,
 	},
 	windows = { width_nofocus = 25 },
-	-- Move stuff to the minifiles trash instead of it being gone forever.
+	-- Move deleted entries to the minifiles trash, so that the deleted entries
+	-- are not lost.
 	options = { permanent_delete = false },
 })
 
 vim.keymap.set("n", "<C-e>", minifiles_toggle, { desc = "Toggle File [E]xplorer" })
 vim.keymap.set("n", "<leader>xe", minifiles_toggle, { desc = "Toggle File [E]xplorer" })
 
--- Keep track of when the explorer is open to disable format on save.
+-- Record when the explorer is open, so that format on save is disabled during
+-- that time.
 local minifiles_explorer_group = vim.api.nvim_create_augroup("zjom/minifiles_explorer", { clear = true })
 vim.api.nvim_create_autocmd("User", {
 	group = minifiles_explorer_group,
@@ -193,8 +198,8 @@ vim.api.nvim_create_autocmd("User", {
 	end,
 })
 
--- HACK: Notify LSPs that a file got renamed or moved.
--- Borrowed this from snacks.nvim.
+-- HACK: Tell the LSP servers that a file was renamed or moved. Copied from
+-- snacks.nvim.
 vim.api.nvim_create_autocmd("User", {
 	desc = "Notify LSPs that a file was renamed",
 	pattern = { "MiniFilesActionRename", "MiniFilesActionMove" },

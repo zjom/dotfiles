@@ -1,4 +1,4 @@
-# Nix itself: its settings and garbage collection.
+# Nix itself: the settings and the garbage collection.
 {
   flake.modules.nixos.base = {
     nix.settings = {
@@ -15,18 +15,18 @@
       options = "--delete-older-than 30d";
     };
 
-    # Lets unpatched dynamically linked binaries run, which language
-    # toolchains installed outside Nix tend to need.
+    # Lets unpatched, dynamically linked binaries run. Language toolchains that
+    # are installed outside Nix often need this setting.
     programs.nix-ld.enable = true;
   };
 
-  # Nix itself is installed and updated outside this flake, by the Lix
-  # installer, which owns /etc/nix/nix.conf and the nix-daemon launchd job.
-  # Leaving this off keeps nix-darwin away from both.
+  # The Lix installer installs and updates Nix itself, outside this flake. The
+  # Lix installer owns /etc/nix/nix.conf and the nix-daemon launchd job. If this
+  # option is off, nix-darwin does not change these two items.
   #
-  # To hand the daemon over to nix-darwin instead, set `nix.enable = true`
-  # with `nix.package = pkgs.lix`, and first move /etc/nix/nix.conf aside so
-  # activation is allowed to replace it. Only then do the `nix.settings` and
-  # `nix.gc` options above have a counterpart here.
+  # To give the daemon to nix-darwin, set `nix.enable = true` and
+  # `nix.package = pkgs.lix`. Before you do this, move /etc/nix/nix.conf to a
+  # different path, so that activation can replace the file. After that change,
+  # the `nix.settings` and `nix.gc` options above also apply on macOS.
   flake.modules.darwin.base.nix.enable = false;
 }

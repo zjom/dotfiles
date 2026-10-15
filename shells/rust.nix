@@ -1,4 +1,4 @@
-# Rust toolchain + rust-analyzer.
+# Rust toolchain, with rust-analyzer.
 #   nix develop '~/dotfiles#rust'
 { pkgs }:
 
@@ -22,11 +22,11 @@ pkgs.mkShell {
     cargo-machete
     cargo-nextest
 
-    # Common build-time deps for crates with native dependencies.
+    # Common build-time dependencies for crates that have native dependencies.
     pkg-config
   ];
 
-  # rust-analyzer needs this to resolve std, since nixpkgs ships the
+  # rust-analyzer needs this value to find std, because nixpkgs supplies the
   # library sources separately from rustc.
   env.RUST_SRC_PATH = "${pkgs.rustPlatform.rustLibSrc}";
 

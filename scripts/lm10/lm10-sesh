@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# The sesh picker after fish's sesh_all, each pick connected to in kitty. It
-# makes its own lists (lm10-sesh --list WHAT), so the reload binds can run it
-# too. lm10 has no preview, and no way to read a new name, so sesh_all's
-# preview and ^r rename are left out.
+# The sesh picker, based on the sesh_all function of fish. The script connects
+# to each selected session in kitty. The script makes its own lists
+# (`lm10-sesh --list WHAT`), so the reload binds can also run the script. lm10
+# has no preview and cannot read a new name. Thus, this script does not have the
+# preview and the ^r rename of sesh_all.
 set -euo pipefail
 
-# Prints entries as lines, quoted with %q, which lm10 reads back.
-# The session is the last argv word: kitty --single-instance --
-# sesh connect SESSION is {5}.
+# Prints the entries as lines, quoted with %q. lm10 reads these lines back.
+# The session is the last argv word. In
+# `kitty --single-instance -- sesh connect SESSION`, the session is {5}.
 entry() {
   printf -- '-X -n %q -- kitty --single-instance -- sesh connect %q\n' "$1" "$2"
 }
@@ -20,7 +21,7 @@ list() {
     done
     ;;
   *)
-    # The icons come coloured; lm10 shows text as is.
+    # The icons contain colour codes. lm10 shows the text without changes.
     sesh list --icons "$@" | sed 's/\x1b\[[0-9;]*m//g' |
       while IFS= read -r line; do
         entry "$line" "${line#* }"

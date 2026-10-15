@@ -1,9 +1,12 @@
-# Per-language toolchains, kept out of the global profile so projects pin what
-# they need: `nix develop '~/dotfiles#rust'`, or an .envrc holding
-# `use flake ~/dotfiles#rust` to have direnv do it on cd.
+# The language toolchains. The global profile does not contain these toolchains,
+# so each project pins its own toolchain. To enter a shell, run
+# `nix develop '~/dotfiles#rust'`. Alternatively, put the line
+# `use flake ~/dotfiles#rust` in an .envrc file. direnv then enters the shell
+# when you change to the directory.
 #
-# The shells themselves are plain `{ pkgs }:` files in ../../shells rather than
-# modules, one per file; a new file there becomes a shell of the same name.
+# Each shell is a plain `{ pkgs }:` file in ../../shells, not a module. There is
+# one shell in each file. A new file in that directory becomes a shell with the
+# same name.
 { lib, ... }:
 
 let

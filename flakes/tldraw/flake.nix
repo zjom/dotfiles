@@ -37,7 +37,8 @@
         pkgs.appimageTools.wrapType2 {
           inherit pname version src;
 
-          # Install the .desktop entry and icons that ship inside the AppImage
+          # Install the .desktop entry and the icons that are inside the
+          # AppImage.
           extraInstallCommands = ''
             desktop=$(find ${contents} -maxdepth 1 -name '*.desktop' | head -n1)
             install -Dm444 "$desktop" $out/share/applications/${pname}.desktop
@@ -61,7 +62,8 @@
     {
       packages = forAll (system: pkgs: { default = mkTldraw pkgs; });
 
-      # Builds with the consumer's pkgs, so its `allowUnfree` applies.
+      # The package builds with the pkgs of the consumer, so the `allowUnfree`
+      # value of the consumer applies.
       overlays.default = final: prev: { tldraw-offline = mkTldraw final; };
     };
 }

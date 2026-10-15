@@ -1,5 +1,5 @@
-# The only piece of custom machinery. Defines what a node is and turns
-# every node into a `nix run` target. Everything else is upstream tooling.
+# The only custom machinery of this repository. This file defines a node and
+# makes each node a `nix run` target. All other machinery is upstream tooling.
 {
   config,
   lib,
@@ -9,11 +9,12 @@
 let
   inherit (lib) mkOption types;
 
-  # A node is a module that configures `wrappers.<program>` options.
-  # Each one gets a stable `key`, so the module system deduplicates it no
-  # matter how many paths import it. That is what makes overlapping nodes
-  # on one host (fish + shell) merge into a single fish instead of two.
-  # (flake-parts' `flake.modules` does not set a key, so we do it here.)
+  # A node is a module that configures `wrappers.<program>` options. Each node
+  # gets a stable `key`. Thus, the module system imports each node only one
+  # time, independent of the number of paths that import the node. Because of
+  # this key, overlapping nodes on one host (fish and shell) merge into one
+  # fish. The `flake.modules` option of flake-parts does not set a key, so this
+  # file sets the key.
   keyed = name: module: {
     key = "env-graph:node:${name}";
     _file = "env-graph node `${name}`";
@@ -23,7 +24,7 @@ let
     ];
   };
 
-  # Standalone evaluation for `nix run`: no NixOS, no darwin.
+  # The standalone evaluation for `nix run`, without NixOS and without darwin.
   evalNode =
     pkgs: node:
     (lib.evalModules {
@@ -36,9 +37,10 @@ let
 
   enabledWrappers = cfg: lib.filter (w: w.enable) (lib.attrValues cfg.wrappers);
 
-  # A node is a target on a system only where every program in it is
-  # packaged: the desktop nodes are Linux-only (decision D18). A package
-  # that is missing altogether throws, which counts as unavailable.
+  # A node is a target on a system only if each program of the node has a
+  # package on that system. For example, the desktop nodes are only for Linux
+  # (decision D18). If a package does not exist at all, the evaluation throws an
+  # error. This error also counts as "not available".
   available =
     pkgs: _: node:
     (builtins.tryEval (
@@ -57,8 +59,9 @@ let
       name = "env-${name}";
       paths = map (w: w.wrapper) enabled;
       nativeBuildInputs = [ pkgs.makeWrapper ];
-      # Siblings come first on PATH, so a composite's glue ("tmux", "fish")
-      # always reaches the configured program, never a system-installed one.
+      # The sibling programs come first on PATH. Thus, the glue of a composite
+      # ("tmux", "fish") always starts the configured program, never a program
+      # that is installed on the system.
       postBuild = ''
         wrapProgram $out/bin/${cfg.entry} --prefix PATH : $out/bin
       '';
@@ -87,7 +90,7 @@ in
   };
 
   config = {
-    # nixpkgs 26.11 dropped x86_64-darwin (decision D16).
+    # nixpkgs 26.11 removed x86_64-darwin (decision D16).
     systems = [
       "x86_64-linux"
       "aarch64-linux"
@@ -111,8 +114,8 @@ in
       checks = lib.mapAttrs (mkEnv pkgs) (lib.filterAttrs (available pkgs) config.nodes);
     };
 
-    # Publish nodes for other people's flakes. `generic` = importable into
-    # any module class (nixos, darwin, homeManager).
+    # Publish the nodes for the flakes of other people. `generic` means that
+    # each module class (nixos, darwin, homeManager) can import the node.
     flake.modules.generic = config.nodes;
   };
 }

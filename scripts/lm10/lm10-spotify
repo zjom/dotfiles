@@ -1,16 +1,18 @@
 #!/usr/bin/env bash
-# Spotify picker: drives spotify_player (and through it spotifyd). It opens on
-# the playback controls; the binds swap in playlists, albums, artists,
-# devices or a search for the query. Like lm10-sesh, it makes its own lists
-# (lm10-spotify --list WHAT), so the reload binds can run it too. Needs jq.
+# Spotify picker. The script controls spotify_player, and spotify_player
+# controls spotifyd. The picker opens with the playback controls. The binds
+# replace the list with playlists, albums, artists, devices or a search for the
+# query. Like lm10-sesh, the script makes its own lists
+# (`lm10-spotify --list WHAT`), so the reload binds can also run the script. The
+# script needs jq.
 #
-# Liked songs are only offered as a whole: spotify_player 0.25 can't read
-# this library with `get key user-liked-tracks`.
+# The picker offers the liked songs only as one item. spotify_player 0.25 cannot
+# read this library with `get key user-liked-tracks`.
 set -euo pipefail
 
 sp=spotify_player
 
-# Prints an entry as a line, quoted with %q, which lm10 reads back.
+# Prints an entry as a line, quoted with %q. lm10 reads this line back.
 entry() {
   local name=$1
   shift
@@ -19,7 +21,8 @@ entry() {
   printf '\n'
 }
 
-# "id<TAB>label" lines from jq over `spotify_player CMD...`.
+# "id<TAB>label" lines from jq, applied to the output of
+# `spotify_player CMD...`.
 rows() {
   local filter=$1
   shift
@@ -98,7 +101,8 @@ if [[ ${1:-} == --list ]]; then
   exit
 fi
 
-# What's playing, for the header; blank if nothing is.
+# The track that plays now, for the header. If nothing plays, the value is
+# empty.
 now=$("$sp" get key playback 2>/dev/null | jq -r '
   select(.item) | "\(if .is_playing then "▶" else "⏸" end)  \(.item.name)  · \([.item.artists[].name] | join(", "))"
   ' 2>/dev/null || true)

@@ -1,5 +1,5 @@
-# Composite node: browsing and listing files. Owns only the glue between
-# fish, tmux, ranger and eza.
+# Composite node: browse files and list files. This node contains only the glue
+# between fish, tmux, ranger and eza.
 { config, ... }:
 {
   nodes.files = {

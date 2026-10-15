@@ -1,24 +1,27 @@
-# Spotify on every host: spotifyd plays the audio as a Spotify Connect device
-# in the background, and spotify-player is the terminal client that drives it.
+# Spotify on each host. spotifyd plays the audio in the background as a Spotify
+# Connect device. spotify-player is the terminal client that controls spotifyd.
 #
-# spotifyd authenticates once per machine, with OAuth in the browser:
+# On each machine, spotifyd must authenticate one time, with OAuth in the
+# browser:
 #
 #   spotifyd authenticate
 #
-# It reads the same config file as the daemon, so the credentials land in the
-# cache_path below, where the service finds them. spotify-player signs in
-# separately on its first start (or with `spotify_player authenticate`).
+# This command reads the same config file as the daemon. Thus, the credentials
+# go into the cache_path below, where the service finds them. spotify-player
+# signs in separately when it starts for the first time (or with
+# `spotify_player authenticate`).
 #
-# spotifyd is a daemon with state, so it stays with Home Manager (a non-goal of
-# the nodes). spotify-player is nodes.spotify-player; this file points it at
-# this machine's spotifyd and runs it as a daemon too.
+# spotifyd is a daemon that keeps state, so spotifyd stays with Home Manager.
+# The nodes do not manage such daemons. spotify-player is nodes.spotify-player.
+# This file connects spotify-player to the spotifyd of this machine, and also
+# runs spotify-player as a daemon.
 { config, ... }:
 
 let
   inherit (config) nodes;
 
-  # spotifyd announces itself under the configuration's name; spotify-player
-  # connects to that device.
+  # spotifyd uses the name of the configuration as its device name.
+  # spotify-player connects to that device.
   player =
     { config, ... }:
     {
@@ -42,17 +45,19 @@ in
       inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
       tomlFormat = pkgs.formats.toml { };
 
-      # What the device is called in every Spotify client's device list.
+      # The name of the device in the device list of each Spotify client.
       deviceName = osConfig.my.hostName;
       cachePath = "${config.xdg.cacheHome}/spotifyd";
 
-      # Started with an explicit --config-path, but written to the default
-      # location as well so that `spotifyd authenticate` picks it up.
+      # The service starts with an explicit --config-path. The file is also
+      # written to the default location, so that `spotifyd authenticate` finds
+      # it.
       configFile = tomlFormat.generate "spotifyd.conf" {
         global = {
           device_name = deviceName;
           device_type = "computer";
-          # pipewire-pulse on the desktop, WSLg's PulseAudio server under WSL.
+          # On Linux, the server is pipewire-pulse on the desktop and the
+          # PulseAudio server of WSLg under WSL.
           backend = if isDarwin then "portaudio" else "pulseaudio";
           bitrate = 320;
           cache_path = cachePath;
@@ -100,9 +105,10 @@ in
         };
       };
 
-      # spotify-player without its TUI, so `spotify_player playback ...` and
-      # the lm10-spotify picker talk to a running client instead of each
-      # starting their own. -d forks and detaches, hence Type=forking.
+      # spotify-player without its TUI. Thus, `spotify_player playback ...` and
+      # the lm10-spotify picker use the client that runs, and each command does
+      # not start its own client. -d forks and detaches, so the service uses
+      # Type=forking.
       systemd.user.services.spotify-player = lib.mkIf isLinux {
         Unit = {
           Description = "spotify-player daemon";

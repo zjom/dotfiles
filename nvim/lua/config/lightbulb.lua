@@ -1,5 +1,6 @@
---- VSCode-like lightbulb.
---- Implementation inspired from https://github.com/nvimdev/lspsaga.nvim/blob/8efe00d6aed9db6449969f889170f1a7e43101a1/lua/lspsaga/codeaction/lightbulb.lua
+--- A lightbulb similar to the lightbulb of VSCode. The implementation is based
+--- on
+--- https://github.com/nvimdev/lspsaga.nvim/blob/8efe00d6aed9db6449969f889170f1a7e43101a1/lua/lspsaga/codeaction/lightbulb.lua
 
 local M = {}
 
@@ -24,13 +25,13 @@ local function update_extmark(bufnr, line)
 
 	vim.api.nvim_buf_clear_namespace(bufnr, lb_namespace, 0, -1)
 
-	-- Extra check for not being in insert mode here because sometimes the autocommand
-	-- fails.
+	-- Check again that the mode is not insert mode, because sometimes the
+	-- autocommand fails.
 	if not line or vim.startswith(vim.api.nvim_get_mode().mode, "i") then
 		return
 	end
 
-	-- Swallow errors.
+	-- Ignore errors.
 	pcall(vim.api.nvim_buf_set_extmark, bufnr, lb_namespace, line, -1, {
 		virt_text = { { " " .. lb_icon, "DiagnosticSignHint" } },
 		hl_mode = "combine",
@@ -39,8 +40,8 @@ local function update_extmark(bufnr, line)
 	updated_bufnr = bufnr
 end
 
---- Queries the LSP servers for code actions and updates the lightbulb
---- accordingly.
+--- Sends a code action request to the LSP servers and updates the lightbulb
+--- with the result.
 ---@param bufnr  number
 ---@param client vim.lsp.Client
 local function render(bufnr, client)
@@ -65,8 +66,8 @@ local function render(bufnr, client)
 	end)
 end
 
--- I don't fully understand how this works, kind of just copy-pasted it
--- from lspsaga.
+-- This function is copied from lspsaga. Its full behaviour is not documented
+-- here.
 ---@param bufnr  number
 ---@param client vim.lsp.Client
 local function update(bufnr, client)
@@ -82,7 +83,7 @@ local function update(bufnr, client)
 	end)
 end
 
---- Configures autocommands to update the code action lightbulb.
+--- Creates the autocommands that update the code action lightbulb.
 ---@param bufnr  integer
 ---@param client vim.lsp.Client
 M.attach_lightbulb = function(bufnr, client)

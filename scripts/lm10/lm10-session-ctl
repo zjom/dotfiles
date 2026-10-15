@@ -1,5 +1,5 @@
 #!/bin/sh
-# Session menu: lock, log out, suspend and so on.
+# Session menu: lock, log out, suspend and the other session actions.
 exec "${LM10:-lm10}" --width 40% <<'ENTRIES'
 -n Lock -X loginctl lock-session
 -n 'Log out' -X sh -c 'loginctl terminate-session "$XDG_SESSION_ID"'

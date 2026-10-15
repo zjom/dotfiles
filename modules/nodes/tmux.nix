@@ -1,5 +1,5 @@
-# Leaf node: tmux. Only tmux's own behaviour; the popups and pickers that
-# start other programs live in composites.
+# Leaf node: tmux. This node configures only the behaviour of tmux itself. The
+# popups and the pickers that start other programs are in composites.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -17,8 +17,8 @@ in
 
       entry = lib.mkDefault "tmux";
 
-      # The upstream module passes -f, so ~/.tmux.conf and ~/.config/tmux are
-      # ignored.
+      # The upstream module passes -f, so tmux ignores ~/.tmux.conf and
+      # ~/.config/tmux.
       wrappers.tmux = {
         enable = true;
         sourceSensible = true;
@@ -31,7 +31,7 @@ in
         statusKeys = "vi";
         modeKeys = "vi";
 
-        # Plugin settings, read when the plugins below load.
+        # Plugin settings. The plugins below read these settings when they load.
         configBefore = ''
           set -g @minimal-tmux-status "top"
           set -g @minimal-tmux-right false
@@ -46,7 +46,7 @@ in
         configAfter = ''
           set -a terminal-features "screen-256color:RGB"
 
-          # Create new panes and windows in the same working directory.
+          # Create new panes and new windows in the current working directory.
           bind -N "Split pane vertically" v split-window -hc "#{pane_current_path}"
           bind '|' split-window -hc "#{pane_current_path}"
           bind -N "Split pane horizontally" '"' split-window -vc "#{pane_current_path}"
@@ -55,7 +55,8 @@ in
           unbind M-o
           bind -N "Rotate pane" "#" rotate-window
 
-          # Copy mode pane navigation, matching the C-hjkl bindings outside it.
+          # Pane navigation in copy mode. These bindings are equal to the C-hjkl
+          # bindings outside copy mode.
           bind -T copy-mode-vi C-h select-pane -L
           bind -T copy-mode-vi C-j select-pane -D
           bind -T copy-mode-vi C-k select-pane -U

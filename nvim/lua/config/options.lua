@@ -1,43 +1,40 @@
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+-- Set <space> as the leader key. See `:help mapleader`.
+-- NOTE: Set the leader key before the plugins load. Otherwise, the plugins use
+-- the wrong leader key.
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- The checkout this configuration is edited in. Neovim runs the copy in the
--- Nix store (modules/nodes/nvim.nix), so stdpath("config") does not point here.
+-- The checkout that contains the editable source of this configuration. Neovim
+-- runs the copy in the Nix store (modules/nodes/nvim.nix), so stdpath("config")
+-- does not point to the checkout.
 vim.g.config_checkout = vim.fs.normalize("~/dotfiles/nvim")
 
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
+-- [[ Options ]]
+-- See `:help vim.opt`. For a list of all options, see `:help option-list`.
 
--- Use an indentation of 2 spaces.
+-- Indent with 2 spaces.
 vim.o.sw = 2
 vim.o.ts = 2
 vim.o.et = true
 
--- Show whitespace.
---  See :help 'list'
---  and :help 'listchars'
+-- Show whitespace. See `:help 'list'` and `:help 'listchars'`.
 vim.o.list = true
 vim.opt.listchars = { space = "⋅", trail = "⋅", tab = "  ↦" }
 
--- Make line numbers default
+-- Show line numbers by default.
 vim.wo.number = true
 vim.wo.relativenumber = true
 
--- Enable mouse mode
+-- Enable the mouse.
 vim.o.mouse = "a"
 
 -- Disable horizontal scrolling.
 vim.o.mousescroll = "ver:3,hor:0"
 
--- Don't show the mode, since it's already in status line
+-- Do not show the mode, because the status line already shows it.
 vim.o.showmode = false
 
--- Wrap long lines at words.
+-- Wrap long lines at word boundaries.
 vim.o.linebreak = true
 
 -- Folding.
@@ -45,60 +42,59 @@ vim.o.foldcolumn = "1"
 vim.o.foldlevelstart = 99
 vim.wo.foldtext = ""
 
--- Sync clipboard between OS and Neovim.
---  Remove this option if you want your OS clipboard to remain independent.
---  See `:help 'clipboard'`
+-- Synchronize the clipboard of the OS with Neovim. To keep the clipboard of the
+-- OS separate, remove this option. See `:help 'clipboard'`.
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
 
--- Save undo history
+-- Save the undo history.
 vim.o.undofile = true
 
--- Highlight on search
+-- Highlight the search matches.
 vim.o.hlsearch = true
 
--- Case-insensitive searching UNLESS \C or capital in search
+-- Search without case sensitivity, unless the search contains \C or a capital
+-- letter.
 vim.o.ignorecase = true
 vim.o.smartcase = true
 
--- Keep signcolumn on by default
+-- Always show the sign column.
 vim.wo.signcolumn = "yes"
 
--- Decrease update time
+-- Decrease the update time.
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
--- Diff mode settings.
--- Setting the context to a very large number disables folding.
+-- Diff mode settings. A very large context value disables folding.
 vim.opt.diffopt:append("vertical,context:99")
 vim.opt.shortmess:append({
 	w = true,
 	s = true,
 })
--- Configure how new splits should be opened
+-- Configure where new splits open.
 vim.o.splitright = true
 vim.o.splitbelow = true
 
--- Preview substitutions live, as you type!
+-- Show a live preview of substitutions while you type.
 vim.o.inccommand = "split"
 
--- Show which line your cursor is on
+-- Highlight the line that contains the cursor.
 vim.o.cursorline = true
 
--- Minimal number of screen lines to keep above and below the cursor.
+-- The minimum number of screen lines above and below the cursor.
 vim.o.scrolloff = 10
 
--- Allow concealed text (e.g. * for bold)
+-- Allow concealed text (for example, * for bold).
 vim.o.conceallevel = 2
 
--- Disable swapfile
+-- Disable the swap file.
 vim.o.swapfile = false
 
 -- Disable cursor blinking in terminal mode.
 vim.o.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20,t:block-TermCursor"
 
--- Disable health checks for these providers.
+-- Disable the health checks for these providers.
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
@@ -107,7 +103,7 @@ vim.g.loaded_node_provider = 0
 vim.o.statusline =
 	"%<%f %h%w%m%r %y %{% v:lua.require('vim._core.util').term_exitcode() %}%=%{% luaeval('(package.loaded[''vim.ui''] and vim.api.nvim_get_current_win() == tonumber(vim.g.actual_curwin or -1) and vim.ui.progress_status()) or '''' ')%}%{% &showcmdloc == 'statusline' ? '%-10.S ' : '' %}%{% exists('b:keymap_name') ? '<'..b:keymap_name..'> ' : '' %}%{% &busy > 0 ? '◐ ' : '' %}%{% luaeval('(package.loaded[''vim.diagnostic''] and next(vim.diagnostic.count()) and vim.diagnostic.status() .. '' '') or '''' ') %}%{% &ruler ? ( &rulerformat == '' ? '%-14.(%l,%c%V%) %P' : &rulerformat ) : '' %}"
 
--- Diagnostics
+-- Diagnostics.
 
 vim.diagnostic.config({
 	severity_sort = true,

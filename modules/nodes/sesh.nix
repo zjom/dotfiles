@@ -25,7 +25,7 @@ in
             relPath = "share/sesh/sesh.toml";
             content = "";
           };
-          # In place of ~/.config/sesh/sesh.toml.
+          # This file replaces ~/.config/sesh/sesh.toml.
           flags."--config" = config.constructFiles.config.path;
         };
     };

@@ -1,21 +1,24 @@
-# Place a copy of this config to ~/.aerospace.toml
-# After that, you can edit ~/.aerospace.toml to your liking
+# The aerospace node (modules/nodes/aerospace.nix) gives this file to AeroSpace.
+# AeroSpace ignores ~/.aerospace.toml.
 
-# It's not necessary to copy all keys to your config.
-# If the key is missing in your config, "default-config.toml" will serve as a fallback
+# This file does not need to contain all keys.
+# If a key is not in this file, AeroSpace uses the value from
+# "default-config.toml".
 
-# You can use it to add commands that run after login to macOS user session.
-# 'start-at-login' needs to be 'true' for 'after-login-command' to work
+# Use this option to add commands that run after the login to the macOS user
+# session.
+# 'after-login-command' works only if 'start-at-login' is 'true'.
 # Available commands: https://nikitabobko.github.io/AeroSpace/commands
 after-login-command = []
 
-# You can use it to add commands that run after AeroSpace startup.
-# 'after-startup-command' is run after 'after-login-command'
-# Available commands : https://nikitabobko.github.io/AeroSpace/commands
+# Use this option to add commands that run after AeroSpace starts.
+# 'after-startup-command' runs after 'after-login-command'.
+# Available commands: https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = []
 
-# Start AeroSpace at login. Kept false: the home-manager launchd agent starts
-# it, and true would register a second login item that launches another copy.
+# Start AeroSpace at login. The value stays false because the Home Manager
+# launchd agent starts AeroSpace. The value true registers a second login item,
+# which starts a second copy.
 start-at-login = false
 
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
@@ -23,38 +26,40 @@ enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
-# The 'accordion-padding' specifies the size of accordion padding
-# You can set 0 to disable the padding feature
+# 'accordion-padding' sets the size of the accordion padding.
+# To disable the padding, set 0.
 accordion-padding = 0
 
 # Possible values: tiles|accordion
 default-root-container-layout = "tiles"
 
 # Possible values: horizontal|vertical|auto
-# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
-#               tall monitor (anything higher than wide) gets vertical orientation
+# 'auto' means: a wide monitor (wider than high) gets the horizontal orientation,
+#               and a tall monitor (higher than wide) gets the vertical orientation.
 default-root-container-orientation = "auto"
 
 # Possible values: (qwerty|dvorak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 key-mapping.preset = "qwerty"
 
-# Mouse follows focus when focused monitor changes
-# Drop it from your config, if you don't like this behavior
+# The mouse follows the focus when the focused monitor changes.
+# If you do not want this behaviour, remove this option.
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 on-focus-changed = ["move-mouse window-lazy-center"]
 on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
 
-# Gaps between windows (inner-*) and between monitor edges (outer-*).
+# Gaps between windows (inner-*) and between the windows and the monitor edges
+# (outer-*).
 # Possible values:
 # - Constant:     gaps.outer.top = 8
 # - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
-#                 In this example, 24 is a default value when there is no match.
-#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
+#                 In this example, 24 is the default value if no pattern matches.
+#                 The monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
 
-# exec-and-forget inherits launchd's minimal PATH, which lacks the Nix profiles.
+# exec-and-forget gets the minimal PATH of launchd. That PATH does not contain
+# the Nix profiles.
 [exec.env-vars]
 PATH = "/etc/profiles/per-user/${USER}/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}"
 
@@ -66,9 +71,9 @@ outer.right = 2
 outer.top = 0
 outer.bottom = 0
 
-# 'main' binding mode declaration
+# The declaration of the 'main' binding mode.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
-# 'main' binding mode must be always presented
+# The 'main' binding mode must always exist.
 [mode.main.binding]
 # All possible keys:
 # - Letters.        a, b, c, ..., z
@@ -85,7 +90,7 @@ outer.bottom = 0
 
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-# alt-q and alt-space, which start kitty, are bound in modules/nodes/mac-desktop.nix.
+# modules/nodes/mac-desktop.nix binds alt-q and alt-space, which start kitty.
 alt-b = "exec-and-forget open -a safari"
 alt-shift-b = "exec-and-forget open -a 'google chrome'"
 alt-m = "exec-and-forget open -a messages"
@@ -148,13 +153,13 @@ alt-shift-tab = "move-workspace-to-monitor --wrap-around next"
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = "mode service"
 
-# 'service' binding mode declaration.
+# The declaration of the 'service' binding mode.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ["reload-config", "mode main"]
-r = ["flatten-workspace-tree", "mode main"] # reset layout
-# s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-f = ["layout floating tiling", "mode main"] # Toggle between floating and tiling layout
+r = ["flatten-workspace-tree", "mode main"] # reset the layout
+# s = ['layout sticky tiling', 'mode main'] # AeroSpace does not support sticky yet: https://github.com/nikitabobko/AeroSpace/issues/2
+f = ["layout floating tiling", "mode main"] # Toggle between the floating layout and the tiling layout
 backspace = ["close-all-windows-but-current", "mode main"]
 
 alt-shift-h = ["join-with left", "mode main"]

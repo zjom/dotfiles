@@ -1,5 +1,6 @@
-# Leaf node: fish. Only fish's own behaviour; every function, alias and bind
-# that calls another configured program lives in a composite.
+# Leaf node: fish. This node configures only the behaviour of fish itself. Each
+# function, alias and bind that calls another configured program is in a
+# composite.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -17,13 +18,14 @@ in
 
       entry = lib.mkDefault "fish";
 
-      # The upstream module passes --no-config, so ~/.config/fish is ignored.
-      # Universal variables (`set -U`) still persist in fish's data directory.
+      # The upstream module passes --no-config, so fish ignores ~/.config/fish.
+      # Universal variables (`set -U`) still persist in the data directory of
+      # fish.
       wrappers.fish = {
         enable = true;
 
-        # Commands that are not configured programs of this graph (decision
-        # D17), so they belong to fish itself.
+        # These commands are not configured programs of this graph (decision
+        # D17), so these commands belong to fish itself.
         shellAliases = {
           c = "clear";
           clean = "sudo nix-collect-garbage -d";
@@ -33,7 +35,7 @@ in
         };
 
         configFile.content = ''
-          # Programs installed outside Nix, by language toolchains.
+          # Programs that language toolchains install outside Nix.
           fish_add_path --global --path ~/.local/bin ~/go/bin ~/.cargo/bin
 
           if status is-interactive
@@ -49,7 +51,9 @@ in
 
               set -l title (string join ' ' -- $argv)
               set -l d (date +%y%m%d)
-              # lowercase, collapse anything non-alphanumeric into single hyphens, trim stray hyphens
+              # Make the title lowercase, replace each run of non-alphanumeric
+              # characters with one hyphen, and remove hyphens at the start and
+              # at the end.
               set -l slug (string lower -- $title | string replace -ra '[^a-z0-9]+' '-' | string trim -c '-')
 
               nb a "$d-$slug.md" -t "$d - $title"

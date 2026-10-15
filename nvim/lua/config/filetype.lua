@@ -5,7 +5,8 @@ vim.filetype.add({
 	pattern = {
 		["tsconfig*.json"] = "jsonc",
 		[".*/%.vscode/.*%.json"] = "jsonc",
-		-- Borrowed from LazyVim. Mark huge files to disable features later.
+		-- Copied from LazyVim. Mark huge files, so that other code can disable
+		-- features for these files.
 		[".*"] = function(path, bufnr)
 			return vim.bo[bufnr]
 					and vim.bo[bufnr].filetype ~= "bigfile"

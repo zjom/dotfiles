@@ -1,6 +1,6 @@
-# The same fonts on every host. JetBrains Mono is the monospace font
-# everywhere (kitty, waybar, lm10, swaylock); kitty draws Nerd Font symbols
-# itself, other programs fall back to Symbols Nerd Font.
+# The same fonts on each host. JetBrains Mono is the monospace font for all
+# programs (kitty, waybar, lm10, swaylock). kitty draws the Nerd Font symbols
+# itself. Other programs use Symbols Nerd Font as a fallback.
 let
   fonts =
     { pkgs, ... }:

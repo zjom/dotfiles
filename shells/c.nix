@@ -1,4 +1,4 @@
-# C toolchain + clangd.
+# C toolchain, with clangd.
 #   nix develop '~/dotfiles#c'
 { pkgs }:
 
@@ -13,13 +13,13 @@ mkShell {
     pkg-config
     just
     just-lsp
-    clang-tools # clangd + clang-format
+    clang-tools # clangd and clang-format
     bear # `bear -- make` writes compile_commands.json for clangd
     meson
     ninja
     gdb
   ]
-  # Marked broken on Darwin.
+  # This package is marked as broken on Darwin.
   ++ lib.optional stdenv.hostPlatform.isLinux valgrind;
 
   shellHook = ''

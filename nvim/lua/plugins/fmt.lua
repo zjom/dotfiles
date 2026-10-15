@@ -1,22 +1,22 @@
 vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
 -- Use conform for gq.
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
--- Start auto-formatting by default (and disable with my ToggleFormat command).
+-- Enable auto-formatting by default. The ToggleFormat command disables it.
 vim.g.autoformat = true
 local function format_on_save(bufnr)
-  -- Disable autoformat for files in node_modules
+  -- Disable auto-formatting for files in node_modules.
   local bufname = vim.api.nvim_buf_get_name(bufnr)
   if bufname:match("/node_modules/") then
     return nil
   end
 
-  -- Skip formatting if triggered from my special save command.
+  -- Do not format if the special save command started the save.
   if vim.g.skip_formatting then
     vim.g.skip_formatting = false
     return nil
   end
 
-  -- Stop if we disabled auto-formatting.
+  -- Stop if auto-formatting is disabled.
   if not vim.g.autoformat then
     return nil
   end
@@ -56,11 +56,11 @@ require("conform").setup({
     opentofu_vars = { "tofu_fmt", lsp_format = "fallback" },
     terraform = { "tofu_fmt", lsp_format = "fallback" },
     python = {
-      -- To fix auto-fixable lint errors.
+      -- Fix the lint errors that Ruff can fix automatically.
       "ruff_fix",
-      -- To run the Ruff formatter.
+      -- Run the Ruff formatter.
       "ruff_format",
-      -- To organize the imports.
+      -- Sort the imports.
       "ruff_organize_imports",
     },
     rust = { "rustfmt", lsp_format = "prefer" },
@@ -87,7 +87,7 @@ require("conform").setup({
   },
   format_on_save = format_on_save,
   default_format_opts = {
-    lsp_format = "fallback", -- Use external formatters if configured below, otherwise use LSP formatting. Set to `false` to disable LSP formatting entirely.
+    lsp_format = "fallback", -- An external formatter below has priority over LSP formatting. To disable LSP formatting fully, set this value to `false`.
   },
 })
 

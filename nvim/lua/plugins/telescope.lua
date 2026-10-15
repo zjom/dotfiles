@@ -2,7 +2,7 @@ local function gh(repo)
 	return "https://github.com/" .. repo
 end
 
--- picker/ fzf
+-- Picker (fzf).
 local telescope_plugins = {
 	gh("nvim-lua/plenary.nvim"),
 	gh("nvim-telescope/telescope.nvim"),
@@ -13,10 +13,10 @@ if vim.fn.executable("make") == 1 then
 end
 
 vim.pack.add(telescope_plugins)
--- See `:help telescope` and `:help telescope.setup()`
+-- See `:help telescope` and `:help telescope.setup()`.
 require("telescope").setup({
-	-- You can put your default mappings / updates / etc. in here
-	--  All the info you're looking for is in `:help telescope.setup()`
+	-- Put the default mappings and other changes here. For all information, see
+	-- `:help telescope.setup()`.
 	defaults = {
 		--   mappings = {
 		--     i = { ['<c-enter>'] = 'to_fuzzy_refine' },

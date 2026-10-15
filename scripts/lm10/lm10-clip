@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-# Clipboard history picker over cliphist (services.cliphist stores every copy).
-# Picking an entry copies it back; ^d deletes the selected one and ^w wipes
-# the history. Like lm10-sesh, it makes its own list (lm10-clip --list), so
-# the reload binds can run it too.
+# Clipboard history picker for cliphist (services.cliphist stores each copy).
+# When you select an entry, the script copies the entry to the clipboard again.
+# ^d deletes the selected entry. ^w deletes the full history. Like lm10-sesh,
+# the script makes its own list (lm10-clip --list), so the reload binds can also
+# run the script.
 set -euo pipefail
 
-# Prints entries as lines lm10 reads back. The name is single-quoted with
-# control characters dropped, since a preview may hold tabs or escapes; the
-# id is a number. The id is the last argv word, {4}.
+# Prints the entries as lines that lm10 reads back. The name is in single
+# quotes, without control characters, because a preview can contain tabs or
+# escape sequences. The ID is a number. The ID is the last argv word, {4}.
 list() {
   cliphist list | while IFS=$'\t' read -r id preview; do
     preview=$(tr -d '[:cntrl:]' <<<"$preview")

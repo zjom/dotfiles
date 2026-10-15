@@ -1,5 +1,5 @@
-# The bare metal NixOS machine, a Lenovo LOQ 15IRH8: Intel Raptor Lake
-# graphics driving the panel, an RTX 4050 beside it.
+# The bare metal NixOS machine, a Lenovo LOQ 15IRH8. Intel Raptor Lake graphics
+# drive the panel. An RTX 4050 is the second GPU.
 { config, inputs, ... }:
 
 let
@@ -18,7 +18,8 @@ in
       nodes.env
       inputs.openlogi.nixosModules.default
 
-      # Generated on the machine by `nixos-generate-config`; see the README.
+      # `nixos-generate-config` generates this file on the machine. See
+      # README.md.
       ./_hardware-configuration.nix
 
       (
@@ -45,22 +46,24 @@ in
           networking.hostName = "loq";
           networking.networkmanager.enable = true;
 
-          # Join the tailnet once with `sudo tailscale up` after the first switch.
+          # After the first switch, join the tailnet one time with
+          # `sudo tailscale up`.
           services.tailscale = {
             enable = true;
             openFirewall = true;
-            # Loosens reverse path filtering so advertised subnet routes work.
+            # Makes the reverse path filter less strict, so advertised subnet
+            # routes work.
             useRoutingFeatures = "client";
-            # Applied with `tailscale set` on every boot; extraUpFlags would only
-            # take effect alongside an authKeyFile.
+            # `tailscale set` applies these flags on each boot. extraUpFlags
+            # applies only together with an authKeyFile.
             extraSetFlags = [
               "--operator=${config.my.username}"
               "--accept-routes"
             ];
           };
 
-          # SSH is reachable over the tailnet only; the port stays closed on
-          # every other interface.
+          # SSH is available only through the tailnet. The port stays closed on
+          # all other interfaces.
           services.openssh = {
             enable = true;
             openFirewall = false;
@@ -87,7 +90,7 @@ in
           };
           console.useXkbConfig = true;
 
-          # Set a password with `passwd` after the first boot.
+          # After the first boot, set a password with `passwd`.
           users.users.${config.my.username} = {
             isNormalUser = true;
             description = "Zihan Jin";
@@ -106,9 +109,10 @@ in
 
           programs.firefox.enable = true;
 
-          # The NixOS release whose defaults this system's stateful data was created
-          # against. Set it to the release of the first install, the value
-          # `nixos-generate-config` writes into its configuration.nix, and leave it.
+          # The NixOS release that created the stateful data of this system. Set
+          # this value to the release of the first installation.
+          # `nixos-generate-config` writes this value into its
+          # configuration.nix. Do not change this value after that.
           system.stateVersion = "26.05";
         }
       )

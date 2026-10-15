@@ -1,5 +1,5 @@
-# The WSL machine. Everything WSL-specific, the GPU passthrough included,
-# stays here.
+# The WSL machine. All WSL-specific configuration, including the GPU
+# passthrough, is in this file.
 top@{ inputs, ... }:
 
 {
@@ -19,29 +19,33 @@ top@{ inputs, ... }:
           wsl.enable = true;
           wsl.defaultUser = config.my.username;
 
-          # GPU. WSL hands the host GPU over as /dev/dxg rather than as a DRM node, so
-          # hardware OpenGL comes from Mesa's d3d12 Gallium driver driving the Windows
-          # user mode driver, which this option symlinks into the store and onto
-          # /run/opengl-driver. Two things then still have to be said out loud, or
-          # everything silently lands on llvmpipe instead.
+          # GPU. WSL gives the host GPU to Linux as /dev/dxg, not as a DRM node.
+          # Thus, hardware OpenGL comes from the d3d12 Gallium driver of Mesa.
+          # This driver uses the Windows user-mode driver. This option links the
+          # Windows user-mode driver into the store and into /run/opengl-driver.
+          # Two more settings are necessary. Without these settings, all
+          # rendering uses llvmpipe, and no error appears.
           wsl.useWindowsDriver = true;
           hardware.graphics.enable = true;
           environment.sessionVariables = {
-            # With no DRM node to probe, the Mesa loader has nothing to infer a driver
-            # from and settles for software rendering, so name the driver outright.
+            # There is no DRM node, so the Mesa loader cannot detect a driver.
+            # The loader then uses software rendering. Thus, this setting names
+            # the driver explicitly.
             GALLIUM_DRIVER = "d3d12";
 
-            # d3d12 reaches the Windows driver by dlopen'ing "libdxcore.so" under its
-            # bare name, and nothing puts that directory on the linker's search path.
+            # d3d12 uses dlopen to load "libdxcore.so" by its plain name. No
+            # setting puts the directory of that library on the search path of
+            # the linker.
             LD_LIBRARY_PATH = [ "${config.wsl.wslLib}/lib" ];
 
-            # Both the integrated and the discrete adapter answer; prefer the latter.
+            # The integrated adapter and the discrete adapter both respond. Use
+            # the discrete adapter.
             MESA_D3D12_DEFAULT_ADAPTER_NAME = "NVIDIA";
           };
 
-          # The NixOS release whose defaults this system's stateful data was created
-          # against. Leave it at the release of the first install; read the manual
-          # before changing it.
+          # The NixOS release that created the stateful data of this system.
+          # Keep the release of the first installation. Read the manual before
+          # you change this value.
           system.stateVersion = "26.05";
         }
       )

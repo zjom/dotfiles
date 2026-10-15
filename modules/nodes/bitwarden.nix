@@ -1,16 +1,16 @@
-# Composite node: `bw` and `bws` in fish, with their secrets kept in the OS
-# keyring (GNOME Keyring on Linux, the login Keychain on macOS) and handed to
-# the CLI only for the duration of a call. Neither token lives in this repo or
-# the Nix store.
+# Composite node: `bw` and `bws` in fish. The secrets of these CLIs are in the
+# keyring of the OS (GNOME Keyring on Linux, the login Keychain on macOS). The
+# CLI gets a secret only for the duration of a call. No token is stored in this
+# repository or in the Nix store.
 #
-# bws needs its machine-account access token stored once per machine:
+# On each machine, store the machine-account access token for bws one time:
 #
 #   secret-tool store --label="Bitwarden Secrets Manager" service bws   # Linux
 #   security add-generic-password -a $USER -s bws -w                    # macOS
 #
-# bw needs `bw login` once per machine. After that the first `bw` call of a
-# login session asks for the master password, and the resulting session key is
-# kept in the keyring so every other shell reuses it until `bw lock`.
+# On each machine, run `bw login` one time. After that, the first `bw` call of a
+# login session asks for the master password. The keyring then keeps the session
+# key, and all other shells use that key until you run `bw lock`.
 { config, ... }:
 {
   nodes.bitwarden =
@@ -26,8 +26,9 @@
         else
           "${secret-tool} lookup service ${service} 2>/dev/null";
 
-      # The macOS `security` tool only takes the secret as an argument, so the
-      # session key is briefly visible in the process list there.
+      # The macOS `security` tool accepts the secret only as an argument. Thus,
+      # on macOS, the session key is visible in the process list for a short
+      # time.
       store =
         service: value:
         if isDarwin then

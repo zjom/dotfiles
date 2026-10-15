@@ -4,7 +4,8 @@ return {
 	-- capabilities = {},
 
 	on_init = function(client)
-		-- If the workspace has its own emmylua_ls/lua_ls config file, defer to it.
+		-- If the workspace has its own emmylua_ls or lua_ls config file, use
+		-- that file.
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
 			if
@@ -21,20 +22,21 @@ return {
 			workspace = {
 				checkThirdParty = false,
 				library = vim.api.nvim_get_runtime_file("", true),
-				-- Tells lua_ls where to find all the Lua files that you have loaded
-				-- for your neovim configuration.
+				-- Tells lua_ls the location of all Lua files that the Neovim
+				-- configuration loads.
 				-- library = {
 				--   "${3rd}/luv/library",
 				--   unpack(vim.api.nvim_get_runtime_file("", true))
 				-- }
-				-- If lua_ls is really slow on your computer, you can try this instead:
+				-- If lua_ls is very slow on your computer, use this value instead:
 				-- library = { vim.env.VIMRUNTIME }
 			},
 			completion = {
 				callSnippet = "Replace",
 			},
 			diagnostics = { globals = { "vim" } },
-			-- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+			-- To ignore the `missing-fields` warnings of lua_ls, enable the line
+			-- below.
 			-- diagnostics = { disable = { 'missing-fields' } },
 		},
 	},

@@ -1,5 +1,5 @@
-# Composite node: what fish runs before each prompt. Owns only the hooks of
-# starship, zoxide and direnv into fish.
+# Composite node: the commands that fish runs before each prompt. This node
+# contains only the fish hooks of starship, zoxide and direnv.
 { config, ... }:
 let
   inherit (config) nodes;
@@ -18,10 +18,11 @@ in
       entry = "fish";
 
       wrappers.fish = {
-        # `direnv hook` writes the path of the unwrapped binary into the hook,
-        # so the hook would run direnv without the wrapper's DIRENV_CONFIG.
-        # Hand it the configuration directly (by store path: direnv refers to
-        # nothing back, so there is no cycle; decision D19).
+        # `direnv hook` writes the path of the unwrapped binary into the hook.
+        # Thus, the hook runs direnv without the DIRENV_CONFIG value of the
+        # wrapper. This setting gives the configuration to the hook directly, as
+        # a store path. direnv does not refer back to other nodes, so there is
+        # no dependency cycle (decision D19).
         env.DIRENV_CONFIG = dirOf config.wrappers.direnv.constructFiles.direnvrc.outPath;
 
         configFile.content = ''
@@ -36,7 +37,7 @@ in
                   direnv hook fish | source
               end
 
-              # devenv is configured by Home Manager, where it is installed at all
+              # Home Manager configures devenv on the hosts that install devenv
               # (decision D14).
               if command -q devenv
                   devenv hook fish | source

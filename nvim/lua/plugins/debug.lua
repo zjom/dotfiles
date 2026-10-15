@@ -18,7 +18,7 @@ dap.configurations.c = {
     program = function()
       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
     end,
-    args = {}, -- provide arguments if needed
+    args = {}, -- add arguments if necessary
     cwd = "${workspaceFolder}",
     stopAtBeginningOfMainSubprogram = false,
   },
@@ -52,7 +52,7 @@ dap.configurations.rust = dap.configurations.c
 local saved = {}
 
 local function set_temp(mode, lhs, rhs)
-  saved[#saved + 1] = vim.fn.maparg(lhs, mode, false, true) -- dict, may be empty
+  saved[#saved + 1] = vim.fn.maparg(lhs, mode, false, true) -- a dict, which can be empty
   saved[#saved].__lhs, saved[#saved].__mode = lhs, mode
   vim.keymap.set(mode, lhs, rhs)
 end
@@ -60,9 +60,9 @@ end
 local function restore()
   for _, m in ipairs(saved) do
     if m.rhs or m.callback then
-      vim.fn.mapset(m.__mode, false, m)        -- put the original back
+      vim.fn.mapset(m.__mode, false, m)        -- restore the original mapping
     else
-      pcall(vim.keymap.del, m.__mode, m.__lhs) -- there wasn't one
+      pcall(vim.keymap.del, m.__mode, m.__lhs) -- there was no original mapping
     end
   end
   saved = {}

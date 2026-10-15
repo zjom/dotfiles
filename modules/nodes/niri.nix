@@ -1,6 +1,7 @@
 # Leaf node: niri, configured from ../../niri/config.kdl. The bindings that
-# start other programs live in the desktop composite, which adds them with
-# an `include`. The wrapper validates the configuration at build time.
+# start other programs are in the desktop composite. The desktop composite adds
+# these bindings with an `include`. The wrapper validates the configuration at
+# build time.
 { inputs, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -18,7 +19,7 @@ in
 
       entry = lib.mkDefault "niri";
 
-      # The upstream module sets NIRI_CONFIG, so ~/.config/niri is ignored.
+      # The upstream module sets NIRI_CONFIG, so niri ignores ~/.config/niri.
       wrappers.niri = {
         enable = true;
         "config.kdl".content = builtins.readFile ../../niri/config.kdl;

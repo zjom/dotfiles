@@ -1,6 +1,6 @@
-# Hardware node (NixOS): an NVIDIA GPU beside an integrated one that drives
-# the panel (PRIME offload). The integrated GPU renders the desktop; the NVIDIA
-# GPU stays powered down until something is started on it with
+# Hardware node (NixOS): an NVIDIA GPU next to an integrated GPU that drives the
+# panel (PRIME offload). The integrated GPU renders the desktop. The NVIDIA GPU
+# stays powered off until you start a program on the NVIDIA GPU with
 # `nvidia-offload <program>`. The host sets the two bus IDs
 # (hardware.nvidia.prime.{intel,amdgpu,nvidia}BusId).
 {
@@ -14,7 +14,8 @@
         "nvidia"
       ];
       hardware.nvidia = {
-        # The open kernel module is the recommended one from Turing on.
+        # For Turing GPUs and later GPUs, NVIDIA recommends the open kernel
+        # module.
         open = lib.mkDefault true;
         modesetting.enable = true;
         powerManagement.enable = lib.mkDefault true;

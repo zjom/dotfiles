@@ -1,5 +1,5 @@
--- Rust analyzer doesn't really support per project/ workspace config.
--- This is a hacky workaround.
+-- rust-analyzer does not fully support configuration for each project or
+-- workspace. This code is a workaround.
 local function get_project_rustanalyzer_settings()
 	local handle = io.open(vim.fn.resolve(vim.fn.getcwd() .. "/./.rust-analyzer.json"))
 	if not handle then
@@ -25,7 +25,8 @@ return {
 			},
 			get_project_rustanalyzer_settings(),
 			{
-				-- Overrides (forces these regardless of what's in .rust-analyzer.json
+				-- Overrides. These values apply independent of the contents of
+				-- .rust-analyzer.json.
 				-- procMacro = { enable = true },
 				-- diagnostics = { disabled = { "inactive-code" } },
 			}

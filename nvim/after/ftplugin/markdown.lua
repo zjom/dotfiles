@@ -1,4 +1,4 @@
------- opts
+-- Options.
 vim.opt_local.spell = true
 vim.opt_local.signcolumn = "no"
 vim.g.markdown_fenced_languages = {

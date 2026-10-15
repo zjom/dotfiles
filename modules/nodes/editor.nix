@@ -1,5 +1,5 @@
-# Composite node: Neovim as the editor of everything else. Owns only the glue
-# between nvim and fish, tmux and git.
+# Composite node: Neovim as the editor for all other programs. This node
+# contains only the glue between nvim and fish, tmux and git.
 { config, ... }:
 {
   nodes.editor = {
@@ -30,8 +30,8 @@
 
     wrappers.git.settings.core.editor = "nvim";
 
-    # Smart pane switching: C-hjkl moves between tmux panes, unless the pane
-    # runs Neovim or fzf, which get the keys themselves.
+    # Pane navigation: C-hjkl moves between tmux panes. If the pane runs Neovim
+    # or fzf, tmux sends the keys to that program.
     wrappers.tmux.configAfter = ''
       is_vim="ps -o state= -o comm= -t '#{pane_tty}' | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|l?n?vim?x?|fzf)(diff)?$'"
 

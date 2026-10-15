@@ -1,7 +1,7 @@
-# Home Manager is wired in as a system module on every platform, so a single
-# `rebuild` activates the system and the user environment together. The user
-# gets homeManager.base; anything more is added through
-# `home-manager.sharedModules` by the system modules that want it.
+# Home Manager is a system module on each platform. Thus, one `rebuild`
+# activates the system and the user environment together. The user gets
+# homeManager.base. System modules that need more Home Manager configuration add
+# it through `home-manager.sharedModules`.
 { config, inputs, ... }:
 
 let
@@ -14,13 +14,13 @@ let
       imports = [ hmModule ];
 
       home-manager = {
-        # Reuse the system's nixpkgs (and its allowUnfree) instead of
-        # instantiating a second one.
+        # Use the nixpkgs of the system (and its allowUnfree value). Do not
+        # create a second nixpkgs instance.
         useGlobalPkgs = true;
         useUserPackages = true;
 
-        # Rename rather than fail when activation wants to write over a file
-        # that is already there by hand.
+        # If activation must write a file that already exists, rename
+        # the existing file. Do not fail.
         backupFileExtension = "hm-bak";
 
         users.${config.my.username}.imports = [ homeManager.base ];
@@ -34,7 +34,7 @@ in
   flake.modules.homeManager.base =
     { lib, ... }:
     {
-      # Hosts may override this; they should not need to.
+      # Hosts can override this value. Hosts do not need to override it.
       home.stateVersion = lib.mkDefault "26.05";
 
       # Defines the XDG_* variables in the session environment.
