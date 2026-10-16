@@ -1,4 +1,4 @@
-# Leaf node: kitty, configured from ../../kitty.
+# Leaf node: kitty, configured from kitty.conf.
 { leaf, ... }:
 {
   # The upstream module passes --config, so kitty ignores ~/.config/kitty.
@@ -7,7 +7,7 @@
   # copy of theme.conf in the store.
   nodes.kitty = leaf "kitty" {
     wrappers.kitty.extraConfig =
-      builtins.replaceStrings [ "include theme.conf" ] [ "include ${../../kitty/theme.conf}" ]
-        (builtins.readFile ../../kitty/kitty.conf);
+      builtins.replaceStrings [ "include theme.conf" ] [ "include ${./theme.conf}" ]
+        (builtins.readFile ./kitty.conf);
   };
 }

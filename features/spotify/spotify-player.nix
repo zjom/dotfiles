@@ -1,6 +1,6 @@
 # Leaf node: spotify-player, the terminal client for Spotify. A Spotify Connect
 # daemon plays the audio. Home Manager runs this daemon (spotifyd) in
-# modules/system/spotifyd.nix. The device depends on the machine, so each host
+# default.nix. The device depends on the machine, so each host
 # sets `wrappers.spotify-player.settings.default_device`. The login is state in
 # the cache directory, outside the configuration.
 { leaf, ... }:

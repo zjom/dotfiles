@@ -54,7 +54,7 @@
         function bws --wraps bws --description "bws, with its access token from the keyring"
             set -lx BWS_ACCESS_TOKEN (${lookup "bws"})
             or begin
-                echo "bws: no access token in the keyring, see modules/nodes/bitwarden.nix" >&2
+                echo "bws: no access token in the keyring, see features/bitwarden/default.nix" >&2
                 return 1
             end
             command bws $argv
