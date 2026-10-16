@@ -2,17 +2,15 @@
 # nodes.fish, with the composites that the host adds. bash and zsh are
 # installed, but bash and zsh have no configuration of their own.
 #
-# The wrapper passes --no-config. This flag also skips /etc/fish/config.fish.
-# NixOS and nix-darwin use that file to set PATH and the other environment
-# variables. This module is platform glue (spec rule 19). It sources that file
-# before the configuration of the node (decision D22).
+# fish reads /etc/fish/config.fish by itself (decision D22). NixOS and
+# nix-darwin use that file to set PATH and the other environment variables.
 { config, ... }:
 
 let
   inherit (config) nodes;
 
   loginShell =
-    { config, lib, ... }:
+    { config, ... }:
     {
       imports = [ nodes.fish ];
 
@@ -24,10 +22,6 @@ let
         package = config.wrappers.fish.wrapper;
       };
       environment.shells = [ config.programs.fish.package ];
-
-      wrappers.fish.flags."--init-command".data = lib.mkBefore [
-        "test -f /etc/fish/config.fish; and source /etc/fish/config.fish"
-      ];
     };
 in
 {

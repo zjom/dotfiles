@@ -87,7 +87,7 @@ override each value. All nodes in the same evaluation then use the new value.
 ### Rules
 
 - A leaf configures exactly one program. The leaf makes the program ignore the
-  user configuration of the program. The leaf sets
+  user configuration of the program (fish is an exception, D22). The leaf sets
   `entry = lib.mkDefault "<binary>"`. The leaf does not name the program of
   another node. The leaf can call commands that are not nodes, for example
   `sudo`, `nix`, `nb`, `wpctl` and `firefox` (D17).
@@ -255,7 +255,7 @@ repository without changes:
 | D6  | `nix run` puts the programs of the node first on the `PATH` of the entry program.                           |
 | D7  | Use one small `settings.*` namespace for shared values.                                                     |
 | D8  | An entry conflict is an evaluation error.                                                                   |
-| D9  | Wrappers ignore user configuration files.                                                                   |
+| D9  | Wrappers ignore user configuration files. fish is an exception (D22).                                       |
 | D10 | Do not override the `meta.platforms` value of upstream wrapper modules. This value is not enforced.         |
 
 These decisions apply only to this repository:
@@ -273,5 +273,4 @@ These decisions apply only to this repository:
 | D19 | The prompt composite sets `DIRENV_CONFIG` in fish to a store path.                                                                                    | `direnv hook` writes the path of the unwrapped binary into the hook. Without this value, the hook runs direnv without its configuration. direnv does not refer back to other nodes, so there is no dependency cycle.  |
 | D20 | fd gets its ignore patterns from `--ignore-file`. fd still reads its global ignore file.                                                              | fd cannot skip the global ignore file unless `XDG_CONFIG_HOME` changes. A change of `XDG_CONFIG_HOME` also applies to each child process of `fd --exec`. No file in this repository writes the global ignore file.    |
 | D21 | The launcher uses a `buildCommand` entry to link the lm10 scripts into the `bin/` directory of the lm10 wrapper.                                      | A composite can set only `wrappers.*` options. The scripts are glue, not a separate program. lm10-apps lists the scripts in the directory of its own resolved path.                                                   |
-| D22 | The system fish is the wrapper. The wrapper sources `/etc/fish/config.fish` before its own configuration.                                             | The `--no-config` flag also skips `/etc/fish/config.fish`. NixOS and nix-darwin configure `PATH` in that file. Without that file, a login shell has no system environment.                                            |
-| D23 | The fish leaf registers the `__fish_on_interactive` handler of fish itself.                                                                           | The `--no-config` flag also skips the `config.fish` file of fish itself. That file registers the handler that runs the interactive setup. Without that setup, fish ignores `fish_key_bindings`, so vi mode stays off. |
+| D22 | fish is the exception to D9. The wrapper starts fish without `--no-config`, so fish reads `~/.config/fish`. That directory must stay empty. | `--no-config` also skips the startup files of fish itself and `/etc/fish/config.fish`, and fish 4 turns on private mode with it. Each skipped file needed a workaround. `--init-command` runs after all configuration files, so the configuration of the node still wins. |
