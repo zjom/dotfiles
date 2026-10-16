@@ -7,37 +7,31 @@
 # stdpath("config") (decision D13). The language servers come from the dev shell
 # that started Neovim. The wrapper appends runtimePkgs to PATH, so the tools of
 # a dev shell have priority.
-{ inputs, ... }:
-let
-  wlib = inputs.wrappers.lib;
-in
+{ leaf, ... }:
 {
   nodes.nvim =
-    { lib, pkgs, ... }:
-    {
-      imports = [
-        (wlib.getInstallModule {
-          name = "neovim";
-          value = wlib.wrapperModules.neovim;
-        })
-      ];
+    leaf
+      {
+        name = "neovim";
+        entry = "nvim";
+      }
+      (
+        { pkgs, ... }:
+        {
+          wrappers.neovim = {
+            settings.config_directory = ../../nvim;
 
-      entry = lib.mkDefault "nvim";
-
-      wrappers.neovim = {
-        enable = true;
-        settings.config_directory = ../../nvim;
-
-        # The tools that the plugin manager and the plugins call (decision D15):
-        # git for vim.pack, a C compiler and the tree-sitter CLI for the
-        # grammars, and cargo for the fuzzy matcher of blink.cmp. options.lua
-        # disables the language providers.
-        runtimePkgs = with pkgs; [
-          cargo
-          gcc
-          git
-          tree-sitter
-        ];
-      };
-    };
+            # The tools that the plugin manager and the plugins call (decision D15):
+            # git for vim.pack, a C compiler and the tree-sitter CLI for the
+            # grammars, and cargo for the fuzzy matcher of blink.cmp. options.lua
+            # disables the language providers.
+            runtimePkgs = with pkgs; [
+              cargo
+              gcc
+              git
+              tree-sitter
+            ];
+          };
+        }
+      );
 }

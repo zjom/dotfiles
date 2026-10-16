@@ -4,10 +4,8 @@
 # bin/aerospace, the client, without changes. The bindings that start other
 # programs are in the mac-desktop composite. That composite merges the bindings
 # into the parsed file.
-{ inputs, ... }:
+{ leaf, ... }:
 let
-  wlib = inputs.wrappers.lib;
-
   module =
     {
       config,
@@ -41,20 +39,17 @@ let
 in
 {
   nodes.aerospace =
-    { lib, ... }:
-    {
-      imports = [
-        (wlib.getInstallModule {
-          name = "aerospace";
-          value = module;
-        })
-      ];
-
-      entry = lib.mkDefault "aerospace";
-
-      wrappers.aerospace = {
-        enable = true;
-        settings = builtins.fromTOML (builtins.readFile ../../aerospace/aerospace.toml);
-      };
-    };
+    leaf
+      {
+        name = "aerospace";
+        inherit module;
+      }
+      (
+        { lib, ... }:
+        {
+          wrappers.aerospace = {
+            settings = builtins.fromTOML (builtins.readFile ../../aerospace/aerospace.toml);
+          };
+        }
+      );
 }

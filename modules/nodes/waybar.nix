@@ -1,11 +1,8 @@
 # Leaf node: waybar, the bar. The desktop composite sets the buttons that start
 # other programs.
-{ inputs, ... }:
-let
-  wlib = inputs.wrappers.lib;
-in
+{ leaf, ... }:
 {
-  nodes.waybar =
+  nodes.waybar = leaf "waybar" (
     {
       config,
       lib,
@@ -16,20 +13,9 @@ in
       inherit (config.settings) colors;
     in
     {
-      imports = [
-        (wlib.getInstallModule {
-          name = "waybar";
-          value = wlib.wrapperModules.waybar;
-        })
-      ];
-
-      entry = lib.mkDefault "waybar";
-
       # The upstream module passes --config and --style, so waybar ignores
       # ~/.config/waybar.
       wrappers.waybar = {
-        enable = true;
-
         settings = {
           layer = "top";
           position = "top";
@@ -148,5 +134,6 @@ in
           ''
         );
       };
-    };
+    }
+  );
 }

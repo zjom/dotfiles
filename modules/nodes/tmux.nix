@@ -1,26 +1,13 @@
 # Leaf node: tmux. This node configures only the behaviour of tmux itself. The
 # popups and the pickers that start other programs are in composites.
-{ inputs, ... }:
-let
-  wlib = inputs.wrappers.lib;
-in
+{ leaf, ... }:
 {
-  nodes.tmux =
+  nodes.tmux = leaf "tmux" (
     { lib, pkgs, ... }:
     {
-      imports = [
-        (wlib.getInstallModule {
-          name = "tmux";
-          value = wlib.wrapperModules.tmux;
-        })
-      ];
-
-      entry = lib.mkDefault "tmux";
-
       # The upstream module passes -f, so tmux ignores ~/.tmux.conf and
       # ~/.config/tmux.
       wrappers.tmux = {
-        enable = true;
         sourceSensible = true;
         secureSocket = false;
         prefix = "C-Space";
@@ -64,5 +51,6 @@ in
           bind -T copy-mode-vi C-\\ select-pane -l
         '';
       };
-    };
+    }
+  );
 }

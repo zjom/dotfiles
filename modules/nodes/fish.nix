@@ -1,30 +1,17 @@
 # Leaf node: fish. This node configures only the behaviour of fish itself. Each
 # function, alias and bind that calls another configured program is in a
 # composite.
-{ inputs, ... }:
-let
-  wlib = inputs.wrappers.lib;
-in
+{ leaf, ... }:
 {
-  nodes.fish =
+  nodes.fish = leaf "fish" (
     { lib, ... }:
     {
-      imports = [
-        (wlib.getInstallModule {
-          name = "fish";
-          value = wlib.wrapperModules.fish;
-        })
-      ];
-
-      entry = lib.mkDefault "fish";
-
       # fish starts without --no-config (decision D22). That flag also skips
       # the startup files of fish itself and /etc/fish/config.fish, and it
       # turns on private mode. The configuration of this node runs from
       # --init-command, after all configuration files, so it overrides
       # ~/.config/fish. That directory must stay empty.
       wrappers.fish = {
-        enable = true;
         flags."--no-config" = false;
 
         # These commands are not configured programs of this graph (decision
@@ -37,7 +24,8 @@ in
           tt = "touch";
         };
 
-        configFile.content = ''
+        # Before the glue of the composites, independent of the import order.
+        configFile.content = lib.mkBefore ''
           # Programs that language toolchains install outside Nix.
           fish_add_path --global --path ~/.local/bin ~/go/bin ~/.cargo/bin
 
@@ -63,5 +51,6 @@ in
           end
         '';
       };
-    };
+    }
+  );
 }

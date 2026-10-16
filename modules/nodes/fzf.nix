@@ -2,12 +2,9 @@
 # prefixes this variable on the fzf binary, so fzf-tmux and all other callers
 # also get the options. A prefix keeps the FZF_DEFAULT_OPTS of the caller: the
 # ctrl-r widget of `fzf --fish` puts --read0, --delimiter and --ansi there.
-{ inputs, ... }:
-let
-  wlib = inputs.wrappers.lib;
-in
+{ leaf, ... }:
 {
-  nodes.fzf =
+  nodes.fzf = leaf "fzf" (
     {
       config,
       lib,
@@ -40,17 +37,7 @@ in
       );
     in
     {
-      imports = [
-        (wlib.getInstallModule {
-          name = "fzf";
-          value = wlib.modules.default;
-        })
-      ];
-
-      entry = lib.mkDefault "fzf";
-
       wrappers.fzf = {
-        enable = true;
         package = pkgs.fzf;
         prefixVar = [
           [
@@ -67,5 +54,6 @@ in
         ];
         unsetVar = [ "FZF_DEFAULT_OPTS_FILE" ];
       };
-    };
+    }
+  );
 }

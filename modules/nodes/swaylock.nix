@@ -1,28 +1,15 @@
 # Leaf node: swaylock, the screen locker.
-{ inputs, ... }:
-let
-  wlib = inputs.wrappers.lib;
-in
+{ leaf, ... }:
 {
-  nodes.swaylock =
+  nodes.swaylock = leaf "swaylock" (
     { config, lib, ... }:
     let
       inherit (config.settings) colors;
     in
     {
-      imports = [
-        (wlib.getInstallModule {
-          name = "swaylock";
-          value = wlib.wrapperModules.swaylock;
-        })
-      ];
-
-      entry = lib.mkDefault "swaylock";
-
       # The upstream module passes --config, so swaylock ignores
       # ~/.config/swaylock.
       wrappers.swaylock = {
-        enable = true;
         settings = with colors; {
           color = bg;
           show-failed-attempts = true;
@@ -57,5 +44,6 @@ in
           text-wrong-color = error;
         };
       };
-    };
+    }
+  );
 }
