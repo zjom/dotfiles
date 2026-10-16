@@ -52,6 +52,7 @@
 
       wrappers.fish = {
         shellAliases = {
+          do = "doen";
           tm = "tmux";
           ls = "eza";
           ll = "eza -l";
