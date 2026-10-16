@@ -1,5 +1,5 @@
-# Composite node: fish and tmux as one session, with sesh to select sessions.
-# This node contains only the glue between these programs.
+# The shell: fish and tmux as one session, sesh to select sessions, eza to list
+# files, and the prompt.
 { config, ... }:
 {
   nodes.shell =
@@ -9,22 +9,40 @@
         fish
         tmux
         fzf
+        eza
       ];
 
       packages = [
         pkgs.sesh
+        pkgs.starship
         pkgs.zoxide
       ];
 
       entry = "fish";
 
       wrappers.fish = {
-        shellAliases.tm = "tmux";
+        shellAliases = {
+          tm = "tmux";
+          ls = "eza";
+          ll = "eza -l";
+          la = "eza -a";
+          lla = "eza -la";
+          lt = "eza --tree";
+          tree = "eza --tree";
+        };
 
         # Inside tmux, the shell bindings of fzf open in a tmux popup.
         env.FZF_TMUX = "1";
 
         configFile.content = ''
+          if status is-interactive
+              zoxide init fish | source
+
+              if test "$TERM" != dumb
+                  starship init fish | source
+              end
+          end
+
           # This definition is a function, not an alias. The wrapper writes
           # aliases in double quotes. With double quotes, the shell runs the
           # picker when it defines the alias.

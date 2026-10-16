@@ -6,16 +6,11 @@ let
 in
 {
   nodes.prompt =
-    { config, pkgs, ... }:
+    { config, ... }:
     {
       imports = with nodes; [
         fish
         direnv
-      ];
-
-      packages = [
-        pkgs.starship
-        pkgs.zoxide
       ];
 
       entry = "fish";
@@ -30,12 +25,6 @@ in
 
         configFile.content = ''
           if status is-interactive
-              zoxide init fish | source
-
-              if test "$TERM" != dumb
-                  starship init fish | source
-              end
-
               if not functions -q __direnv_export_eval
                   direnv hook fish | source
               end

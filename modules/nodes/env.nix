@@ -9,7 +9,6 @@
       imports = with config.nodes; [
         shell
         search
-        files
         prompt
         editor
         git-ui
