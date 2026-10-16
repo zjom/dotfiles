@@ -70,5 +70,12 @@
   # each file. Each file contains one feature. A file adds configuration to each
   # layer that the feature uses: NixOS, nix-darwin, Home Manager or more than
   # one of these layers. For more information, see README.md.
-  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
+  outputs =
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      inputs.import-tree [
+        ./lib
+        ./modules
+      ]
+    );
 }

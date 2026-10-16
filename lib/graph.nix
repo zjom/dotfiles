@@ -35,6 +35,29 @@ let
       ];
     }).config;
 
+  wlib = inputs.wrappers.lib;
+
+  # Builds a leaf node from its name and its body. The spec is the wrapper name,
+  # or { name; entry ? name; module ? <upstream module or wlib.modules.default>; }.
+  leaf =
+    spec: body:
+    let
+      s = if builtins.isString spec then { name = spec; } else spec;
+      inherit (s) name;
+    in
+    { lib, ... }:
+    {
+      imports = [
+        (wlib.getInstallModule {
+          inherit name;
+          value = s.module or (wlib.wrapperModules.${name} or wlib.modules.default);
+        })
+        body
+      ];
+      entry = lib.mkDefault (s.entry or name);
+      wrappers.${name}.enable = true;
+    };
+
   enabledWrappers = cfg: lib.filter (w: w.enable) (lib.attrValues cfg.wrappers);
 
   # A node is a target on a system only if each program of the node has a
@@ -57,7 +80,7 @@ let
     in
     pkgs.symlinkJoin {
       name = "env-${name}";
-      paths = map (w: w.wrapper) enabled;
+      paths = map (w: w.wrapper) enabled ++ cfg.packages;
       nativeBuildInputs = [ pkgs.makeWrapper ];
       # The sibling programs come first on PATH. Thus, the glue of a composite
       # ("tmux", "fish") always starts the configured program, never a program
@@ -97,6 +120,8 @@ in
       "aarch64-darwin"
     ];
 
+    _module.args.leaf = leaf;
+
     graph.base = { lib, ... }: {
       options.entry = mkOption {
         type = types.str;
@@ -105,7 +130,24 @@ in
           of two leaves must pick one (otherwise: conflict error). Unused on hosts.
         '';
       };
+
+      options.packages = mkOption {
+        type = types.listOf types.package;
+        default = [ ];
+        description = "Programs without configuration. On PATH under `nix run`; system packages on hosts.";
+      };
     };
+
+    flake.modules.nixos.base =
+      { config, ... }:
+      {
+        environment.systemPackages = config.packages;
+      };
+    flake.modules.darwin.base =
+      { config, ... }:
+      {
+        environment.systemPackages = config.packages;
+      };
 
     perSystem = { pkgs, ... }: {
       packages =
