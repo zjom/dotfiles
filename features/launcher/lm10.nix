@@ -1,6 +1,3 @@
-# Leaf node: lm10, the picker menu. lm10 only selects from the lines that it
-# receives. The launcher composite supplies the scripts that give lm10 these
-# lines.
 { inputs, leaf, ... }:
 let
   wlib = inputs.wrappers.lib;
@@ -19,10 +16,8 @@ in
     in
     {
       wrappers.lm10 = {
-        # lm10 has a package only for Linux. graph.nix skips the node on other
-        # systems.
+        # lm10 has a package only for Linux.
         package = inputs.lm10.packages.${system}.default or (throw "lm10 is not packaged for ${system}");
-        # This file replaces ~/.config/lm10/lm10.ini.
         flags."--config" = "${pkgs.writeText "lm10.ini" (
           lib.generators.toINI { } {
             main = {

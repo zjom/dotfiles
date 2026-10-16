@@ -1,4 +1,3 @@
-# Leaf node: swaylock, the screen locker.
 { leaf, ... }:
 {
   nodes.swaylock = leaf "swaylock" (
@@ -7,8 +6,6 @@
       inherit (config.settings) colors;
     in
     {
-      # The upstream module passes --config, so swaylock ignores
-      # ~/.config/swaylock.
       wrappers.swaylock = {
         settings = with colors; {
           color = bg;

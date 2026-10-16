@@ -1,21 +1,15 @@
-# Leaf node: fish. This node configures only the behaviour of fish itself. Each
-# function, alias and bind that calls another configured program is in a
-# composite.
 { leaf, ... }:
 {
   nodes.fish = leaf "fish" (
     { lib, ... }:
     {
-      # fish starts without --no-config (decision D22). That flag also skips
-      # the startup files of fish itself and /etc/fish/config.fish, and it
-      # turns on private mode. The configuration of this node runs from
-      # --init-command, after all configuration files, so it overrides
-      # ~/.config/fish. That directory must stay empty.
+      # fish starts without --no-config, because that flag also skips
+      # /etc/fish/config.fish and turns on private mode. The configuration of
+      # this node runs from --init-command, after ~/.config/fish. Thus,
+      # ~/.config/fish must stay empty.
       wrappers.fish = {
         flags."--no-config" = false;
 
-        # These commands are not configured programs of this graph (decision
-        # D17), so these commands belong to fish itself.
         shellAliases = {
           c = "clear";
           clean = "sudo nix-collect-garbage -d";

@@ -1,20 +1,11 @@
-# Spotify on each host. spotifyd plays the audio in the background as a Spotify
-# Connect device. spotify-player is the terminal client that controls spotifyd.
+# spotifyd plays the audio as a Spotify Connect device. spotify-player controls
+# spotifyd.
 #
-# On each machine, spotifyd must authenticate one time, with OAuth in the
-# browser:
+# On each machine, authenticate spotifyd one time, with OAuth in the browser:
 #
 #   spotifyd authenticate
 #
-# This command reads the same config file as the daemon. Thus, the credentials
-# go into the cache_path below, where the service finds them. spotify-player
-# signs in separately when it starts for the first time (or with
-# `spotify_player authenticate`).
-#
-# spotifyd is a daemon that keeps state, so spotifyd stays with Home Manager.
-# The nodes do not manage such daemons. spotify-player is nodes.spotify-player.
-# This file connects spotify-player to the spotifyd of this machine, and also
-# runs spotify-player as a daemon.
+# spotify-player signs in when it starts for the first time.
 { config, ... }:
 
 let
@@ -45,7 +36,6 @@ in
       inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
       tomlFormat = pkgs.formats.toml { };
 
-      # The name of the device in the device list of each Spotify client.
       deviceName = osConfig.my.hostName;
       cachePath = "${config.xdg.cacheHome}/spotifyd";
 

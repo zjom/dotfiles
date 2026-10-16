@@ -18,7 +18,7 @@ in
         launcher
       ];
 
-      # The launcher starts lm10-apps. The desktop starts niri (decision D8).
+      # The launcher also sets an entry.
       entry = lib.mkForce "niri";
 
       # niri merges the binds of an included file with its own binds.
@@ -40,7 +40,6 @@ in
       wrappers.waybar.settings = {
         network.on-click = "kitty nmtui";
         bluetooth.on-click = "kitty bluetui";
-        # A right-click opens the Spotify picker.
         mpris.on-click-right = "lm10-spotify";
       };
     };
@@ -52,13 +51,11 @@ in
 
       home-manager.sharedModules = [ homeManager.desktop ];
 
-      # The wrapped niri, so niri-session runs the configured niri.
       programs.niri = {
         enable = true;
         package = config.wrappers.niri.wrapper;
       };
 
-      # A text greeter, so the login needs no second graphical stack.
       services.greetd = {
         enable = true;
         settings.default_session = {
@@ -72,8 +69,6 @@ in
       # service for swaylock.
       security.pam.services.greetd.enableGnomeKeyring = true;
 
-      # Electron apps and Chromium apps run natively on Wayland, not on
-      # XWayland.
       environment.sessionVariables.NIXOS_OZONE_WL = "1";
     };
 }

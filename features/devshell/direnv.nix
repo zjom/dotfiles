@@ -1,6 +1,4 @@
-# Leaf node: direnv, with nix-direnv. nix-direnv makes `use flake` cache the
-# shell, so direnv does not build the shell again each time you enter the
-# directory. The allow list stays as state in the XDG data directory.
+# direnv, with nix-direnv to cache the shells of `use flake`.
 { leaf, ... }:
 {
   nodes.direnv = leaf "direnv" (
@@ -25,7 +23,6 @@
               '';
             };
           };
-          # This directory replaces ~/.config/direnv.
           env.DIRENV_CONFIG = dirOf config.constructFiles.direnvrc.path;
         };
     }

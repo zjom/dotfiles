@@ -1,5 +1,3 @@
-# Leaf node: waybar, the bar. The desktop composite sets the buttons that start
-# other programs.
 { leaf, ... }:
 {
   nodes.waybar = leaf "waybar" (
@@ -13,8 +11,6 @@
       inherit (config.settings) colors;
     in
     {
-      # The upstream module passes --config and --style, so waybar ignores
-      # ~/.config/waybar.
       wrappers.waybar = {
         settings = {
           layer = "top";
@@ -55,8 +51,6 @@
             format-charging = "chg {capacity}%";
             states.warning = 20;
           };
-          # The track that spotifyd (or another MPRIS player) plays. A
-          # left-click toggles between play and pause.
           mpris = {
             format = "{status_icon} {dynamic}";
             format-paused = "{status_icon} {dynamic}";
@@ -137,9 +131,7 @@
     }
   );
 
-  # The bar starts with graphical-session.target, and niri-session starts that
-  # target. The wrapper contains the configuration, so Home Manager writes no
-  # configuration file.
+  # niri-session starts graphical-session.target, which starts the bar.
   flake.modules.homeManager.desktop =
     { osConfig, ... }:
     {

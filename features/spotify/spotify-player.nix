@@ -1,13 +1,7 @@
-# Leaf node: spotify-player, the terminal client for Spotify. A Spotify Connect
-# daemon plays the audio. Home Manager runs this daemon (spotifyd) in
-# default.nix. The device depends on the machine, so each host
-# sets `wrappers.spotify-player.settings.default_device`. The login is state in
-# the cache directory, outside the configuration.
+# Each host sets `default_device` to its spotifyd device (default.nix).
 { leaf, ... }:
 let
-  # nix-wrapper-modules has no module for spotify-player. This module is a local
-  # module. The app.toml settings are an option, so a host can extend the
-  # settings.
+  # nix-wrapper-modules has no module for spotify-player.
   module =
     {
       config,
@@ -30,7 +24,6 @@ let
 
       config = {
         package = lib.mkDefault pkgs.spotify-player;
-        # This directory replaces ~/.config/spotify-player.
         flags."--config-folder" = "${pkgs.linkFarm "spotify-player-config" {
           "app.toml" = toml.generate "app.toml" config.settings;
         }}";

@@ -1,7 +1,5 @@
-# Composite node: `bw` and `bws` in fish. The secrets of these CLIs are in the
-# keyring of the OS (GNOME Keyring on Linux, the login Keychain on macOS). The
-# CLI gets a secret only for the duration of a call. No token is stored in this
-# repository or in the Nix store.
+# `bw` and `bws` in fish, with their secrets in the keyring of the OS. No token
+# is stored in this repository or in the Nix store.
 #
 # On each machine, store the machine-account access token for bws one time:
 #

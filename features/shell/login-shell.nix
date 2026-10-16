@@ -1,9 +1,5 @@
-# fish, the login shell on each host. This fish is the wrapped fish of
-# nodes.fish, with the composites that the host adds. bash and zsh are
-# installed, but bash and zsh have no configuration of their own.
-#
-# fish reads /etc/fish/config.fish by itself (decision D22). NixOS and
-# nix-darwin use that file to set PATH and the other environment variables.
+# The wrapped fish is the login shell of each host. fish reads
+# /etc/fish/config.fish, where NixOS and nix-darwin set PATH.
 { config, ... }:
 
 let

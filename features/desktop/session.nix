@@ -103,12 +103,9 @@
       };
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
-      # Clipboard history: cliphist stores each copy (wl-paste --watch). The
-      # service starts with graphical-session.target. features/launcher/scripts/lm10-clipboard
-      # selects entries from this history.
+      # The clipboard history for lm10-clipboard.
       services.cliphist.enable = true;
 
-      # Shows the privilege prompts of GUI programs.
       services.polkit-gnome.enable = true;
     };
 }

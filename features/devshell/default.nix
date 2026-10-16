@@ -19,15 +19,11 @@ in
 
       entry = "fish";
 
-      # git must never commit the cache directories of direnv.
       wrappers.git.settings.core.excludesFile = "${pkgs.writeText "gitignore" ".direnv/\n"}";
 
       wrappers.fish = {
         # `direnv hook` writes the path of the unwrapped binary into the hook.
-        # Thus, the hook runs direnv without the DIRENV_CONFIG value of the
-        # wrapper. This setting gives the configuration to the hook directly, as
-        # a store path. direnv does not refer back to other nodes, so there is
-        # no dependency cycle (decision D19).
+        # Thus, the hook gets the configuration of the wrapper from this variable.
         env.DIRENV_CONFIG = dirOf config.wrappers.direnv.constructFiles.direnvrc.outPath;
 
         configFile.content = ''
@@ -36,8 +32,6 @@ in
                   direnv hook fish | source
               end
 
-              # Home Manager configures devenv on the hosts that install devenv
-              # (decision D14).
               if command -q devenv
                   devenv hook fish | source
               end

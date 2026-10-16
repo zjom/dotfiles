@@ -1,4 +1,3 @@
-# Leaf node: ripgrep.
 { leaf, ... }:
 {
   nodes.ripgrep =

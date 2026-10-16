@@ -1,10 +1,6 @@
-# Leaf node: fd.
-#
-# fd has no flag that skips its global ignore file (~/.config/fd/ignore). A
-# change of XDG_CONFIG_HOME for fd also applies to each child process of
-# `fd --exec`. Thus, the ignore patterns come from --ignore-file. If a global
-# ignore file exists, fd adds its patterns to these patterns. No file in this
-# repository writes a global ignore file (decision D20).
+# fd has no flag that skips ~/.config/fd/ignore, and a change of XDG_CONFIG_HOME
+# also applies to the child processes of `fd --exec`. Thus, the patterns come
+# from --ignore-file.
 { leaf, ... }:
 {
   nodes.fd = leaf "fd" (

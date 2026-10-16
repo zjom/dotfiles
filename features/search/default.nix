@@ -1,5 +1,4 @@
-# Composite node: find files and text from fish, and open the results in Neovim.
-# This node contains only the glue between fish, fzf, fd, ripgrep, bat and nvim.
+# Find files and text from fish, and open the results in Neovim.
 { config, ... }:
 let
   # The file preview of fzf. `ff` and `nr` use this preview.

@@ -1,12 +1,8 @@
-# Leaf node: tmux. This node configures only the behaviour of tmux itself. The
-# popups and the pickers that start other programs are in composites.
 { leaf, ... }:
 {
   nodes.tmux = leaf "tmux" (
     { lib, pkgs, ... }:
     {
-      # The upstream module passes -f, so tmux ignores ~/.tmux.conf and
-      # ~/.config/tmux.
       wrappers.tmux = {
         sourceSensible = true;
         secureSocket = false;

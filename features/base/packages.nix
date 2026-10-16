@@ -1,11 +1,5 @@
-# The packages for each host that are not configured programs. Thus, these
-# packages are not nodes. A package for only one host goes in the module of that
-# host under hosts/. The module system merges the lists, so a host adds
-# packages to this list and does not replace it.
-#
-# The dev shells under shells/ contain the full language toolchains. This list
-# contains only the base interpreters and cargo, for scripts and one-off
-# commands outside a dev shell.
+# The packages without configuration for each host. The language toolchains
+# are in the dev shells (shells/).
 { inputs, ... }:
 
 let
@@ -28,11 +22,8 @@ let
         unzip
         wget
 
-        # A tool that fetches gitignore templates, built from its own flake,
-        # not from nixpkgs.
         inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
 
-        # nb, built from a fork with custom changes, not from nixpkgs.
         inputs.nb.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
     };

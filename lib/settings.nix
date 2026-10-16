@@ -1,8 +1,5 @@
-# The values that more than one program needs, as `settings.*` options. All
-# nodes can read these options. The leaves read the options. A composite or a
-# host can override a value, and then all leaves in that evaluation use the new
-# value. Each value is a separate option with a default. Thus, an override of
-# one value does not remove the other values (spec rules 15-17).
+# The values that more than one program needs. A composite or a host can
+# override a value, and then all leaves in that evaluation use the new value.
 { ... }:
 {
   graph.base =

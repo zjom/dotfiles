@@ -4,17 +4,13 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # The top-level configuration that contains each file under ./modules, and
-    # the importer that loads these files.
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
-    # Wrapper modules. Each wrapper module puts the configuration of a program
-    # into the package of that program. The input also contains install modules
-    # that supply `wrappers.<name>` on NixOS, nix-darwin and Home Manager. For
-    # more information, see lib/graph.nix.
+    # Wrappers put the configuration of a program into its package. See
+    # lib/graph.nix.
     wrappers = {
       url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,8 +21,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # The system layer for macOS. The Linux hosts use the NixOS modules that are
-    # part of nixpkgs, so the Linux hosts need no equivalent input.
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,10 +60,8 @@
     };
   };
 
-  # Each file under ./modules is a flake-parts module, and import-tree imports
-  # each file. Each file contains one feature. A file adds configuration to each
-  # layer that the feature uses: NixOS, nix-darwin, Home Manager or more than
-  # one of these layers. For more information, see README.md.
+  # Each .nix file below these directories is a flake-parts module. import-tree
+  # skips each path that contains `/_`.
   outputs =
     inputs:
     inputs.flake-parts.lib.mkFlake { inherit inputs; } (

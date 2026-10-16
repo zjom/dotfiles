@@ -33,11 +33,6 @@ in
             pngpaste
           ];
 
-          # The macOS defaults, the launchd agents, Homebrew and the other
-          # nix-darwin options belong in this module. These options have no
-          # equivalent on the NixOS hosts.
-          #   https://nix-darwin.github.io/nix-darwin/manual/
-
           # The nix-darwin options that act for a single user require this
           # value.
           system.primaryUser = config.my.username;

@@ -1,9 +1,6 @@
-# Leaf node: AeroSpace, the tiling window manager for macOS. The configuration
-# comes from ./aerospace.toml. The server in AeroSpace.app reads
-# the configuration, so the wrapper wraps that executable. The wrapper links
-# bin/aerospace, the client, without changes. The bindings that start other
-# programs are in the mac-desktop composite. That composite merges the bindings
-# into the parsed file.
+# The server in AeroSpace.app reads the configuration, so the wrapper wraps
+# that executable. The mac-desktop composite adds the bindings that start other
+# programs.
 { leaf, ... }:
 let
   module =
@@ -32,7 +29,6 @@ let
         exePath = "${macOS}/AeroSpace";
         binDir = macOS;
         binName = "AeroSpace";
-        # This file replaces ~/.aerospace.toml and ~/.config/aerospace.
         flags."--config-path" = "${toml.generate "aerospace.toml" config.settings}";
       };
     };

@@ -1,7 +1,5 @@
-# Leaf node: fzf. The options of fzf are in FZF_DEFAULT_OPTS. The wrapper
-# prefixes this variable on the fzf binary, so fzf-tmux and all other callers
-# also get the options. A prefix keeps the FZF_DEFAULT_OPTS of the caller: the
-# ctrl-r widget of `fzf --fish` puts --read0, --delimiter and --ansi there.
+# A prefix of FZF_DEFAULT_OPTS keeps the options of the caller: the ctrl-r
+# widget of `fzf --fish` puts --read0, --delimiter and --ansi there.
 { leaf, ... }:
 {
   nodes.fzf = leaf "fzf" (

@@ -61,9 +61,8 @@ let
   enabledWrappers = cfg: lib.filter (w: w.enable) (lib.attrValues cfg.wrappers);
 
   # A node is a target on a system only if each program of the node has a
-  # package on that system. For example, the desktop nodes are only for Linux
-  # (decision D18). If a package does not exist at all, the evaluation throws an
-  # error. This error also counts as "not available".
+  # package on that system. A missing package throws, which also counts as
+  # "not available".
   available =
     pkgs: _: node:
     (builtins.tryEval (
@@ -113,7 +112,7 @@ in
   };
 
   config = {
-    # nixpkgs 26.11 removed x86_64-darwin (decision D16).
+    # nixpkgs 26.11 removed x86_64-darwin.
     systems = [
       "x86_64-linux"
       "aarch64-linux"
