@@ -1,276 +1,106 @@
 # dotfiles
 
-This repository is one flake for all machines. The flake configures three hosts:
+One flake configures 3 hosts:
 
-- `loq`: a NixOS host on bare metal.
-- `wsl`: a NixOS host that runs under WSL.
-- `macbook`: a MacBook that runs nix-darwin.
+| Host      | System                       |
+| --------- | ---------------------------- |
+| `loq`     | NixOS on a Lenovo LOQ laptop |
+| `wsl`     | NixOS on WSL                 |
+| `macbook` | nix-darwin on a MacBook      |
 
-The repository follows the nix-env-graph design. In this design, the
-configuration of each program is part of the package of that program. Thus, a
-configured program is the same on all hosts. You can also run one part of the
-configuration without the other parts:
+Each program gets its configuration inside its package, so a configured program is the same on each host. You can run one part of the configuration alone:
 
 ```sh
-nix run github:zjom/dotfiles#fish     # fish with the configuration of this repository
-nix run github:zjom/dotfiles#tmux
-nix run github:zjom/dotfiles          # the full command-line environment (env)
+nix run github:zjom/dotfiles#fish   # one leaf
+nix run github:zjom/dotfiles        # the full command-line environment (env)
 ```
 
-## The graph
-
-Each `.nix` file in the `modules/` directory is a
-[flake-parts](https://flake.parts) module.
-[import-tree](https://github.com/vic/import-tree) loads these modules.
-import-tree skips each path that contains `/_`. The `flake.nix` file declares
-only the inputs.
+## Layout
 
 ```
-flake.nix                    the inputs and the mkFlake call (import-tree ./modules)
-modules/
-  graph.nix                  the definition of a node; converts nodes to packages, checks and flake.modules
-  settings.nix               the shared settings.* options (colours, search ignores)
-  nixpkgs.nix                one nixpkgs (overlays, allowUnfree) for the hosts and for `nix run`
-  nodes/<name>.nix           one node in each file
-  hardware/<name>.nix        flake.modules.nixos.<name>
-  system/                    the NixOS, nix-darwin and Home Manager modules that are not nodes
-  hosts/<name>               nixosConfigurations and darwinConfigurations
-  flake/                     the dev shells and the formatter
-shells/                      one dev shell in each file
-nvim/ kitty/ niri/ aerospace/ scripts/          the configuration files that the nodes read
+lib/        the node framework (graph.nix), shared settings, nixpkgs, overlays
+features/   one directory for each feature
+hosts/      nixosConfigurations and darwinConfigurations
+hardware/   NixOS modules for hardware components
+shells/     one dev shell in each file
 ```
 
-A **node** is a module that is declared as `nodes.<name>`. A node sets only
-these options:
+import-tree loads each `.nix` file in `lib/`, `features/`, `hosts/` and `hardware/` as a flake-parts module. import-tree skips each path that contains `/_`.
 
-- `wrappers.<program>.*` options from
-  [nix-wrapper-modules](https://github.com/BirdeeHub/nix-wrapper-modules).
-- The `entry` option of the node.
-- `settings.*` options.
+## Nodes
 
-The wrapper starts the program with the configuration from the Nix store. The
-wrapper ignores the `~/.config` directory. One node file is a `nix run` target,
-a NixOS module and a nix-darwin module. To use a node, a host imports the node
-file.
+A node is a module in `nodes.<name>`. Each node is a `nix run` target, a NixOS module and a nix-darwin module.
 
-There are two types of node:
+- A leaf configures one program with [nix-wrapper-modules](https://github.com/BirdeeHub/nix-wrapper-modules). The wrapper makes the program ignore its files in `~/.config`. A leaf does not refer to other nodes.
+- A composite imports nodes and adds the glue between them: aliases, key bindings and environment variables.
 
-- A **leaf** configures one program and does not refer to other programs. The
-  leaves are `fish`, `tmux`, `nvim`, `kitty`, `git`, `bat`, `eza`,
-  `fd`, `ripgrep`, `fzf`, `starship`, `zoxide`, `direnv`, `lazygit`, `sesh`,
-  `nh`, `bw`, `bws`, `spotify-player`, `niri`, `waybar`, `mako`, `swaylock`,
-  `lm10` and `aerospace`.
-- A **composite** imports nodes through `config.nodes.<name>`. A composite adds
-  only the glue between these nodes:
+The rules of the layout:
 
-  | Composite     | Glue                                                                                        |
-  | ------------- | ------------------------------------------------------------------------------------------- |
-  | `shell`       | fish, tmux and sesh: the session pickers, the default shell of tmux, `FZF_TMUX`             |
-  | `search`      | fish with fzf, fd, rg, bat and nvim: `ff`, `nr`, the key bindings of fzf, `PAGER`           |
-  | `files`       | fish and eza: the `ls` aliases                                                              |
-  | `prompt`      | the hooks of starship, zoxide and direnv in fish                                            |
-  | `editor`      | nvim as `EDITOR` and as the editor of git; the pane navigation between tmux and nvim        |
-  | `git-ui`      | lazygit in a tmux popup; the `lg` alias                                                     |
-  | `github`      | the credential helper of git, through gh                                                    |
-  | `devshell`    | the dev shell picker on F12; the git ignore entry for `.direnv/`                            |
-  | `bitwarden`   | `bw` and `bws`, with their secrets in the keyring of the OS                                 |
-  | `env`         | all composites above, plus nh and spotify-player; the default package                       |
-  | `launcher`    | the lm10 pickers in `scripts/lm10`                                                          |
-  | `desktop`     | the niri bindings and the waybar buttons that start kitty, the file manager and the pickers |
-  | `mac-desktop` | the AeroSpace bindings that start kitty and tmux                                            |
+1. A directory that contains `.nix` files is a feature. A directory that contains no `.nix` files contains configuration data of the feature (`features/editor/nvim/`).
+2. The file `<program>.nix` defines the leaf `nodes.<program>`. The file can also contain the Home Manager service that runs the program.
+3. The file `<feature>/default.nix` defines the composite `nodes.<feature>`, and the NixOS, nix-darwin and Home Manager modules of the feature. The composite of `features/git/` is `nodes.git-ui`, because `nodes.git` is the leaf.
+4. A file with another name contains only NixOS, nix-darwin or Home Manager modules.
+5. The configuration files of a leaf are in the same directory as the leaf.
+6. Glue between two programs goes in the feature that uses the glue.
 
-Some values are necessary for more than one program. Examples are the colour
-scheme and the directories that the search tools skip. These values are
-`settings.*` options in `modules/settings.nix`. A composite or a host can
-override each value. All nodes in the same evaluation then use the new value.
+Values that more than one program uses, for example the colours, are `settings.*` options in `lib/settings.nix`.
 
-### Rules
+## Adding a program
 
-- A leaf configures exactly one program. The leaf makes the program ignore the
-  user configuration of the program (fish is an exception, D22). The leaf sets
-  `entry = lib.mkDefault "<binary>"`. The leaf does not name the program of
-  another node. The leaf can call commands that are not nodes, for example
-  `sudo`, `nix`, `nb`, `wpctl` and `firefox` (D17).
-- A composite contains only glue. If only one program needs a setting, the
-  setting belongs in the leaf of that program. Some composites import other
-  composites that start different programs. Such a composite must use
-  `lib.mkForce` to select its `entry`. If the composite does not use
-  `lib.mkForce`, the evaluation fails with a conflict error. The error names
-  both programs.
-- A node never tests the host or the module system that contains the node.
-  Tests of `pkgs.stdenv` are permitted.
-- A host gets configured programs only through the nodes that the host
-  imports. Some settings exist only on one platform: the login shell, the flake
-  path of `nh`, the `rebuild` alias and the device name for Spotify. The host,
-  or a module in `modules/system`, sets these values on top of the node.
-- Some programs are daemons that keep state, or programs that write their own
-  configuration: spotifyd, swayidle, cliphist, gh and devenv. These programs are
-  not nodes. Home Manager manages these programs. Home Manager also manages the
-  file associations and the theme of the session. Home Manager runs the
-  services with the wrappers.
-- Hardware support uses one hardware node for each component: `intel-cpu`,
-  `laptop`, `audio` and `nvidia-prime`. Each policy value in a hardware node
-  uses `lib.mkDefault`.
+Use the first rule that applies:
 
-Changes to the configuration files do not apply immediately. If you edit the
-files in `nvim/`, `kitty/`, `niri/` or the other configuration directories, the
-change applies after you run `rebuild`. To use the change immediately, run
-`nix run .#<node>`.
+1. The program has no configuration: add the program to the `packages` option of a composite. If no composite uses the program, add the program to `features/base/packages.nix`.
+2. The program has configuration and keeps no state: add a leaf `<program>.nix` with the `leaf` helper of `lib/graph.nix`.
+3. The program is a daemon, or the program writes its own configuration: add a Home Manager module to the feature.
+4. A value is different on each machine: set the value in the file of the host.
+
+A flake does not see untracked files. Use `git add` for each new file before you rebuild.
 
 ## Rebuilding
 
-Each host has a `rebuild` alias. The alias runs
-[nh](https://github.com/nix-community/nh) on `~/dotfiles` and gives the name of
-the host explicitly:
+Each host has a `rebuild` alias that runs [nh](https://github.com/nix-community/nh) on `~/dotfiles`:
 
 ```sh
-nh os switch -H loq        # NixOS on bare metal
-nh os switch -H wsl        # NixOS on WSL
+nh os switch -H loq
+nh os switch -H wsl
 nh darwin switch -H macbook
 ```
 
-If nh is not installed, use these commands:
+To evaluate each node, each host and each dev shell on each system, run `nix flake check --no-build --all-systems`.
 
-```sh
-sudo nixos-rebuild switch --flake '~/dotfiles#loq'
-sudo darwin-rebuild switch --flake '~/dotfiles#macbook'
-```
+## Installing NixOS on loq
 
-Put quotation marks around the flake reference. fish does not need the
-quotation marks. But zsh with the `extendedglob` option treats `#` as a glob
-operator, and then zsh fails with the error `no matches found`. A new macOS
-installation uses zsh as the default shell.
-
-A flake in a git repository does not see untracked files. Thus, before you
-rebuild, use the `git add` command to add each new module.
-
-Before you switch, you can run `nix flake check --no-build --all-systems`. This
-command evaluates all nodes, all hosts and all dev shells on all systems.
-
-## Installing NixOS
-
-The `modules/hosts/loq` module imports the `_hardware-configuration.nix` file.
-Only the target machine can generate this file. The host does not evaluate
-until the file exists.
-
-Run these commands in the installer. Before you start, partition the target
-disk. Mount the target disk at `/mnt`.
+Partition the target disk. Mount the target disk at `/mnt`. Then run these commands in the installer:
 
 ```sh
 nix-shell -p git
 nixos-generate-config --root /mnt
 git clone <this repository> /mnt/home/zi/dotfiles
-cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/modules/hosts/loq/_hardware-configuration.nix
-git -C /mnt/home/zi/dotfiles add modules/hosts/loq/_hardware-configuration.nix
+cp /mnt/etc/nixos/hardware-configuration.nix /mnt/home/zi/dotfiles/hosts/loq/_hardware-configuration.nix
+git -C /mnt/home/zi/dotfiles add hosts/loq/_hardware-configuration.nix
 nixos-install --flake '/mnt/home/zi/dotfiles#loq'
 ```
 
-Before you run the `nixos-install` command, open the generated
-`/mnt/etc/nixos/configuration.nix` file. Set `system.stateVersion` in
-`modules/hosts/loq/default.nix` to the same value.
-
-After the first boot, do these steps as root:
-
-1. Set a password for the user with `passwd zi`.
-2. Change the owner of `~/dotfiles` to the user.
-
-## The NixOS desktop
-
-`#loq` is a Lenovo LOQ laptop. The laptop runs
-[niri](https://github.com/YaLTeR/niri). The user logs in through `tuigreet` on
-greetd. The programs are the nodes `niri`, `waybar`, `mako`, `swaylock` and
-`lm10`. The `desktop` composite combines these nodes. niri reads
-`niri/config.kdl`. The system configuration and the services of the session
-are in `modules/system/desktop`.
-
-Alt is the modifier key of the window manager, the same as under AeroSpace.
-kitty uses the Super key. Alt+Shift+/ shows a list of the bindings. The Intel
-GPU renders the desktop. To run a program on the RTX 4050, use
-`nvidia-offload <program>`.
-
-The WSL host is `#wsl`. This host gets NixOS-WSL from the `nixos-wsl` input.
-All WSL-specific configuration, including the GPU passthrough, is in
-`modules/hosts/wsl.nix`.
+Before you run `nixos-install`, set `system.stateVersion` in `hosts/loq/default.nix` to the value in `/mnt/etc/nixos/configuration.nix`. After the first boot, set a password with `passwd zi` and make `zi` the owner of `~/dotfiles`.
 
 ## Bootstrapping macOS
 
-At first, nix-darwin is not installed. Run these commands one time, from the
-root of the repository:
+Run these commands one time, from the root of the repository:
 
 ```sh
 nix build '.#darwinConfigurations.macbook.system'
 sudo ./result/sw/bin/darwin-rebuild switch --flake '.#macbook'
 ```
 
-The commands build the system first and then run `darwin-rebuild` from the
-build result. This order is necessary because `sudo` on macOS sets `PATH` to a
-value that does not contain `nix`.
-
-The Lix installer continues to control Nix itself. For more information, see
-the comment on `nix.enable` in `modules/system/nix-settings.nix`.
+`sudo` on macOS removes `nix` from `PATH`. Thus, the second command runs `darwin-rebuild` from the build result.
 
 ## Dev shells
 
-The global profile intentionally does not contain language toolchains. Each
-toolchain is a dev shell. Each file in `shells/` defines one dev shell: `c`,
-`elixir`, `go`, `infra`, `lua`, `ocaml`, `python`, `rust`, `typst`, `web` and
-`zig`. A new file in `shells/` becomes a dev shell with the same name.
+Each file in `shells/` is a dev shell with the same name. The global profile contains no language toolchains.
 
 ```sh
 nix develop '~/dotfiles#rust'
-```
-
-direnv is enabled. Thus, a project can select its dev shell with an `.envrc`
-file that contains one line:
-
-```sh
 echo 'use flake ~/dotfiles#go' > .envrc && direnv allow
 ```
 
-Neovim gets its language servers from the dev shell that started Neovim. The
-configuration does not use mason. The exception is `nixd`. `nixd` is in the
-global profile because this repository is written in Nix.
-
-## Homebrew
-
-macOS keeps Homebrew, but only to install casks. `modules/hosts/macbook.nix`
-declares the casks. The `onActivation.cleanup = "zap"` option makes each
-rebuild uninstall all packages that are not in that list. Thus, a Homebrew
-formula cannot shadow a program from Nix. Command-line tools belong in a node.
-If a command-line tool does not need configuration, add the tool to
-`modules/system/packages.nix`.
-
-## Decision log
-
-D1 to D10 come from the nix-env-graph design. These decisions apply to this
-repository without changes:
-
-| #   | Decision                                                                                                    |
-| --- | ----------------------------------------------------------------------------------------------------------- |
-| D1  | Configure programs as wrappers, not as Home Manager modules.                                                |
-| D2  | Use nix-wrapper-modules to build the wrappers.                                                              |
-| D3  | Hosts import nodes directly. There is no adapter that installs built packages.                              |
-| D4  | `graph.nix` gives each node a stable module key. Thus, the module system deduplicates imports that overlap. |
-| D5  | Use flake-parts and import-tree for the structure of the flake.                                             |
-| D6  | `nix run` puts the programs of the node first on the `PATH` of the entry program.                           |
-| D7  | Use one small `settings.*` namespace for shared values.                                                     |
-| D8  | An entry conflict is an evaluation error.                                                                   |
-| D9  | Wrappers ignore user configuration files. fish is an exception (D22).                                       |
-| D10 | Do not override the `meta.platforms` value of upstream wrapper modules. This value is not enforced.         |
-
-These decisions apply only to this repository:
-
-| #   | Decision                                                                                                                                              | Reason                                                                                                                                                                                                                |
-| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| D11 | `modules/nixpkgs.nix` gives `nix run` the same overlays and the same `allowUnfree` value as the hosts.                                                | Without this module, a node builds to a different store path on a host than under `nix run`.                                                                                                                          |
-| D12 | The dev shell loader stays in `modules/flake/dev-shells.nix`.                                                                                         | Dev shells are not nodes. The loader has approximately 12 lines. The loader existed before the graph.                                                                                                                 |
-| D13 | vim.pack installs the Neovim plugins at run time. Home Manager links `~/.config/nvim` to the checkout. vim.pack keeps its lockfile in that directory. | The committed `nvim-pack-lock.json` file pins the plugins. The wrapped Neovim does not load other files from that directory. Under a plain `nix run`, vim.pack starts a new lockfile.                                 |
-| D14 | gh, devenv and spotifyd stay with Home Manager.                                                                                                       | gh writes its login into its configuration directory. devenv keeps its settings in its configuration directory. spotifyd is a daemon that keeps state. Nodes call gh and devenv by name.                              |
-| D15 | The `runtimePkgs` option of a leaf can contain the tools that the plugins of the program call: git for vim.pack, gcc, tree-sitter and cargo.          | These tools are dependencies of the program. These tools are not programs of the graph that the program integrates with.                                                                                              |
-| D16 | `x86_64-darwin` is not a target.                                                                                                                      | nixpkgs 26.11 removed `x86_64-darwin`.                                                                                                                                                                                |
-| D17 | Nodes can call commands that are not nodes, for example `sudo`, `nix`, `nb`, `opencode`, `wpctl` and `firefox`.                                       | Rule 9 applies to the programs of the graph. A plain system command has no configuration that must stay consistent.                                                                                                   |
-| D18 | A node is a `nix run` target only on the systems that have a package for each program of the node (`graph.nix`).                                      | The desktop nodes are only for Linux. Without this filter, `nix flake check --all-systems` fails on darwin.                                                                                                           |
-| D19 | The prompt composite sets `DIRENV_CONFIG` in fish to a store path.                                                                                    | `direnv hook` writes the path of the unwrapped binary into the hook. Without this value, the hook runs direnv without its configuration. direnv does not refer back to other nodes, so there is no dependency cycle.  |
-| D20 | fd gets its ignore patterns from `--ignore-file`. fd still reads its global ignore file.                                                              | fd cannot skip the global ignore file unless `XDG_CONFIG_HOME` changes. A change of `XDG_CONFIG_HOME` also applies to each child process of `fd --exec`. No file in this repository writes the global ignore file.    |
-| D21 | The launcher uses a `buildCommand` entry to link the lm10 scripts into the `bin/` directory of the lm10 wrapper.                                      | A composite can set only `wrappers.*` options. The scripts are glue, not a separate program. lm10-apps lists the scripts in the directory of its own resolved path.                                                   |
-| D22 | fish is the exception to D9. The wrapper starts fish without `--no-config`, so fish reads `~/.config/fish`. That directory must stay empty. | `--no-config` also skips the startup files of fish itself and `/etc/fish/config.fish`, and fish 4 turns on private mode with it. Each skipped file needed a workaround. `--init-command` runs after all configuration files, so the configuration of the node still wins. |
+In fish, F12 opens a picker of the dev shells. Neovim gets its language servers from the dev shell.
