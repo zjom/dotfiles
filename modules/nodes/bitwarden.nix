@@ -39,9 +39,14 @@
     {
       imports = with config.nodes; [
         fish
-        bw
-        bws
       ];
+
+      packages = [
+        pkgs.bitwarden-cli
+        pkgs.bws
+      ]
+      # secret-tool, to store the keyring entries.
+      ++ lib.optional (!isDarwin) pkgs.libsecret;
 
       entry = "fish";
 

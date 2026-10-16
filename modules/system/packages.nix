@@ -10,36 +10,31 @@
 
 let
   packages =
-    { lib, pkgs, ... }:
+    { pkgs, ... }:
     {
-      environment.systemPackages =
-        with pkgs;
-        [
-          bottom
-          cargo
-          claude-code
-          file
-          jq
-          nixd
-          nixfmt
-          nodejs_26
-          oxfmt
-          python3
-          shfmt
-          tombi
-          unzip
-          wget
+      environment.systemPackages = with pkgs; [
+        bottom
+        cargo
+        claude-code
+        file
+        jq
+        nixd
+        nixfmt
+        nodejs_26
+        oxfmt
+        python3
+        shfmt
+        tombi
+        unzip
+        wget
 
-          # A tool that fetches gitignore templates, built from its own flake,
-          # not from nixpkgs.
-          inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
+        # A tool that fetches gitignore templates, built from its own flake,
+        # not from nixpkgs.
+        inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
 
-          # nb, built from a fork with custom changes, not from nixpkgs.
-          inputs.nb.packages.${pkgs.stdenv.hostPlatform.system}.default
-        ]
-        # secret-tool, to store the keyring entries that the bitwarden node
-        # reads.
-        ++ lib.optional stdenv.hostPlatform.isLinux libsecret;
+        # nb, built from a fork with custom changes, not from nixpkgs.
+        inputs.nb.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
     };
 in
 {

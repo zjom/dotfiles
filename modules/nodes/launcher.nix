@@ -19,11 +19,14 @@
         lm10
         fish
         kitty
-        sesh
-        zoxide
         tmux
         fd
         spotify-player
+      ];
+
+      packages = [
+        pkgs.sesh
+        pkgs.zoxide
       ];
 
       entry = "lm10-apps";

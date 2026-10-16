@@ -6,13 +6,16 @@ let
 in
 {
   nodes.prompt =
-    { config, ... }:
+    { config, pkgs, ... }:
     {
       imports = with nodes; [
         fish
-        starship
-        zoxide
         direnv
+      ];
+
+      packages = [
+        pkgs.starship
+        pkgs.zoxide
       ];
 
       entry = "fish";
