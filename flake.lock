@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792154814,
-        "narHash": "sha256-tXH5u6Wb6Y9mbBxqc1N4uWG4Dx3HWFrWQofBQTepoHY=",
+        "lastModified": 1792160868,
+        "narHash": "sha256-KWP3LkOeIIods3okvVb4uTt7InW0894LyHdYPH5H4RU=",
         "owner": "zjom",
         "repo": "doen",
-        "rev": "578bac2291b0674086e9cee81fba6637b6621879",
+        "rev": "2b3eaa3d9e15094c80a7aaa393d7b52a9082a4da",
         "type": "github"
       },
       "original": {
