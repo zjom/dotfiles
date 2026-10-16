@@ -36,8 +36,7 @@ in
           end
 
           function open_in_nvim --description "Fuzzy-find a file and open it in nvim"
-              set -l result (fd --type f --hidden --follow \
-                                --exclude=.git --exclude=node_modules --exclude=.venv --exclude=.DS_Store . \
+              set -l result (fd --type f --hidden --follow . \
                               | fzf --query "$argv[1]" ${fzfPreview})
 
               if test -n "$result"

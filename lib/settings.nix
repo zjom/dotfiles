@@ -23,6 +23,7 @@
           "node_modules"
           ".venv"
           "venv"
+          ".DS_Store"
         ];
       };
 
