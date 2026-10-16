@@ -6,7 +6,7 @@
 # Each overlay is in a separate file under ./overlays. The name of each file
 # starts with `_`, so import-tree skips the file, and the file stays a plain
 # overlay. An overlay for only one host stays in the module of that host under
-# modules/hosts.
+# hosts/.
 { inputs, ... }:
 
 let

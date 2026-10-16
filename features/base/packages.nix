@@ -1,6 +1,6 @@
 # The packages for each host that are not configured programs. Thus, these
 # packages are not nodes. A package for only one host goes in the module of that
-# host under modules/hosts. The module system merges the lists, so a host adds
+# host under hosts/. The module system merges the lists, so a host adds
 # packages to this list and does not replace it.
 #
 # The dev shells under shells/ contain the full language toolchains. This list

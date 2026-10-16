@@ -14,7 +14,7 @@
     # Wrapper modules. Each wrapper module puts the configuration of a program
     # into the package of that program. The input also contains install modules
     # that supply `wrappers.<name>` on NixOS, nix-darwin and Home Manager. For
-    # more information, see modules/graph.nix.
+    # more information, see lib/graph.nix.
     wrappers = {
       url = "github:BirdeeHub/nix-wrapper-modules";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,20 +32,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Only modules/hosts/wsl.nix imports this input.
+    # Only hosts/wsl.nix imports this input.
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # A tool that fetches gitignore templates. modules/system/packages.nix
+    # A tool that fetches gitignore templates. features/base/packages.nix
     # installs it.
     get-ignore = {
       url = "github:zjom/get-ignore";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nb, built from a fork with custom changes. modules/system/packages.nix
+    # nb, built from a fork with custom changes. features/base/packages.nix
     # installs it.
     nb = {
       url = "github:zjom/nb";
@@ -53,13 +53,13 @@
     };
 
     # The picker menu that is the launcher of the session.
-    # modules/system/desktop/session.nix installs it.
+    # features/desktop/session.nix installs it.
     lm10 = {
       url = "github:zjom/lm10";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # zen-draw. modules/hosts/loq installs it.
+    # zen-draw. hosts/loq installs it.
     zen-draw = {
       url = "github:zjom/zen-draw";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -76,7 +76,8 @@
       inputs.import-tree [
         ./lib
         ./features
-        ./modules
+        ./hosts
+        ./hardware
       ]
     );
 }

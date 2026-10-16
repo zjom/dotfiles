@@ -103,7 +103,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 -- Nix installs the LSP servers and the related tools declaratively (see shells/
--- and modules/system/packages.nix). To change the lspconfig configuration of a
+-- and features/base/packages.nix). To change the lspconfig configuration of a
 -- server, edit `nvim/lsp/<server>.lua`. To override the lspconfig options of a
 -- server, edit `nvim/after/lsp/<server>.lua`. See `:help lsp-config-merge`.
 local servers = {

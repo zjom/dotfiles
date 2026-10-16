@@ -9,7 +9,6 @@
       imports = with config.nodes; [
         shell
         search
-
         editor
         git-ui
         devshell

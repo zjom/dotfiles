@@ -1,5 +1,5 @@
-// The niri configuration. The niri node (modules/nodes/niri.nix) puts this
-// file into its package. modules/nodes/desktop.nix adds the bindings that start
+// The niri configuration. The niri node (niri.nix) puts this
+// file into its package. default.nix adds the bindings that start
 // other programs.
 // Reference:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
@@ -76,7 +76,7 @@ window-rule {
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
-    // Programs. modules/nodes/desktop.nix binds the programs of the graph
+    // Programs. default.nix binds the programs of the graph
     // (kitty, the file manager, the lm10 pickers).
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }

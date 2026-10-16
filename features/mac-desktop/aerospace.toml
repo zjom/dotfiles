@@ -1,4 +1,4 @@
-# The aerospace node (modules/nodes/aerospace.nix) gives this file to AeroSpace.
+# The aerospace node (aerospace.nix) gives this file to AeroSpace.
 # AeroSpace ignores ~/.aerospace.toml.
 
 # This file does not need to contain all keys.
@@ -90,7 +90,7 @@ outer.bottom = 0
 
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
-# modules/nodes/mac-desktop.nix binds alt-q and alt-space, which start kitty.
+# default.nix binds alt-q and alt-space, which start kitty.
 alt-b = "exec-and-forget open -a safari"
 alt-shift-b = "exec-and-forget open -a 'google chrome'"
 alt-m = "exec-and-forget open -a messages"
