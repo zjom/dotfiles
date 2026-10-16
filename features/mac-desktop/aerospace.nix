@@ -1,5 +1,5 @@
 # Leaf node: AeroSpace, the tiling window manager for macOS. The configuration
-# comes from ../../aerospace/aerospace.toml. The server in AeroSpace.app reads
+# comes from ./aerospace.toml. The server in AeroSpace.app reads
 # the configuration, so the wrapper wraps that executable. The wrapper links
 # bin/aerospace, the client, without changes. The bindings that start other
 # programs are in the mac-desktop composite. That composite merges the bindings
@@ -48,7 +48,7 @@ in
         { lib, ... }:
         {
           wrappers.aerospace = {
-            settings = builtins.fromTOML (builtins.readFile ../../aerospace/aerospace.toml);
+            settings = builtins.fromTOML (builtins.readFile ./aerospace.toml);
           };
         }
       );

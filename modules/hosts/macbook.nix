@@ -10,7 +10,7 @@ in
     modules = [
       darwin.base
       nodes.env
-      nodes.mac-desktop
+      darwin.mac-desktop
 
       (
         { config, pkgs, ... }:
@@ -27,22 +27,6 @@ in
                 test -f ~/Library/Google/google-cloud-sdk/path.fish.inc; and source ~/Library/Google/google-cloud-sdk/path.fish.inc
             end
           '';
-
-          home-manager.sharedModules = [
-            (
-              { osConfig, ... }:
-              {
-                # The server of nodes.aerospace, which starts at login. The
-                # wrapper contains the configuration, so Home Manager writes no
-                # configuration file.
-                programs.aerospace = {
-                  enable = true;
-                  package = osConfig.wrappers.aerospace.wrapper;
-                  launchd.enable = true;
-                };
-              }
-            )
-          ];
 
           environment.systemPackages = with pkgs; [
             duti
