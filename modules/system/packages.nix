@@ -20,7 +20,6 @@ let
           claude-code
           file
           jq
-          nb
           nixd
           nixfmt
           nodejs_26
@@ -34,6 +33,9 @@ let
           # A tool that fetches gitignore templates, built from its own flake,
           # not from nixpkgs.
           inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
+
+          # nb, built from a fork with custom changes, not from nixpkgs.
+          inputs.nb.packages.${pkgs.stdenv.hostPlatform.system}.default
         ]
         # secret-tool, to store the keyring entries that the bitwarden node
         # reads.
