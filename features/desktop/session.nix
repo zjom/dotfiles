@@ -1,6 +1,5 @@
 # The programs that run in the niri session: notifications, clipboard history,
-# file associations, cursor and theme. The bar and the screen lock have separate
-# files. The launcher is nodes.launcher.
+# file associations, cursor and theme.
 {
   flake.modules.nixos.desktop =
     { pkgs, ... }:
@@ -20,12 +19,7 @@
     };
 
   flake.modules.homeManager.desktop =
-    {
-      lib,
-      osConfig,
-      pkgs,
-      ...
-    }:
+    { lib, pkgs, ... }:
     {
       # Under niri, xdg-open uses its generic launcher as a fallback. The
       # generic launcher ignores Terminal=true. Thus, each terminal program gets
@@ -109,14 +103,8 @@
       };
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 
-      # nodes.mako. D-Bus activates mako through its own (changed) service file.
-      services.mako = {
-        enable = true;
-        package = osConfig.wrappers.mako.wrapper;
-      };
-
       # Clipboard history: cliphist stores each copy (wl-paste --watch). The
-      # service starts with graphical-session.target. scripts/lm10/lm10-clipboard
+      # service starts with graphical-session.target. features/launcher/scripts/lm10-clipboard
       # selects entries from this history.
       services.cliphist.enable = true;
 

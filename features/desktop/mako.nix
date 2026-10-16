@@ -11,4 +11,14 @@
       border-radius = 4;
     };
   };
+
+  # D-Bus activates mako through its own (changed) service file.
+  flake.modules.homeManager.desktop =
+    { osConfig, ... }:
+    {
+      services.mako = {
+        enable = true;
+        package = osConfig.wrappers.mako.wrapper;
+      };
+    };
 }
