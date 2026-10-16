@@ -1,5 +1,4 @@
-# Composite node: Neovim as the editor for all other programs. This node
-# contains only the glue between nvim and fish, tmux and git.
+# The editor: Neovim as the editor of the other programs.
 { config, ... }:
 {
   nodes.editor = {
@@ -42,4 +41,14 @@
       bind -n 'C-\' if-shell "$is_vim" 'send-keys C-\\' 'select-pane -l'
     '';
   };
+
+  # vim.pack keeps nvim-pack-lock.json in stdpath("config"), ~/.config/nvim.
+  # This link puts that directory in the checkout, where `vim.pack.update()`
+  # writes the lockfile. The wrapped Neovim loads no other files from it.
+  flake.modules.homeManager.base =
+    { config, ... }:
+    {
+      xdg.configFile."nvim".source =
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/features/editor/nvim";
+    };
 }

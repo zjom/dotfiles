@@ -1,4 +1,4 @@
-# Leaf node: Neovim, configured from ../../nvim. The wrapper copies the
+# Leaf node: Neovim, configured from ./nvim. The wrapper copies the
 # configuration directory into the store. ~/.config/nvim is not on the
 # runtimepath, and Neovim never runs the init.lua file in that directory.
 #
@@ -19,7 +19,7 @@
         { pkgs, ... }:
         {
           wrappers.neovim = {
-            settings.config_directory = ../../nvim;
+            settings.config_directory = ./nvim;
 
             # The tools that the plugin manager and the plugins call (decision D15):
             # git for vim.pack, a C compiler and the tree-sitter CLI for the
