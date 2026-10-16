@@ -12,7 +12,6 @@
         prompt
         editor
         git-ui
-        github
         devshell
         bitwarden
         nh
