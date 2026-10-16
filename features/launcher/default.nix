@@ -1,4 +1,4 @@
-# Composite node: the lm10 pickers in ../../scripts/lm10. The pickers are for
+# Composite node: the lm10 pickers in ./scripts. The pickers are for
 # apps, sessions, Spotify, the clipboard history and the session menu. The
 # scripts are the glue. Each script gives lm10 lines that start kitty, sesh,
 # spotify_player and other programs by name. The scripts are installed next to
@@ -10,7 +10,7 @@
     let
       scripts = pkgs.runCommandLocal "lm10-scripts" { } ''
         mkdir -p $out/bin
-        cp ${../../scripts/lm10}/* $out/bin/
+        cp ${./scripts}/* $out/bin/
         chmod +x $out/bin/*
       '';
     in
