@@ -58,6 +58,11 @@
       url = "github:zjom/zen-draw";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    doen = {
+      url = "github:zjom/doen";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   # Each .nix file below these directories is a flake-parts module. import-tree

@@ -1,5 +1,25 @@
 {
   "nodes": {
+    "doen": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792154814,
+        "narHash": "sha256-tXH5u6Wb6Y9mbBxqc1N4uWG4Dx3HWFrWQofBQTepoHY=",
+        "owner": "zjom",
+        "repo": "doen",
+        "rev": "578bac2291b0674086e9cee81fba6637b6621879",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zjom",
+        "repo": "doen",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -191,6 +211,7 @@
     },
     "root": {
       "inputs": {
+        "doen": "doen",
         "flake-parts": "flake-parts",
         "get-ignore": "get-ignore",
         "home-manager": "home-manager",

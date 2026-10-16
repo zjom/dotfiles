@@ -1,6 +1,6 @@
 # The shell: fish and tmux as one session, sesh to select sessions, eza to list
 # files, and the prompt.
-{ config, ... }:
+{ config, inputs, ... }:
 {
   nodes.shell =
     { pkgs, ... }:
@@ -27,6 +27,9 @@
             --preview 'sesh preview {}'
         '';
       };
+
+      doen = inputs.doen.packages.${pkgs.stdenv.hostPlatform.system}.default;
+
     in
     {
       imports = with config.nodes; [
@@ -38,6 +41,7 @@
       ];
 
       packages = [
+        doen
         pkgs.sesh
         pkgs.starship
         pkgs.zoxide
