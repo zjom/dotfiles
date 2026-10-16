@@ -77,7 +77,7 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Programs. modules/nodes/desktop.nix binds the programs of the graph
-    // (kitty, ranger, the lm10 pickers).
+    // (kitty, the file manager, the lm10 pickers).
     Mod+B hotkey-overlay-title="Firefox" { spawn "firefox"; }
     Super+Alt+L hotkey-overlay-title="Lock" { spawn "loginctl" "lock-session"; }
 

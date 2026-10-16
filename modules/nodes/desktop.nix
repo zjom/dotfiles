@@ -12,7 +12,6 @@
         mako
         swaylock
         kitty
-        ranger
         launcher
       ];
 
@@ -25,7 +24,7 @@
           binds {
               Mod+Q hotkey-overlay-title="Sesh picker" { spawn "lm10-sesh"; }
               Mod+Return hotkey-overlay-title="Terminal" { spawn "kitty" "--single-instance"; }
-              Mod+E hotkey-overlay-title="Ranger" { spawn "kitty" "--single-instance" "--" "ranger"; }
+              Mod+E hotkey-overlay-title="File manager" { spawn-sh "xdg-open \"$HOME\""; }
               Mod+Space hotkey-overlay-title="Launcher" { spawn "lm10-apps"; }
               Mod+F1 hotkey-overlay-title="Scripts" { spawn "lm10-apps" "scripts"; }
               Mod+F2 hotkey-overlay-title="Spotify" { spawn "lm10-spotify"; }

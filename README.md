@@ -37,7 +37,7 @@ modules/
   hosts/<name>               nixosConfigurations and darwinConfigurations
   flake/                     the dev shells and the formatter
 shells/                      one dev shell in each file
-nvim/ kitty/ ranger/ niri/ aerospace/ scripts/   the configuration files that the nodes read
+nvim/ kitty/ niri/ aerospace/ scripts/          the configuration files that the nodes read
 ```
 
 A **node** is a module that is declared as `nodes.<name>`. A node sets only
@@ -56,28 +56,28 @@ file.
 There are two types of node:
 
 - A **leaf** configures one program and does not refer to other programs. The
-  leaves are `fish`, `tmux`, `nvim`, `kitty`, `ranger`, `git`, `bat`, `eza`,
+  leaves are `fish`, `tmux`, `nvim`, `kitty`, `git`, `bat`, `eza`,
   `fd`, `ripgrep`, `fzf`, `starship`, `zoxide`, `direnv`, `lazygit`, `sesh`,
   `nh`, `bw`, `bws`, `spotify-player`, `niri`, `waybar`, `mako`, `swaylock`,
   `lm10` and `aerospace`.
 - A **composite** imports nodes through `config.nodes.<name>`. A composite adds
   only the glue between these nodes:
 
-  | Composite | Glue |
-  | --- | --- |
-  | `shell` | fish, tmux and sesh: the session pickers, the default shell of tmux, `FZF_TMUX` |
-  | `search` | fish with fzf, fd, rg, bat and nvim: `ff`, `nr`, the key bindings of fzf, `PAGER` |
-  | `files` | fish, tmux, ranger and eza: `ranger_cd`, the alt-r binding, the `ls` aliases |
-  | `prompt` | the hooks of starship, zoxide and direnv in fish |
-  | `editor` | nvim as `EDITOR` and as the editor of git; the pane navigation between tmux and nvim |
-  | `git-ui` | lazygit in a tmux popup; the `lg` alias |
-  | `github` | the credential helper of git, through gh |
-  | `devshell` | the dev shell picker on F12; the git ignore entry for `.direnv/` |
-  | `bitwarden` | `bw` and `bws`, with their secrets in the keyring of the OS |
-  | `env` | all composites above, plus nh and spotify-player; the default package |
-  | `launcher` | the lm10 pickers in `scripts/lm10` |
-  | `desktop` | the niri bindings and the waybar buttons that start kitty, ranger and the pickers |
-  | `mac-desktop` | the AeroSpace bindings that start kitty and tmux |
+  | Composite     | Glue                                                                                        |
+  | ------------- | ------------------------------------------------------------------------------------------- |
+  | `shell`       | fish, tmux and sesh: the session pickers, the default shell of tmux, `FZF_TMUX`             |
+  | `search`      | fish with fzf, fd, rg, bat and nvim: `ff`, `nr`, the key bindings of fzf, `PAGER`           |
+  | `files`       | fish and eza: the `ls` aliases                                                              |
+  | `prompt`      | the hooks of starship, zoxide and direnv in fish                                            |
+  | `editor`      | nvim as `EDITOR` and as the editor of git; the pane navigation between tmux and nvim        |
+  | `git-ui`      | lazygit in a tmux popup; the `lg` alias                                                     |
+  | `github`      | the credential helper of git, through gh                                                    |
+  | `devshell`    | the dev shell picker on F12; the git ignore entry for `.direnv/`                            |
+  | `bitwarden`   | `bw` and `bws`, with their secrets in the keyring of the OS                                 |
+  | `env`         | all composites above, plus nh and spotify-player; the default package                       |
+  | `launcher`    | the lm10 pickers in `scripts/lm10`                                                          |
+  | `desktop`     | the niri bindings and the waybar buttons that start kitty, the file manager and the pickers |
+  | `mac-desktop` | the AeroSpace bindings that start kitty and tmux                                            |
 
 Some values are necessary for more than one program. Examples are the colour
 scheme and the directories that the search tools skip. These values are
@@ -245,33 +245,33 @@ If a command-line tool does not need configuration, add the tool to
 D1 to D10 come from the nix-env-graph design. These decisions apply to this
 repository without changes:
 
-| #   | Decision |
-| --- | --- |
-| D1  | Configure programs as wrappers, not as Home Manager modules. |
-| D2  | Use nix-wrapper-modules to build the wrappers. |
-| D3  | Hosts import nodes directly. There is no adapter that installs built packages. |
+| #   | Decision                                                                                                    |
+| --- | ----------------------------------------------------------------------------------------------------------- |
+| D1  | Configure programs as wrappers, not as Home Manager modules.                                                |
+| D2  | Use nix-wrapper-modules to build the wrappers.                                                              |
+| D3  | Hosts import nodes directly. There is no adapter that installs built packages.                              |
 | D4  | `graph.nix` gives each node a stable module key. Thus, the module system deduplicates imports that overlap. |
-| D5  | Use flake-parts and import-tree for the structure of the flake. |
-| D6  | `nix run` puts the programs of the node first on the `PATH` of the entry program. |
-| D7  | Use one small `settings.*` namespace for shared values. |
-| D8  | An entry conflict is an evaluation error. |
-| D9  | Wrappers ignore user configuration files. |
-| D10 | Do not override the `meta.platforms` value of upstream wrapper modules. This value is not enforced. |
+| D5  | Use flake-parts and import-tree for the structure of the flake.                                             |
+| D6  | `nix run` puts the programs of the node first on the `PATH` of the entry program.                           |
+| D7  | Use one small `settings.*` namespace for shared values.                                                     |
+| D8  | An entry conflict is an evaluation error.                                                                   |
+| D9  | Wrappers ignore user configuration files.                                                                   |
+| D10 | Do not override the `meta.platforms` value of upstream wrapper modules. This value is not enforced.         |
 
 These decisions apply only to this repository:
 
-| #   | Decision | Reason |
-| --- | --- | --- |
-| D11 | `modules/nixpkgs.nix` gives `nix run` the same overlays and the same `allowUnfree` value as the hosts. | Without this module, a node builds to a different store path on a host than under `nix run`. |
-| D12 | The dev shell loader stays in `modules/flake/dev-shells.nix`. | Dev shells are not nodes. The loader has approximately 12 lines. The loader existed before the graph. |
-| D13 | vim.pack installs the Neovim plugins at run time. Home Manager links `~/.config/nvim` to the checkout. vim.pack keeps its lockfile in that directory. | The committed `nvim-pack-lock.json` file pins the plugins. The wrapped Neovim does not load other files from that directory. Under a plain `nix run`, vim.pack starts a new lockfile. |
-| D14 | gh, devenv and spotifyd stay with Home Manager. | gh writes its login into its configuration directory. devenv keeps its settings in its configuration directory. spotifyd is a daemon that keeps state. Nodes call gh and devenv by name. |
-| D15 | The `runtimePkgs` option of a leaf can contain the tools that the plugins of the program call: git for vim.pack, gcc, tree-sitter and cargo. | These tools are dependencies of the program. These tools are not programs of the graph that the program integrates with. |
-| D16 | `x86_64-darwin` is not a target. | nixpkgs 26.11 removed `x86_64-darwin`. |
-| D17 | Nodes can call commands that are not nodes, for example `sudo`, `nix`, `nb`, `opencode`, `wpctl` and `firefox`. | Rule 9 applies to the programs of the graph. A plain system command has no configuration that must stay consistent. |
-| D18 | A node is a `nix run` target only on the systems that have a package for each program of the node (`graph.nix`). | The desktop nodes are only for Linux. Without this filter, `nix flake check --all-systems` fails on darwin. |
-| D19 | The prompt composite sets `DIRENV_CONFIG` in fish to a store path. | `direnv hook` writes the path of the unwrapped binary into the hook. Without this value, the hook runs direnv without its configuration. direnv does not refer back to other nodes, so there is no dependency cycle. |
-| D20 | fd gets its ignore patterns from `--ignore-file`. fd still reads its global ignore file. | fd cannot skip the global ignore file unless `XDG_CONFIG_HOME` changes. A change of `XDG_CONFIG_HOME` also applies to each child process of `fd --exec`. No file in this repository writes the global ignore file. |
-| D21 | The launcher uses a `buildCommand` entry to link the lm10 scripts into the `bin/` directory of the lm10 wrapper. | A composite can set only `wrappers.*` options. The scripts are glue, not a separate program. lm10-apps lists the scripts in the directory of its own resolved path. |
-| D22 | The system fish is the wrapper. The wrapper sources `/etc/fish/config.fish` before its own configuration. | The `--no-config` flag also skips `/etc/fish/config.fish`. NixOS and nix-darwin configure `PATH` in that file. Without that file, a login shell has no system environment. |
-| D23 | The fish leaf registers the `__fish_on_interactive` handler of fish itself. | The `--no-config` flag also skips the `config.fish` file of fish itself. That file registers the handler that runs the interactive setup. Without that setup, fish ignores `fish_key_bindings`, so vi mode stays off. |
+| #   | Decision                                                                                                                                              | Reason                                                                                                                                                                                                                |
+| --- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| D11 | `modules/nixpkgs.nix` gives `nix run` the same overlays and the same `allowUnfree` value as the hosts.                                                | Without this module, a node builds to a different store path on a host than under `nix run`.                                                                                                                          |
+| D12 | The dev shell loader stays in `modules/flake/dev-shells.nix`.                                                                                         | Dev shells are not nodes. The loader has approximately 12 lines. The loader existed before the graph.                                                                                                                 |
+| D13 | vim.pack installs the Neovim plugins at run time. Home Manager links `~/.config/nvim` to the checkout. vim.pack keeps its lockfile in that directory. | The committed `nvim-pack-lock.json` file pins the plugins. The wrapped Neovim does not load other files from that directory. Under a plain `nix run`, vim.pack starts a new lockfile.                                 |
+| D14 | gh, devenv and spotifyd stay with Home Manager.                                                                                                       | gh writes its login into its configuration directory. devenv keeps its settings in its configuration directory. spotifyd is a daemon that keeps state. Nodes call gh and devenv by name.                              |
+| D15 | The `runtimePkgs` option of a leaf can contain the tools that the plugins of the program call: git for vim.pack, gcc, tree-sitter and cargo.          | These tools are dependencies of the program. These tools are not programs of the graph that the program integrates with.                                                                                              |
+| D16 | `x86_64-darwin` is not a target.                                                                                                                      | nixpkgs 26.11 removed `x86_64-darwin`.                                                                                                                                                                                |
+| D17 | Nodes can call commands that are not nodes, for example `sudo`, `nix`, `nb`, `opencode`, `wpctl` and `firefox`.                                       | Rule 9 applies to the programs of the graph. A plain system command has no configuration that must stay consistent.                                                                                                   |
+| D18 | A node is a `nix run` target only on the systems that have a package for each program of the node (`graph.nix`).                                      | The desktop nodes are only for Linux. Without this filter, `nix flake check --all-systems` fails on darwin.                                                                                                           |
+| D19 | The prompt composite sets `DIRENV_CONFIG` in fish to a store path.                                                                                    | `direnv hook` writes the path of the unwrapped binary into the hook. Without this value, the hook runs direnv without its configuration. direnv does not refer back to other nodes, so there is no dependency cycle.  |
+| D20 | fd gets its ignore patterns from `--ignore-file`. fd still reads its global ignore file.                                                              | fd cannot skip the global ignore file unless `XDG_CONFIG_HOME` changes. A change of `XDG_CONFIG_HOME` also applies to each child process of `fd --exec`. No file in this repository writes the global ignore file.    |
+| D21 | The launcher uses a `buildCommand` entry to link the lm10 scripts into the `bin/` directory of the lm10 wrapper.                                      | A composite can set only `wrappers.*` options. The scripts are glue, not a separate program. lm10-apps lists the scripts in the directory of its own resolved path.                                                   |
+| D22 | The system fish is the wrapper. The wrapper sources `/etc/fish/config.fish` before its own configuration.                                             | The `--no-config` flag also skips `/etc/fish/config.fish`. NixOS and nix-darwin configure `PATH` in that file. Without that file, a login shell has no system environment.                                            |
+| D23 | The fish leaf registers the `__fish_on_interactive` handler of fish itself.                                                                           | The `--no-config` flag also skips the `config.fish` file of fish itself. That file registers the handler that runs the interactive setup. Without that setup, fish ignores `fish_key_bindings`, so vi mode stays off. |

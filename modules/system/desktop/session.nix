@@ -9,6 +9,9 @@
         bluetui
         brightnessctl
         imv
+        # programs.niri registers nautilus only as a D-Bus service (for the file
+        # chooser portal). Install it, for the desktop entry and the PATH.
+        nautilus
         playerctl
         wl-clipboard
         # niri starts xwayland-satellite when necessary, to run X11 programs.
@@ -31,11 +34,6 @@
         nvim-kitty = {
           name = "Neovim (kitty)";
           exec = "kitty nvim %F";
-          noDisplay = true;
-        };
-        ranger-kitty = {
-          name = "Ranger (kitty)";
-          exec = "kitty ranger %f";
           noDisplay = true;
         };
       };
@@ -79,7 +77,7 @@
             "application/x-shellscript"
             "application/javascript"
           ]
-          // for "ranger-kitty.desktop" [ "inode/directory" ]
+          // for "org.gnome.Nautilus.desktop" [ "inode/directory" ]
           // for "imv.desktop" [
             "image/png"
             "image/jpeg"
