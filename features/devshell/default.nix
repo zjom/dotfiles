@@ -37,6 +37,29 @@ in
               end
           end
 
+          # Without a command, nix develop starts the bash of the dev shell, which
+          # has no fish aliases and no fish history. Thus, start fish instead.
+          function nix --wraps nix --description "nix, with fish as the shell of nix develop"
+              # With one of these flags, nix develop runs a command of its own.
+              set -l own_command -c --command --phase --unpack --configure --build --check --install --installcheck -h --help
+              set -l wrap (test "$argv[1]" = develop; and echo 1)
+              for arg in $argv
+                  contains -- $arg $own_command; and set wrap
+              end
+
+              if test -n "$wrap"
+                  # nix develop sets $SHELL to the bash of the dev shell. Each
+                  # program that starts from here (most importantly tmux) gets
+                  # that value. Thus, pass the real login shell to the dev shell.
+                  # A fish from PATH can be the fish of an old generation.
+                  set -l login_shell $SHELL
+                  string match -q '*/fish' -- $login_shell; or set login_shell (command -s fish)
+                  command nix $argv --command env SHELL=$login_shell $login_shell
+              else
+                  command nix $argv
+              end
+          end
+
           function activate_dev_shell --description "Activate a dev shell"
               # The checkout of this repository on each host.
               set -l flake_root ~/dotfiles
@@ -45,11 +68,7 @@ in
                             | fzf --prompt='dev shell ⚡ ' --height=40% --reverse --border)
 
               if test -n "$shell"
-                  # nix develop sets $SHELL to the bash of the dev shell. Each
-                  # program that starts from here (most importantly tmux) gets
-                  # that value. Thus, pass the real login shell to the dev shell.
-                  set -l outer_shell $SHELL
-                  nix develop "$flake_root#$shell" -c env SHELL=$outer_shell fish
+                  nix develop "$flake_root#$shell"
               else
                   echo "No dev shell selected."
               end

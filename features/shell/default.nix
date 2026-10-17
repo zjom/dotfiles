@@ -109,7 +109,12 @@
         # `nix develop` sets $SHELL to the bash of the dev shell. Thus, if the
         # server starts inside a dev shell, all later panes, windows and sessions
         # get bash. This setting pins fish.
-        run-shell 'f=$(command -v fish) && tmux set-option -g default-shell "$f"'
+        #
+        # Each fish wrapper puts its own store path on PATH, and the desktop
+        # session keeps the PATH of the fish of the login. After a rebuild,
+        # `command -v fish` thus finds the fish of an old generation. Thus, use
+        # the fish of the current system, which does not change.
+        run-shell 'f=/run/current-system/sw/bin/fish; [ -x "$f" ] || f=$(command -v fish); tmux set-option -g default-shell "$f"'
 
         bind "c-o" run-shell "sesh connect \"$(sesh-pick)\""
       '';
