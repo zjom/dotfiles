@@ -43,6 +43,8 @@ controls() {
     "$sp playback start radio --id \"\$($sp get key playback | jq -r .item.id)\" track"
   entry '💚  Play liked songs' "$sp" playback start liked
   entry '💚  Shuffle liked songs' "$sp" playback start liked --random
+  entry '🔄  Restart client' sh -c \
+    "pkill -x $sp; while pgrep -x $sp >/dev/null; do sleep 0.1; done; $sp -d"
 }
 
 # Context entries (playlist, album, artist) from "id<TAB>label" lines.
