@@ -15,6 +15,7 @@ in
       nixos.laptop
       nixos.audio
       nixos.nvidia-prime
+      nixos.mx-master-3
       nodes.env
 
       # `nixos-generate-config` generates this file on the machine. See
