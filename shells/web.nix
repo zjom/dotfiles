@@ -18,7 +18,6 @@ pkgs.mkShell {
     typescript-language-server
     nodejs_26
     pnpm
-    bun
     prettier
     oxfmt
     oxlint
