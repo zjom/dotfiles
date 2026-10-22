@@ -23,8 +23,7 @@ let
         wget
 
         inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
-
-        inputs.nb.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.leeth.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
     };
 in
