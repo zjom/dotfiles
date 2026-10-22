@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792291554,
-        "narHash": "sha256-DjKirszNnzTGlQCFrl9HKTZWQy6urmAJQ8gUzAyhKGY=",
+        "lastModified": 1792481385,
+        "narHash": "sha256-xcUZi87fAvJHZghe/iZcH+1UzuEcX2JGmkLt0CPnHuc=",
         "owner": "zjom",
         "repo": "doen",
-        "rev": "43d419da3c019b501358b0c1a9a3ed173952edf8",
+        "rev": "fba1a9f66f89ef63bed4276f40a4503707387df4",
         "type": "github"
       },
       "original": {
@@ -108,6 +108,26 @@
       "original": {
         "owner": "vic",
         "repo": "import-tree",
+        "type": "github"
+      }
+    },
+    "leeth": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792489967,
+        "narHash": "sha256-/mpw8gyR73RYSb2zYaCxvtXTindqYbvILRPVfEUz3Tg=",
+        "owner": "zjom",
+        "repo": "leeth",
+        "rev": "66c06784df7d785d7d514c97287928553bd03694",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zjom",
+        "repo": "leeth",
         "type": "github"
       }
     },
@@ -216,6 +236,7 @@
         "get-ignore": "get-ignore",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
+        "leeth": "leeth",
         "lm10": "lm10",
         "nb": "nb",
         "nix-darwin": "nix-darwin",

@@ -10,7 +10,7 @@
         editor
         git-ui
         devshell
-        bitwarden
+        secrets
         nh
         spotify-player
       ];

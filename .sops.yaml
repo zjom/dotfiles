@@ -1,0 +1,9 @@
+# The age keys that can decrypt secrets/. After adding a key here, run
+# `sops updatekeys secrets/secrets.yaml`.
+keys:
+  - &loq age12x4ghcg06kr4nruq4q3n05xjgp4sf6clcplu4x0yp69fksejrfhs72vnj3
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    key_groups:
+      - age:
+          - *loq
