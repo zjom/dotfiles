@@ -67,6 +67,7 @@ require("conform").setup({
     scss = { "oxfmt" },
     sh = { "shfmt" },
     sql = { "sleek" },
+    svelte = { "prettier" },
     toml = { "oxfmt", lsp_format = "prefer" },
     typescript = { "oxfmt" },
     typescriptreact = { "oxfmt" },

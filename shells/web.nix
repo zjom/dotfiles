@@ -22,10 +22,11 @@ pkgs.mkShell {
     oxfmt
     oxlint
     vscode-langservers-extracted
+    svelte-language-server
     tailwindcss-language-server
   ];
 
   shellHook = ''
-    echo "node $(node --version) | pnpm $(pnpm --version) | bun $(bun --version)"
+    echo "node $(node --version) | pnpm $(pnpm --version)"
   '';
 }
