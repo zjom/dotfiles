@@ -32,7 +32,7 @@
                   ++ map (dir: "--glob=!${dir}/*") ignores
                 );
               };
-              env.RIPGREP_CONFIG_PATH = config.constructFiles.ripgreprc.path;
+              env.RIPGREP_CONFIG_PATH = lib.mkForce config.constructFiles.ripgreprc.path;
             };
         }
       );
