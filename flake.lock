@@ -273,11 +273,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791872374,
-        "narHash": "sha256-bupNBdDnzi02chpGtzekBF/eihPglqGeRxBuNJCwFLM=",
+        "lastModified": 1792845070,
+        "narHash": "sha256-afRLg7L1UddJpERvLSKPn49phWXSf2QKjSN//dExOtg=",
         "owner": "zjom",
         "repo": "zen-draw",
-        "rev": "e244688b54409f0f802462ce53fd8381d57104bb",
+        "rev": "aaf79d5333216734975e19970ff8d12067d60fce",
         "type": "github"
       },
       "original": {
