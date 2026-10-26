@@ -1,5 +1,9 @@
-# Google Drive and iCloud Drive as folders in ~, mounted with rclone. Each host
-# gets the rclone CLI. Only a host with the desktop mounts the drives.
+# Google Drive and iCloud Drive as folders in /mnt, mounted with rclone. Each
+# host gets the rclone CLI. Only a host with the desktop mounts the drives.
+#
+# The mounts are not in ~, so that `ls ~` does not wait for the cloud providers.
+# A user service cannot make folders in /mnt, so the system makes them with
+# tmpfiles and gives them to the user.
 #
 # rclone keeps the tokens in ~/.config/rclone/rclone.conf, outside this
 # repository. On each machine, create the remotes one time with `rclone config`:
@@ -13,7 +17,23 @@
 #
 # Until a remote exists, its mount service fails and tries again every minute.
 # After you create the remote, run `systemctl --user restart rclone-<remote>`.
+let
+  # The names of the rclone remotes. Each one mounts on /mnt/<remote>.
+  remotes = [
+    "gdrive"
+    "icloud"
+  ];
+in
 {
+  flake.modules.nixos.desktop =
+    { config, ... }:
+    let
+      user = config.users.users.${config.my.username};
+    in
+    {
+      systemd.tmpfiles.rules = map (remote: "d /mnt/${remote} 0755 ${user.name} ${user.group} -") remotes;
+    };
+
   flake.modules.homeManager.base =
     { pkgs, ... }:
     {
@@ -21,29 +41,18 @@
     };
 
   flake.modules.homeManager.desktop =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
-    }:
+    { lib, pkgs, ... }:
     let
       rclone = lib.getExe pkgs.rclone;
 
-      # The name of the rclone remote, and the folder in ~ that it mounts on.
-      drives = {
-        gdrive = "GoogleDrive";
-        icloud = "iCloud";
-      };
-
       mount =
-        remote: dir:
+        remote:
         let
-          path = "${config.home.homeDirectory}/${dir}";
+          path = "/mnt/${remote}";
         in
         lib.nameValuePair "rclone-${remote}" {
           Unit = {
-            Description = "rclone mount of ${remote}: on ~/${dir}";
+            Description = "rclone mount of ${remote}: on ${path}";
             Documentation = "https://rclone.org/commands/rclone_mount/";
           };
           Install.WantedBy = [ "default.target" ];
@@ -53,7 +62,6 @@
             # rclone runs fusermount3, and NixOS has the setuid fusermount3 only
             # in /run/wrappers/bin.
             Environment = [ "PATH=/run/wrappers/bin" ];
-            ExecStartPre = "${lib.getExe' pkgs.coreutils "mkdir"} -p ${path}";
             ExecStart = lib.escapeShellArgs [
               rclone
               "mount"
@@ -75,6 +83,6 @@
         };
     in
     {
-      systemd.user.services = lib.mapAttrs' mount drives;
+      systemd.user.services = lib.listToAttrs (map mount remotes);
     };
 }
