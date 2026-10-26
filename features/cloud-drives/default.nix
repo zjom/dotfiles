@@ -1,9 +1,11 @@
-# Google Drive and iCloud Drive as folders in /mnt, mounted with rclone. Each
-# host gets the rclone CLI. Only a host with the desktop mounts the drives.
+# Google Drive and iCloud Drive as folders in /run/user/<uid>, mounted with
+# rclone. Each host gets the rclone CLI. Only a host with the desktop mounts the
+# drives.
 #
-# The mounts are not in ~, so that `ls ~` does not wait for the cloud providers.
-# A user service cannot make folders in /mnt, so the system makes them with
-# tmpfiles and gives them to the user.
+# The mounts are not in ~, so that programs that walk ~ do not go into the cloud
+# providers. /run/user/<uid> is where the user's FUSE mounts usually go: the
+# user owns it, and systemd removes it at logout. A symlink in ~ points to each
+# mount. Programs such as fd and rg do not follow symlinks unless told to.
 #
 # rclone keeps the tokens in ~/.config/rclone/rclone.conf, outside this
 # repository. On each machine, create the remotes one time with `rclone config`:
@@ -18,22 +20,14 @@
 # Until a remote exists, its mount service fails and tries again every minute.
 # After you create the remote, run `systemctl --user restart rclone-<remote>`.
 let
-  # The names of the rclone remotes. Each one mounts on /mnt/<remote>.
-  remotes = [
-    "gdrive"
-    "icloud"
-  ];
+  # The name of the rclone remote, and the symlink in ~ to its mount. Each remote
+  # mounts on /run/user/<uid>/<remote>.
+  drives = {
+    gdrive = "GoogleDrive";
+    icloud = "iCloud";
+  };
 in
 {
-  flake.modules.nixos.desktop =
-    { config, ... }:
-    let
-      user = config.users.users.${config.my.username};
-    in
-    {
-      systemd.tmpfiles.rules = map (remote: "d /mnt/${remote} 0755 ${user.name} ${user.group} -") remotes;
-    };
-
   flake.modules.homeManager.base =
     { pkgs, ... }:
     {
@@ -46,9 +40,10 @@ in
       rclone = lib.getExe pkgs.rclone;
 
       mount =
-        remote:
+        remote: link:
         let
-          path = "/mnt/${remote}";
+          # systemd replaces %t with /run/user/<uid>, and %h with ~.
+          path = "%t/${remote}";
         in
         lib.nameValuePair "rclone-${remote}" {
           Unit = {
@@ -62,6 +57,13 @@ in
             # rclone runs fusermount3, and NixOS has the setuid fusermount3 only
             # in /run/wrappers/bin.
             Environment = [ "PATH=/run/wrappers/bin" ];
+            ExecStartPre = [
+              "${lib.getExe' pkgs.coreutils "mkdir"} -p ${path}"
+              # The uid is not known when Nix builds the config, so the service
+              # makes the symlink. -T makes ln fail, not write into ~/${link},
+              # if ~/${link} is a folder.
+              "${lib.getExe' pkgs.coreutils "ln"} -sfnT ${path} %h/${link}"
+            ];
             ExecStart = lib.escapeShellArgs [
               rclone
               "mount"
@@ -83,6 +85,6 @@ in
         };
     in
     {
-      systemd.user.services = lib.listToAttrs (map mount remotes);
+      systemd.user.services = lib.mapAttrs' mount drives;
     };
 }
