@@ -253,7 +253,9 @@ end
 vim.api.nvim_create_autocmd("User", {
 	pattern = "MiniFilesExplorerOpen",
 	callback = function()
-		set_mark("c", vim.g.config_checkout, "Config") -- path
+		if vim.fn.isdirectory(vim.g.config_checkout) == 1 then
+			set_mark("c", vim.g.config_checkout, "Config") -- path
+		end
 		set_mark("w", vim.fn.getcwd, "Working directory") -- callable
 		set_mark("~", "~", "Home directory")
 	end,

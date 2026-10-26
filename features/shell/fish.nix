@@ -1,7 +1,7 @@
 { leaf, ... }:
 {
   nodes.fish = leaf "fish" (
-    { lib, ... }:
+    { config, lib, ... }:
     {
       # fish starts without --no-config, because that flag also skips
       # /etc/fish/config.fish and turns on private mode. The configuration of
@@ -13,7 +13,6 @@
         shellAliases = {
           c = "clear";
           clean = "sudo nix-collect-garbage -d";
-          oc = "opencode";
           q = "exit";
           tt = "touch";
         };
@@ -28,21 +27,9 @@
               set -g fish_key_bindings fish_vi_key_bindings
           end
 
-          function nn --description "New nb note, named after today's date and its title"
-              if test (count $argv) -eq 0
-                  echo "usage: nn <note title>" >&2
-                  return 1
-              end
-
-              set -l title (string join ' ' -- $argv)
-              set -l d (date +%y%m%d)
-              # Make the title lowercase, replace each run of non-alphanumeric
-              # characters with one hyphen, and remove hyphens at the start and
-              # at the end.
-              set -l slug (string lower -- $title | string replace -ra '[^a-z0-9]+' '-' | string trim -c '-')
-
-              nb a "$d-$slug.md" -t "$d - $title"
-          end
+          # The checkout of this repository. Functions that need the checkout
+          # read this variable.
+          set -q DOTFILES; or set -gx DOTFILES ~/${config.settings.flakeDir}
         '';
       };
     }

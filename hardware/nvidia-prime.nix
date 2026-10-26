@@ -1,4 +1,4 @@
-# Hardware node (NixOS): an NVIDIA GPU next to an integrated GPU that drives the
+# Hardware module (NixOS): an NVIDIA GPU next to an integrated GPU that drives the
 # panel (PRIME offload). The integrated GPU renders the desktop. The NVIDIA GPU
 # stays powered off until you start a program on the NVIDIA GPU with
 # `nvidia-offload <program>`. The host sets the two bus IDs

@@ -151,26 +151,6 @@
         "type": "github"
       }
     },
-    "nb": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1792125338,
-        "narHash": "sha256-iQklDYW6jKN47KaI5oRchDO7ceGgYDFj+ADswC/odIU=",
-        "owner": "zjom",
-        "repo": "nb",
-        "rev": "480bb988381948280099de8f97ad09c2475cc701",
-        "type": "github"
-      },
-      "original": {
-        "owner": "zjom",
-        "repo": "nb",
-        "type": "github"
-      }
-    },
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
@@ -238,7 +218,6 @@
         "import-tree": "import-tree",
         "leeth": "leeth",
         "lm10": "lm10",
-        "nb": "nb",
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",

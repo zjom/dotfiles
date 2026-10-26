@@ -65,9 +65,9 @@
   # This link puts that directory in the checkout, where `vim.pack.update()`
   # writes the lockfile. The wrapped Neovim loads no other files from it.
   flake.modules.homeManager.base =
-    { config, ... }:
+    { config, osConfig, ... }:
     {
       xdg.configFile."nvim".source =
-        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/dotfiles/features/editor/nvim";
+        config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/${osConfig.settings.flakeDir}/features/editor/nvim";
     };
 }

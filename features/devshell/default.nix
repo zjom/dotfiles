@@ -61,8 +61,11 @@ in
           end
 
           function activate_dev_shell --description "Activate a dev shell"
-              # The checkout of this repository on each host.
-              set -l flake_root ~/dotfiles
+              set -l flake_root $DOTFILES
+              if not test -d "$flake_root"
+                  echo "activate_dev_shell: no checkout at $flake_root" >&2
+                  return 1
+              end
               set -l shell (fd --type f --extension nix . $flake_root/shells --exec echo '{/.}' \
                             | sort \
                             | fzf --prompt='dev shell ⚡ ' --height=40% --reverse --border)

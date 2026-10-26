@@ -1,7 +1,12 @@
 { leaf, ... }:
 {
   nodes.tmux = leaf "tmux" (
-    { lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       wrappers.tmux = {
         sourceSensible = true;
@@ -32,7 +37,7 @@
           # Since tmux 3.8, popups have a dark grey background by default. Use
           # the terminal background, as in panes.
           set -g popup-style default
-          set -g popup-border-style fg=themelightgrey
+          set -g popup-border-style fg=#${config.settings.colors.floatBorder}
 
           # Create new panes and new windows in the current working directory.
           bind -N "Split pane vertically" v split-window -hc "#{pane_current_path}"

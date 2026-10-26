@@ -13,6 +13,12 @@
         };
     in
     {
+      # The checkout of this repository, relative to the home directory.
+      options.settings.flakeDir = lib.mkOption {
+        type = lib.types.str;
+        default = "dotfiles";
+      };
+
       # The directories that are never useful to search, walk or list. fd,
       # ripgrep and the walker of fzf skip these directories.
       options.settings.searchIgnores = lib.mkOption {
@@ -27,8 +33,10 @@
         ];
       };
 
-      # The vague colour scheme, as hex values without the leading `#`. Programs
-      # that need either form can use these values.
+      # The Vague colour scheme, as hex values without the leading `#`. Programs
+      # that need either form can use these values. Neovim uses the upstream
+      # vague.nvim plugin (features/editor/nvim/lua/plugins/init.lua). Thus, a
+      # change to another scheme also changes that file.
       options.settings.colors = {
         bg = color "141415";
         inactiveBg = color "1c1c24";
@@ -43,6 +51,15 @@
         plus = color "7fa563";
         error = color "d8647e";
         warning = color "f3be7c";
+        purple = color "bb9dbd";
+        cyan = color "aeaed1";
+        brightRed = color "e08398";
+        brightGreen = color "99b782";
+        brightYellow = color "f5cb96";
+        brightBlue = color "8ba9c1";
+        brightPurple = color "c9b1ca";
+        brightCyan = color "bebeda";
+        brightWhite = color "d7d7d7";
       };
     };
 }

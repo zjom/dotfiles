@@ -47,6 +47,10 @@ top@{ inputs, ... }:
           # Keep the release of the first installation. Read the manual before
           # you change this value.
           system.stateVersion = "26.05";
+
+          # The Home Manager release of the first activation on this host. Do
+          # not change this value after that.
+          home-manager.users.${config.my.username}.home.stateVersion = "26.05";
         }
       )
     ];

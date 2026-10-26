@@ -5,9 +5,11 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- The checkout that contains the editable source of this configuration. Neovim
--- runs the copy in the Nix store (features/editor/nvim.nix), so stdpath("config")
--- does not point to the checkout.
-vim.g.config_checkout = vim.fs.normalize("~/dotfiles/features/editor/nvim")
+-- runs the copy in the Nix store (features/editor/nvim.nix). On a host, Home
+-- Manager links stdpath("config") to the checkout (features/editor/default.nix).
+-- Under `nix run`, there is no link, and vim.g.dotfiles is nil.
+vim.g.config_checkout = vim.fn.resolve(vim.fn.stdpath("config"))
+vim.g.dotfiles = vim.fs.root(vim.g.config_checkout, "flake.nix")
 
 -- [[ Options ]]
 -- See `:help vim.opt`. For a list of all options, see `:help option-list`.

@@ -1,5 +1,7 @@
-# The packages without configuration for each host. The language toolchains
-# are in the dev shells (shells/).
+# Host tools: programs without configuration that no node calls. `nix run`
+# does not see this list, so a program that the glue of a node calls goes in
+# the `packages` of that node. The project toolchains are in the dev shells
+# (shells/). cargo, nodejs and python3 here are for ad-hoc use.
 { inputs, ... }:
 
 let
@@ -10,7 +12,6 @@ let
         bottom
         cargo
         claude-code
-        file
         jq
         nixd
         nixfmt

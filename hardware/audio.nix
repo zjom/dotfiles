@@ -1,4 +1,4 @@
-# Hardware node (NixOS): sound through PipeWire, with the compatibility layers
+# Hardware module (NixOS): sound through PipeWire, with the compatibility layers
 # for PulseAudio and ALSA.
 {
   flake.modules.nixos.audio =

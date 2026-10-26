@@ -89,6 +89,50 @@ let
       '';
       meta.mainProgram = cfg.entry;
     };
+  # Commands that each host has, outside the node graph. A fish alias can start
+  # these commands.
+  hostCommands = [
+    "sudo"
+    "nix"
+    "nix-collect-garbage"
+  ];
+
+  hasFish = cfg: (cfg.wrappers.fish or { }).enable or false;
+
+  # Each fish alias of a node starts a fish builtin, a fish function, a
+  # program of the node or a host command. Thus, `nix flake check` finds an
+  # alias of a program that no node installs.
+  aliasCheck =
+    pkgs: name: node:
+    let
+      cfg = evalNode pkgs node;
+      env = mkEnv pkgs name node;
+      commands = lib.subtractLists hostCommands (
+        lib.unique (
+          map (alias: lib.head (lib.splitString " " alias)) (lib.attrValues cfg.wrappers.fish.shellAliases)
+        )
+      );
+    in
+    pkgs.runCommandLocal "aliases-${name}" { } ''
+      export HOME=$TMPDIR
+      export PATH=${env}/bin:${
+        lib.makeBinPath [
+          pkgs.coreutils
+          pkgs.ncurses
+        ]
+      }
+      fish -c '
+        set -l missing
+        for command in $argv
+            type -q -- $command; or set -a missing $command
+        end
+        if set -q missing[1]
+            echo "fish aliases of `${name}` start commands that do not exist: $missing" >&2
+            exit 1
+        end
+      ' ${lib.escapeShellArgs commands}
+      touch $out
+    '';
 in
 {
   imports = [ inputs.flake-parts.flakeModules.modules ];
@@ -152,7 +196,15 @@ in
       packages =
         lib.mapAttrs (mkEnv pkgs) (lib.filterAttrs (available pkgs) config.nodes)
         // lib.optionalAttrs (config.nodes ? env) { default = mkEnv pkgs "env" config.nodes.env; };
-      checks = lib.mapAttrs (mkEnv pkgs) (lib.filterAttrs (available pkgs) config.nodes);
+      checks =
+        let
+          nodes = lib.filterAttrs (available pkgs) config.nodes;
+          withFish = lib.filterAttrs (_: node: hasFish (evalNode pkgs node)) nodes;
+        in
+        lib.mapAttrs (mkEnv pkgs) nodes
+        // lib.mapAttrs' (
+          name: node: lib.nameValuePair "${name}-aliases" (aliasCheck pkgs name node)
+        ) withFish;
     };
 
     # Publish the nodes for the flakes of other people. `generic` means that

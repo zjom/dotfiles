@@ -60,7 +60,9 @@ vim.keymap.set("n", "<leader>s/", function()
 		prompt_title = "Live Grep in Open Files",
 	})
 end, { desc = "[S]earch [/] in Open Files" })
-vim.keymap.set("n", "<leader>sc", function()
-	builtin.find_files({ cwd = "~/dotfiles/" })
-end, { desc = "[S]earch [C]onfig" })
+if vim.g.dotfiles then
+	vim.keymap.set("n", "<leader>sc", function()
+		builtin.find_files({ cwd = vim.g.dotfiles })
+	end, { desc = "[S]earch [C]onfig" })
+end
 vim.keymap.set("i", "<C-x><C-i>", builtin.symbols, { desc = "[x] [I]nsert Symbols" })

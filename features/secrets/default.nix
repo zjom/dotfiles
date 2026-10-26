@@ -34,8 +34,12 @@
       wrappers.fish.configFile.content = ''
         set -q SOPS_AGE_KEY_FILE; or set -gx SOPS_AGE_KEY_FILE ~/.config/sops/age/keys.txt
 
-        function with-secrets --description "Run a command with the secrets of ~/dotfiles in its environment"
-            sops exec-env ~/dotfiles/secrets/secrets.yaml (string join ' ' -- (string escape -- $argv))
+        function with-secrets --description "Run a command with the secrets of the checkout in its environment"
+            if not test -d "$DOTFILES"
+                echo "with-secrets: no checkout at $DOTFILES" >&2
+                return 1
+            end
+            sops exec-env $DOTFILES/secrets/secrets.yaml (string join ' ' -- (string escape -- $argv))
         end
       '';
     };

@@ -2,7 +2,13 @@
 # wrapper validates niri.kdl at build time.
 { leaf, ... }:
 {
-  nodes.niri = leaf "niri" {
-    wrappers.niri."config.kdl".content = builtins.readFile ./niri.kdl;
-  };
+  # niri.kdl takes its background from the colour settings.
+  nodes.niri = leaf "niri" (
+    { config, ... }:
+    {
+      wrappers.niri."config.kdl".content =
+        builtins.replaceStrings [ "@bg@" ] [ "#${config.settings.colors.bg}" ]
+          (builtins.readFile ./niri.kdl);
+    }
+  );
 }

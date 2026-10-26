@@ -114,6 +114,10 @@ in
           # `nixos-generate-config` writes this value into its
           # configuration.nix. Do not change this value after that.
           system.stateVersion = "26.05";
+
+          # The Home Manager release of the first activation on this host. Do
+          # not change this value after that.
+          home-manager.users.${config.my.username}.home.stateVersion = "26.05";
         }
       )
     ];

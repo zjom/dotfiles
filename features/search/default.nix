@@ -16,7 +16,10 @@ in
         nvim
       ];
 
-      packages = [ pkgs.bat ];
+      packages = [
+        pkgs.bat
+        pkgs.file
+      ];
 
       entry = "fish";
 

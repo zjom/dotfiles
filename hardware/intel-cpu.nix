@@ -1,4 +1,4 @@
-# Hardware node (NixOS): an Intel CPU. The microcode update in the generated
+# Hardware module (NixOS): an Intel CPU. The microcode update in the generated
 # hardware configuration uses this setting.
 {
   flake.modules.nixos.intel-cpu =

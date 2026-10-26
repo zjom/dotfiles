@@ -39,13 +39,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nb, built from a fork with custom changes. features/base/packages.nix
-    # installs it.
-    nb = {
-      url = "github:zjom/nb";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # The picker menu that is the launcher of the session.
     # features/desktop/session.nix installs it.
     lm10 = {

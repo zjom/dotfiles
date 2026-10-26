@@ -1,4 +1,4 @@
-# Hardware node (NixOS): a portable machine. This node configures the battery,
+# Hardware module (NixOS): a portable machine. This module configures the battery,
 # the power profiles and Bluetooth.
 {
   flake.modules.nixos.laptop =

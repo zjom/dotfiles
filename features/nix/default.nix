@@ -13,7 +13,7 @@ let
         nodes.fish
       ];
 
-      wrappers.nh.flake = "${config.users.users.${config.my.username}.home}/dotfiles";
+      wrappers.nh.flake = "${config.users.users.${config.my.username}.home}/${config.settings.flakeDir}";
 
       # This setting names the configuration explicitly. Without this setting,
       # nh uses the hostname of the machine. Under WSL, the hostname is "nixos",

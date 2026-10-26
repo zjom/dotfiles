@@ -49,7 +49,7 @@ Values that more than one program uses, for example the colours, are `settings.*
 
 Use the first rule that applies:
 
-1. The program has no configuration: add the program to the `packages` option of a composite. If no composite uses the program, add the program to `features/base/packages.nix`.
+1. The program has no configuration: add the program to the `packages` option of the node whose glue calls the program. If no node calls the program, add the program to `features/base/packages.nix`. `nix run` does not see that file.
 2. The program has configuration and keeps no state: add a leaf `<program>.nix` with the `leaf` helper of `lib/graph.nix`.
 3. The program is a daemon, or the program writes its own configuration: add a Home Manager module to the feature.
 4. A value is different on each machine: set the value in the file of the host.

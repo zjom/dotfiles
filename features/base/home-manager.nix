@@ -25,11 +25,7 @@ in
   flake.modules.nixos.base = wiring inputs.home-manager.nixosModules.home-manager;
   flake.modules.darwin.base = wiring inputs.home-manager.darwinModules.home-manager;
 
-  flake.modules.homeManager.base =
-    { lib, ... }:
-    {
-      home.stateVersion = lib.mkDefault "26.05";
-
-      xdg.enable = true;
-    };
+  flake.modules.homeManager.base = {
+    xdg.enable = true;
+  };
 }

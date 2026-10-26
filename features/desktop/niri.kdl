@@ -38,7 +38,7 @@ output "eDP-1" {
 }
 
 layout {
-    background-color "#141415"
+    background-color "@bg@"
     gaps 8
     center-focused-column "never"
 

@@ -1,4 +1,4 @@
-# Hardware node (NixOS): a Logitech MX Master 3 mouse. logid configures the
+# Hardware module (NixOS): a Logitech MX Master 3 mouse. logid configures the
 # scroll wheel and maps the gesture button (under the thumb) to niri actions.
 {
   flake.modules.nixos.mx-master-3 =

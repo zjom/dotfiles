@@ -83,6 +83,10 @@ in
           # The nix-darwin state version. This value is an integer and is not
           # related to the NixOS state version.
           system.stateVersion = 6;
+
+          # The Home Manager release of the first activation on this host. Do
+          # not change this value after that.
+          home-manager.users.${config.my.username}.home.stateVersion = "26.05";
         }
       )
     ];
