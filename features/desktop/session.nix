@@ -1,5 +1,5 @@
 # The programs that run in the niri session: notifications, clipboard history,
-# file associations, cursor and theme.
+# file associations, cursor, theme and the automount of removable drives.
 {
   flake.modules.nixos.desktop =
     { pkgs, ... }:
@@ -16,6 +16,9 @@
         # niri starts xwayland-satellite when necessary, to run X11 programs.
         xwayland-satellite
       ];
+
+      # udiskie mounts removable drives through udisks2, on /run/media/<user>.
+      services.udisks2.enable = true;
     };
 
   flake.modules.homeManager.desktop =
@@ -107,5 +110,15 @@
       services.cliphist.enable = true;
 
       services.polkit-gnome.enable = true;
+
+      # Mount each USB drive when it is plugged in. udiskie sends a notification
+      # to mako. The udiskie tray icon shows in waybar while a drive is
+      # attached. Its menu unmounts and ejects the drives.
+      services.udiskie = {
+        enable = true;
+        automount = true;
+        notify = true;
+        tray = "auto";
+      };
     };
 }
