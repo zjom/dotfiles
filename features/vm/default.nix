@@ -22,6 +22,9 @@
       });
     in
     {
+      # Lets the SPICE viewer pass host USB devices to a VM without root.
+      virtualisation.spiceUSBRedirection.enable = true;
+
       environment.systemPackages = [
         quickemu
         (pkgs.quickgui.override { inherit quickemu; })
