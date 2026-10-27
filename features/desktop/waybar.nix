@@ -21,9 +21,10 @@
         "AMEX:SPY"
       ];
 
-      # Fetches all tickers every 5 minutes and prints one ticker per line every
-      # 5 seconds, as waybar JSON. The tooltip lists all tickers. A ticker whose
-      # fetch fails keeps its last price with the stale class. A delayed quote
+      # Fetches all tickers every 5 minutes and prints one ticker per line as
+      # waybar JSON. Each ticker shows once per fetch, for the refresh time
+      # divided by the number of tickers. The tooltip lists all tickers. A
+      # ticker whose fetch fails keeps its last price with the stale class. A delayed quote
       # shows its delay, such as (15m). The shown symbol is in $current, for
       # waybar-tickers-open.
       #
@@ -41,8 +42,8 @@
         ];
         text = ''
           export LC_ALL=C
-          rotate=5
           refresh=300
+          rotate=$(( refresh / ($# > 0 ? $# : 1) ))
           secrets="$HOME/${config.settings.flakeDir}/secrets/secrets.yaml"
           current="''${XDG_RUNTIME_DIR:?}/waybar-tickers"
           declare -A text class
