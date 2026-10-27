@@ -117,6 +117,8 @@
           "Documents"
           "Downloads"
           "Pictures"
+          "GoogleDrive"
+          "iCloud"
         ];
       };
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
