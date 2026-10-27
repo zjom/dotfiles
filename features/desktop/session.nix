@@ -19,10 +19,18 @@
 
       # udiskie mounts removable drives through udisks2, on /run/media/<user>.
       services.udisks2.enable = true;
+
+      # gvfs gives GIO its trash:// backend, for the Nautilus wastebasket.
+      services.gvfs.enable = true;
     };
 
   flake.modules.homeManager.desktop =
-    { lib, pkgs, ... }:
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
     {
       # Under niri, xdg-open uses its generic launcher as a fallback. The
       # generic launcher ignores Terminal=true. Thus, each terminal program gets
@@ -103,6 +111,13 @@
       gtk = {
         enable = true;
         gtk3.extraConfig.gtk-application-prefer-dark-theme = true;
+        # Nautilus shows the XDG directories in its sidebar only when they are
+        # in this bookmarks file. GNOME writes the file with xdg-user-dirs-gtk.
+        gtk3.bookmarks = map (dir: "file://${config.home.homeDirectory}/${dir}") [
+          "Documents"
+          "Downloads"
+          "Pictures"
+        ];
       };
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
 

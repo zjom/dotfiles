@@ -5,6 +5,7 @@
 
 let
   overlays = [
+    (import ./overlays/_nautilus.nix)
     (import ./overlays/_sesh.nix)
   ];
   config.allowUnfree = true;
