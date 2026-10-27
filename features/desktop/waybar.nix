@@ -171,7 +171,7 @@
               "title"
             ];
             dynamic-separator = " - ";
-            dynamic-len = 45;
+            dynamic-len = 20;
             status-icons = {
               playing = "▶";
               paused = "⏸";
