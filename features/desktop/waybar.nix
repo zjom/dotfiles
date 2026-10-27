@@ -9,6 +9,115 @@
     }:
     let
       inherit (config.settings) colors;
+
+      # TradingView symbols, as EXCHANGE:SYMBOL. The bar shows the part after
+      # the exchange.
+      tickers = [
+        "OANDA:XAUUSD"
+        "ASX:GOLD"
+        "TVC:US10Y"
+        "OANDA:XAGUSD"
+        "CRYPTO:BTCUSD"
+        "AMEX:SPY"
+      ];
+
+      # Fetches all tickers every 5 minutes and prints one ticker per line every
+      # 5 seconds, as waybar JSON. The tooltip lists all tickers. A ticker whose
+      # fetch fails keeps its last price with the stale class. A delayed quote
+      # shows its delay, such as (15m). The shown symbol is in $current, for
+      # waybar-tickers-open.
+      #
+      # The TradingView session cookies in the trading_view secret give the
+      # real-time data of the account. The script reads them at each fetch and
+      # gives them to curl on stdin, so they are not in its arguments. Without
+      # them, the quotes are the delayed data of a guest.
+      waybar-tickers = pkgs.writeShellApplication {
+        name = "waybar-tickers";
+        runtimeInputs = with pkgs; [
+          coreutils
+          curl
+          jq
+          sops
+        ];
+        text = ''
+          export LC_ALL=C
+          rotate=5
+          refresh=300
+          secrets="$HOME/${config.settings.flakeDir}/secrets/secrets.yaml"
+          current="''${XDG_RUNTIME_DIR:?}/waybar-tickers"
+          declare -A text class
+          last_fetch=0
+
+          # Prints a curl config with the cookie header, or nothing if the
+          # secret cannot be decrypted.
+          cookies() {
+            local id sign
+            if id=$(sops -d --extract '["trading_view"]["sessionid"]' "$secrets" 2>/dev/null) &&
+              sign=$(sops -d --extract '["trading_view"]["sessionid_sign"]' "$secrets" 2>/dev/null); then
+              printf 'cookie = "sessionid=%s; sessionid_sign=%s"\n' "$id" "$sign"
+            fi
+          }
+
+          fetch() {
+            local config symbol label quote price pct mode arrow delay
+            config=$(cookies)
+            for symbol in "$@"; do
+              label=''${symbol#*:}
+              if quote=$(curl -fsS --max-time 10 -A 'Mozilla/5.0' -K - -G \
+                --data-urlencode "symbol=$symbol" --data-urlencode 'fields=close,change,update_mode' \
+                https://scanner.tradingview.com/symbol <<<"$config" |
+                jq -er 'select(.close != null) | "\(.close) \(.change // 0) \(.update_mode)"'); then
+                read -r price pct mode <<<"$quote"
+                if [[ $pct == -* ]]; then class[$symbol]=down; arrow=▼; else class[$symbol]=up; arrow=▲; fi
+                delay=""
+                if [[ $mode =~ ^delayed_streaming_([0-9]+)$ ]]; then
+                  delay=" ($(( BASH_REMATCH[1] / 60 ))m)"
+                fi
+                text[$symbol]=$(printf '%s %.2f %s%.2f%%%s' "$label" "$price" "$arrow" "''${pct#-}" "$delay")
+              elif [[ -n ''${text[$symbol]:-} ]]; then
+                class[$symbol]=stale
+              fi
+            done
+          }
+
+          i=0
+          while true; do
+            now=$(date +%s)
+            if (( now - last_fetch >= refresh )); then
+              fetch "$@"
+              last_fetch=$now
+            fi
+            shown=()
+            for symbol in "$@"; do
+              [[ -n ''${text[$symbol]:-} ]] && shown+=("$symbol")
+            done
+            if (( ''${#shown[@]} == 0 )); then
+              echo '{"text":""}'
+            else
+              symbol=''${shown[i % ''${#shown[@]}]}
+              echo "$symbol" >"$current"
+              tooltip=$(for s in "''${shown[@]}"; do echo "''${text[$s]}"; done)
+              jq -cn --arg text "''${text[$symbol]}" --arg class "''${class[$symbol]}" \
+                --arg tooltip "$tooltip" '{$text, $class, $tooltip}'
+            fi
+            i=$(( i + 1 ))
+            sleep "$rotate"
+          done
+        '';
+      };
+
+      # Opens the TradingView chart of the symbol that waybar-tickers shows.
+      waybar-tickers-open = pkgs.writeShellApplication {
+        name = "waybar-tickers-open";
+        runtimeInputs = with pkgs; [
+          coreutils
+          xdg-utils
+        ];
+        text = ''
+          symbol=$(cat "''${XDG_RUNTIME_DIR:?}/waybar-tickers")
+          xdg-open "https://www.tradingview.com/chart/?symbol=$symbol"
+        '';
+      };
     in
     {
       wrappers.waybar = {
@@ -19,6 +128,7 @@
           modules-left = [ "niri/workspaces" ];
           modules-center = [ "clock" ];
           modules-right = [
+            "custom/tickers"
             "mpris"
             "tray"
             "network"
@@ -68,6 +178,11 @@
             tooltip-format = "{title}\n{artist}\n{album}\n{position} / {length}";
             interval = 1;
           };
+          "custom/tickers" = {
+            exec = lib.escapeShellArgs ([ (lib.getExe waybar-tickers) ] ++ tickers);
+            return-type = "json";
+            on-click = lib.getExe waybar-tickers-open;
+          };
           tray.spacing = 8;
         };
 
@@ -110,13 +225,22 @@
             tooltip label {
               color: #${fg};
             }
-            #clock, #mpris, #tray, #network, #bluetooth, #pulseaudio, #battery {
+            #clock, #custom-tickers, #mpris, #tray, #network, #bluetooth, #pulseaudio, #battery {
               padding: 0 10px;
             }
             #network.disconnected, #bluetooth.off, #bluetooth.disabled, #pulseaudio.muted {
               color: #${comment};
             }
             #mpris.paused {
+              color: #${comment};
+            }
+            #custom-tickers.up {
+              color: #${plus};
+            }
+            #custom-tickers.down {
+              color: #${error};
+            }
+            #custom-tickers.stale {
               color: #${comment};
             }
             #battery.charging {
