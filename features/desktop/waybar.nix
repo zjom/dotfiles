@@ -28,10 +28,11 @@
       # shows its delay, such as (15m). The shown symbol is in $current, for
       # waybar-tickers-open.
       #
-      # The TradingView session cookies in the trading_view secret give the
-      # real-time data of the account. The script reads them at each fetch and
-      # gives them to curl on stdin, so they are not in its arguments. Without
-      # them, the quotes are the delayed data of a guest.
+      # The TradingView session cookies in the TRADINGVIEW_SESSIONID and
+      # TRADINGVIEW_SESSIONID_SIGN secrets give the real-time data of the
+      # account. The script reads them at each fetch and gives them to curl on
+      # stdin, so they are not in its arguments. Without them, the quotes are
+      # the delayed data of a guest.
       waybar-tickers = pkgs.writeShellApplication {
         name = "waybar-tickers";
         runtimeInputs = with pkgs; [
@@ -53,8 +54,8 @@
           # secret cannot be decrypted.
           cookies() {
             local id sign
-            if id=$(sops -d --extract '["trading_view"]["sessionid"]' "$secrets" 2>/dev/null) &&
-              sign=$(sops -d --extract '["trading_view"]["sessionid_sign"]' "$secrets" 2>/dev/null); then
+            if id=$(sops -d --extract '["TRADINGVIEW_SESSIONID"]' "$secrets" 2>/dev/null) &&
+              sign=$(sops -d --extract '["TRADINGVIEW_SESSIONID_SIGN"]' "$secrets" 2>/dev/null); then
               printf 'cookie = "sessionid=%s; sessionid_sign=%s"\n' "$id" "$sign"
             fi
           }
