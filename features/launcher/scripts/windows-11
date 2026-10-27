@@ -1,0 +1,3 @@
+#!/bin/sh
+
+quickemu --vm ~/vms/windows-11.conf
