@@ -122,6 +122,11 @@
         ];
       };
       dconf.settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+      # Sort Nautilus folders by modification time, newest first.
+      dconf.settings."org/gnome/nautilus/preferences" = {
+        default-sort-order = "mtime";
+        default-sort-in-reverse-order = true;
+      };
 
       # The clipboard history for lm10-clipboard.
       services.cliphist.enable = true;
