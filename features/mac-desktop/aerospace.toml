@@ -1,10 +1,6 @@
 # The aerospace node (aerospace.nix) gives this file to AeroSpace.
 # AeroSpace ignores ~/.aerospace.toml.
 
-# This file does not need to contain all keys.
-# If a key is not in this file, AeroSpace uses the value from
-# "default-config.toml".
-
 # Use this option to add commands that run after the login to the macOS user
 # session.
 # 'after-login-command' works only if 'start-at-login' is 'true'.

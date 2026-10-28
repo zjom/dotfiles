@@ -4,7 +4,7 @@
 // Reference:
 // https://niri-wm.github.io/niri/Configuration:-Introduction
 //
-// The bindings are the same as in ../aerospace/aerospace.toml. Alt controls the
+// The bindings are the same as in ../mac-desktop/aerospace.toml. Alt controls the
 // window manager. kitty uses Super (tabs on Super+1-5, splits on Super+hjkl).
 
 input {

@@ -31,7 +31,6 @@ local function update_extmark(bufnr, line)
 		return
 	end
 
-	-- Ignore errors.
 	pcall(vim.api.nvim_buf_set_extmark, bufnr, lb_namespace, line, -1, {
 		virt_text = { { " " .. lb_icon, "DiagnosticSignHint" } },
 		hl_mode = "combine",
@@ -66,8 +65,6 @@ local function render(bufnr, client)
 	end)
 end
 
--- This function is copied from lspsaga. Its full behaviour is not documented
--- here.
 ---@param bufnr  number
 ---@param client vim.lsp.Client
 local function update(bufnr, client)
@@ -83,7 +80,6 @@ local function update(bufnr, client)
 	end)
 end
 
---- Creates the autocommands that update the code action lightbulb.
 ---@param bufnr  integer
 ---@param client vim.lsp.Client
 M.attach_lightbulb = function(bufnr, client)

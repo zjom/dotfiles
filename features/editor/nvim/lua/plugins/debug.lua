@@ -18,7 +18,7 @@ dap.configurations.c = {
     program = function()
       return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
     end,
-    args = {}, -- add arguments if necessary
+    args = {},
     cwd = "${workspaceFolder}",
     stopAtBeginningOfMainSubprogram = false,
   },
@@ -60,7 +60,7 @@ end
 local function restore()
   for _, m in ipairs(saved) do
     if m.rhs or m.callback then
-      vim.fn.mapset(m.__mode, false, m)        -- restore the original mapping
+      vim.fn.mapset(m.__mode, false, m)
     else
       pcall(vim.keymap.del, m.__mode, m.__lhs) -- there was no original mapping
     end

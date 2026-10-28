@@ -39,7 +39,6 @@
           set -g popup-style default
           set -g popup-border-style fg=#${config.settings.colors.floatBorder}
 
-          # Create new panes and new windows in the current working directory.
           bind -N "Split pane vertically" v split-window -hc "#{pane_current_path}"
           bind '|' split-window -hc "#{pane_current_path}"
           bind -N "Split pane horizontally" '"' split-window -vc "#{pane_current_path}"

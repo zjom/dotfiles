@@ -4,7 +4,6 @@ vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
 -- Enable auto-formatting by default. The ToggleFormat command disables it.
 vim.g.autoformat = true
 local function format_on_save(bufnr)
-  -- Disable auto-formatting for files in node_modules.
   local bufname = vim.api.nvim_buf_get_name(bufnr)
   if bufname:match("/node_modules/") then
     return nil
@@ -16,7 +15,6 @@ local function format_on_save(bufnr)
     return nil
   end
 
-  -- Stop if auto-formatting is disabled.
   if not vim.g.autoformat then
     return nil
   end
@@ -56,11 +54,8 @@ require("conform").setup({
     opentofu_vars = { "tofu_fmt", lsp_format = "fallback" },
     terraform = { "tofu_fmt", lsp_format = "fallback" },
     python = {
-      -- Fix the lint errors that Ruff can fix automatically.
       "ruff_fix",
-      -- Run the Ruff formatter.
       "ruff_format",
-      -- Sort the imports.
       "ruff_organize_imports",
     },
     rust = { "rustfmt", lsp_format = "prefer" },

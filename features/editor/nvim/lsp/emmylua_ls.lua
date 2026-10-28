@@ -14,19 +14,10 @@ return {
 	end,
 	settings = {
 		emmylua = {
-			-- Tell the server which Lua version you use (for Neovim, this is
-			-- usually LuaJIT).
 			runtime = { version = "LuaJIT" },
 			diagnostics = { globals = { "vim" } },
-			-- Give the server the Neovim runtime files.
 			workspace = {
-				-- library = {
-				--   vim.env.VIMRUNTIME,
-				--   -- For LSP Settings Type Annotations: https://github.com/neovim/nvim-lspconfig#lsp-settings-type-annotations
-				--   vim.api.nvim_get_runtime_file('lua/lspconfig', false)[1],
-				-- },
-				-- Alternatively, add all of 'runtimepath'. This alternative can be
-				-- slower.
+				-- All of 'runtimepath', which is slower than $VIMRUNTIME only.
 				library = vim.api.nvim_get_runtime_file("", true),
 			},
 		},

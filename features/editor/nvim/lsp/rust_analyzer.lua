@@ -25,10 +25,6 @@ return {
 			},
 			get_project_rustanalyzer_settings(),
 			{
-				-- Overrides. These values apply independent of the contents of
-				-- .rust-analyzer.json.
-				-- procMacro = { enable = true },
-				-- diagnostics = { disabled = { "inactive-code" } },
 			}
 		),
 	},

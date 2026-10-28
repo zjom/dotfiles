@@ -8,7 +8,7 @@ pkgs.mkShell {
 
   packages = with pkgs; [
     uv
-    ruff # linter and formatter
+    ruff
     ty
     basedpyright
   ];

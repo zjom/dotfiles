@@ -12,9 +12,6 @@ do
 end
 
 -- [[ Introduction to `vim.pack` ]]
--- `vim.pack` is a plugin manager that is built into Neovim. `vim.pack` has a
--- Lua interface to install and manage plugins.
---
 -- For more information, see `:help vim.pack`, `:help vim.pack-examples` and the
 -- blog post by the creator of vim.pack and mini.nvim:
 --  https://echasnovski.com/blog/2026-03-13-a-guide-to-vim-pack
@@ -24,9 +21,6 @@ end
 --
 -- To update the plugins, run this command:
 --    :lua vim.pack.update()
---
--- The other files of this configuration contain examples that use `vim.pack` to
--- install and configure plugins.
 --
 -- This section creates autocommands that run the build steps of some plugins
 -- after vim.pack installs or updates these plugins.
@@ -44,10 +38,6 @@ do
 		end
 	end
 
-	-- This autocommand runs after vim.pack installs or updates a plugin. If the
-	-- plugin has a build command, the autocommand runs that command.
-	--
-	-- See `:help vim.pack-events`.
 	vim.api.nvim_create_autocmd("PackChanged", {
 		callback = function(ev)
 			local name = ev.data.spec.name

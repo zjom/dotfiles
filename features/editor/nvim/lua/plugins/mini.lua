@@ -1,13 +1,5 @@
--- [[ mini.nvim ]]
--- A collection of small independent plugins.
 vim.pack.add({ "https://github.com/nvim-mini/mini.nvim" })
 
--- Improved Around and Inside text objects.
---
--- Examples:
---  - va)  - [V]isually select [A]round [)]parenthesis
---  - yinq - [Y]ank [I]nside [N]ext [']quote
---  - ci'  - [C]hange [I]nside [']quote
 require("mini.ai").setup({
 	mappings = {
 		around_next = "aa",
@@ -16,24 +8,18 @@ require("mini.ai").setup({
 	n_lines = 500,
 })
 
--- Add, delete and replace surroundings (brackets, quotes and other pairs).
---
---  - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
---  - sd'   - [S]urround [D]elete [']quotes
---  - sr)'  - [S]urround [R]eplace [)] [']
 require("mini.surround").setup({
-	-- Module mappings. To disable a mapping, use `''` (an empty string).
 	mappings = {
-		add = "gsa", -- Add a surrounding in Normal mode and in Visual mode
-		delete = "gsd", -- Delete a surrounding
-		find = "gsf", -- Find a surrounding (to the right)
-		find_left = "gsF", -- Find a surrounding (to the left)
-		highlight = "gsh", -- Highlight a surrounding
-		replace = "gsr", -- Replace a surrounding
-		update_n_lines = "gsn", -- Update the `n_lines` value
+		add = "gsa",
+		delete = "gsd",
+		find = "gsf",
+		find_left = "gsF",
+		highlight = "gsh",
+		replace = "gsr",
+		update_n_lines = "gsn",
 
-		suffix_last = "gl", -- The suffix for a search with the "prev" method
-		suffix_next = "gn", -- The suffix for a search with the "next" method
+		suffix_last = "gl",
+		suffix_next = "gn",
 	},
 })
 
@@ -42,20 +28,16 @@ vim.keymap.set("n", "<leader>bd", function()
 	require("mini.bufremove").delete(0, false)
 end, { desc = "[B]uffer [D]elete" })
 
--- File explorer.
 local function map_split(buf_id, lhs, direction)
 	local minifiles = require("mini.files")
 
 	local function rhs()
 		local window = minifiles.get_explorer_state().target_window
 
-		-- Do nothing if the explorer is not open or if the cursor is on a
-		-- directory.
 		if window == nil or minifiles.get_fs_entry().fs_type == "directory" then
 			return
 		end
 
-		-- Create a new window and make the new window the target window.
 		local new_target_window
 		vim.api.nvim_win_call(window, function()
 			vim.cmd(direction .. " split")
@@ -64,14 +46,12 @@ local function map_split(buf_id, lhs, direction)
 
 		minifiles.set_target_window(new_target_window)
 
-		-- Open the entry and close the explorer.
 		minifiles.go_in({ close_on_file = true })
 	end
 
 	vim.keymap.set("n", lhs, rhs, { buffer = buf_id, desc = "Split " .. string.sub(direction, 12) })
 end
 
--- Yank the full path of the entry under the cursor into a register.
 local yank_path = function()
 	local path = (require("mini.files").get_fs_entry() or {}).path
 	if path == nil then
@@ -132,7 +112,6 @@ require("mini.files").setup({
 		filter = show_dotfiles and filter_show or filter_hide,
 		sort = function(entries)
 			local function compare_alphanumerically(e1, e2)
-				-- Put directories first.
 				if e1.is_dir and not e2.is_dir then
 					return true
 				end
@@ -144,7 +123,6 @@ require("mini.files").setup({
 				if e1.pre_digits == e2.pre_digits and e1.digits ~= nil and e2.digits ~= nil then
 					return e1.digits < e2.digits
 				end
-				-- Otherwise, sort in alphabetical order and ignore case.
 				return e1.lower_name < e2.lower_name
 			end
 
@@ -165,7 +143,6 @@ require("mini.files").setup({
 				}
 			end, entries)
 			table.sort(sorted, compare_alphanumerically)
-			-- Keep only the necessary fields.
 			return vim.tbl_map(function(x)
 				return { name = x.name, fs_type = x.fs_type, path = x.path }
 			end, sorted)
@@ -254,9 +231,9 @@ vim.api.nvim_create_autocmd("User", {
 	pattern = "MiniFilesExplorerOpen",
 	callback = function()
 		if vim.fn.isdirectory(vim.g.config_checkout) == 1 then
-			set_mark("c", vim.g.config_checkout, "Config") -- path
+			set_mark("c", vim.g.config_checkout, "Config")
 		end
-		set_mark("w", vim.fn.getcwd, "Working directory") -- callable
+		set_mark("w", vim.fn.getcwd, "Working directory")
 		set_mark("~", "~", "Home directory")
 	end,
 })

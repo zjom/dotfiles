@@ -95,8 +95,6 @@ vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
 		local bufnr = args.buf
 
-		-- Enable Treesitter folding only if the file is not huge and Treesitter
-		-- works for the buffer.
 		if vim.bo[bufnr].filetype ~= "bigfile" and pcall(vim.treesitter.start, bufnr) then
 			vim.api.nvim_buf_call(bufnr, function()
 				vim.wo[0][0].foldmethod = "expr"

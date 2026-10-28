@@ -1,4 +1,3 @@
--- Helper function that finds the applicable heading and jumps to that heading.
 local function jump_heading(forward)
 	-- Find the nearest heading before the cursor, to get the current context.
 	-- 'b' = backward, 'c' = accept a match at the cursor, 'W' = no wrap, 'n' =
@@ -21,7 +20,6 @@ local function jump_heading(forward)
 	vim.fn.search(pattern, search_flags)
 end
 
--- Keymaps.
 vim.keymap.set({ "n", "x" }, "]]", function()
 	jump_heading(true)
 end, { desc = "Jump to next HTML heading of same/higher level" })

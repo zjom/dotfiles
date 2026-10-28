@@ -22,7 +22,6 @@ require("gitsigns").setup({
 			vim.keymap.set(mode, l, r, opts)
 		end
 
-		-- Navigation
 		map("n", "]c", function()
 			if vim.wo.diff then
 				vim.cmd.normal({ "]c", bang = true })
@@ -39,7 +38,6 @@ require("gitsigns").setup({
 			end
 		end)
 
-		-- Actions
 		map("n", "<leader>gs", gitsigns.stage_hunk, { desc = "stage hunk" })
 		map("n", "<leader>gr", gitsigns.reset_hunk, { desc = "reset hunk" })
 
@@ -71,11 +69,9 @@ require("gitsigns").setup({
 		end, { desc = "add ALL hunks to qf" })
 		map("n", "<leader>gq", gitsigns.setqflist, { desc = "add hunks to qf" })
 
-		-- Toggles
 		map("n", "<leader>xb", gitsigns.toggle_current_line_blame, { desc = "toggle blame" })
 		map("n", "<leader>xw", gitsigns.toggle_word_diff, { desc = "toggle word diff" })
 
-		-- Text object
 		map({ "o", "x" }, "ih", gitsigns.select_hunk)
 	end,
 })

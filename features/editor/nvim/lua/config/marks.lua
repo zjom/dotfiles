@@ -14,7 +14,6 @@ end
 
 vim.api.nvim_set_decoration_provider(ns, {
 	on_win = function(_, _, bufnr, top_row, bot_row)
-		-- Show mark signs only for buffers that have a file name.
 		if vim.api.nvim_buf_get_name(bufnr) == "" then
 			return
 		end
