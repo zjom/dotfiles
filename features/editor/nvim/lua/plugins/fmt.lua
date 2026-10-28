@@ -9,12 +9,6 @@ local function format_on_save(bufnr)
     return nil
   end
 
-  -- Do not format if the special save command started the save.
-  if vim.g.skip_formatting then
-    vim.g.skip_formatting = false
-    return nil
-  end
-
   if not vim.g.autoformat then
     return nil
   end

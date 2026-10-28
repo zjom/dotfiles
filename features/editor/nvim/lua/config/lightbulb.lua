@@ -15,10 +15,9 @@ assert(timer, "Timer was not initialized")
 
 local updated_bufnr = nil
 
---- Updates the current lightbulb.
 ---@param bufnr number?
 ---@param line  number?
-local function update_extmark(bufnr, line)
+local function set_lightbulb(bufnr, line)
 	if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
 		return
 	end
@@ -39,11 +38,9 @@ local function update_extmark(bufnr, line)
 	updated_bufnr = bufnr
 end
 
---- Sends a code action request to the LSP servers and updates the lightbulb
---- with the result.
 ---@param bufnr  number
 ---@param client vim.lsp.Client
-local function render(bufnr, client)
+local function request_code_actions(bufnr, client)
 	local winnr = vim.api.nvim_get_current_win()
 	if vim.api.nvim_win_get_buf(winnr) ~= bufnr then
 		return
@@ -61,20 +58,20 @@ local function render(bufnr, client)
 			return
 		end
 
-		update_extmark(bufnr, (res and #res > 0 and line) or nil)
+		set_lightbulb(bufnr, (res and #res > 0 and line) or nil)
 	end)
 end
 
 ---@param bufnr  number
 ---@param client vim.lsp.Client
-local function update(bufnr, client)
+local function debounced_render(bufnr, client)
 	timer:stop()
-	update_extmark(updated_bufnr)
+	set_lightbulb(updated_bufnr)
 	timer:start(100, 0, function()
 		timer:stop()
 		vim.schedule(function()
 			if vim.api.nvim_buf_is_valid(bufnr) and vim.api.nvim_get_current_buf() == bufnr then
-				render(bufnr, client)
+				request_code_actions(bufnr, client)
 			end
 		end)
 	end)
@@ -94,7 +91,7 @@ M.attach_lightbulb = function(bufnr, client)
 		desc = "Update lightbulb when moving the cursor in normal/visual mode",
 		buffer = bufnr,
 		callback = function()
-			update(bufnr, client)
+			debounced_render(bufnr, client)
 		end,
 	})
 
@@ -103,7 +100,7 @@ M.attach_lightbulb = function(bufnr, client)
 		desc = "Update lightbulb when entering insert mode or leaving the buffer",
 		buffer = bufnr,
 		callback = function()
-			update_extmark(bufnr, nil)
+			set_lightbulb(bufnr, nil)
 		end,
 	})
 

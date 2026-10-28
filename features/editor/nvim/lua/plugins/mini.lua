@@ -157,24 +157,6 @@ require("mini.files").setup({
 vim.keymap.set("n", "<C-e>", minifiles_toggle, { desc = "Toggle File [E]xplorer" })
 vim.keymap.set("n", "<leader>xe", minifiles_toggle, { desc = "Toggle File [E]xplorer" })
 
--- Record when the explorer is open, so that format on save is disabled during
--- that time.
-local minifiles_explorer_group = vim.api.nvim_create_augroup("zjom/minifiles_explorer", { clear = true })
-vim.api.nvim_create_autocmd("User", {
-	group = minifiles_explorer_group,
-	pattern = "MiniFilesExplorerOpen",
-	callback = function()
-		vim.g.minifiles_active = true
-	end,
-})
-vim.api.nvim_create_autocmd("User", {
-	group = minifiles_explorer_group,
-	pattern = "MiniFilesExplorerClose",
-	callback = function()
-		vim.g.minifiles_active = false
-	end,
-})
-
 -- HACK: Tell the LSP servers that a file was renamed or moved. Copied from
 -- snacks.nvim.
 vim.api.nvim_create_autocmd("User", {

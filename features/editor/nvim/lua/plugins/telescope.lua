@@ -1,14 +1,10 @@
-local function gh(repo)
-	return "https://github.com/" .. repo
-end
-
 local telescope_plugins = {
-	gh("nvim-lua/plenary.nvim"),
-	gh("nvim-telescope/telescope.nvim"),
-	gh("nvim-telescope/telescope-ui-select.nvim"),
+	"https://github.com/nvim-lua/plenary.nvim",
+	"https://github.com/nvim-telescope/telescope.nvim",
+	"https://github.com/nvim-telescope/telescope-ui-select.nvim",
 }
 if vim.fn.executable("make") == 1 then
-	table.insert(telescope_plugins, gh("nvim-telescope/telescope-fzf-native.nvim"))
+	table.insert(telescope_plugins, "https://github.com/nvim-telescope/telescope-fzf-native.nvim")
 end
 
 vim.pack.add(telescope_plugins)

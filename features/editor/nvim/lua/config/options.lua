@@ -2,6 +2,7 @@
 -- the wrong leader key.
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.g.have_nerd_font = true
 
 -- The checkout that contains the editable source of this configuration. Neovim
 -- runs the copy in the Nix store (features/editor/nvim.nix). On a host, Home
@@ -10,10 +11,9 @@ vim.g.maplocalleader = " "
 vim.g.config_checkout = vim.fn.resolve(vim.fn.stdpath("config"))
 vim.g.dotfiles = vim.fs.root(vim.g.config_checkout, "flake.nix")
 
--- Indent with 2 spaces.
-vim.o.sw = 2
-vim.o.ts = 2
-vim.o.et = true
+vim.o.shiftwidth = 2
+vim.o.tabstop = 2
+vim.o.expandtab = true
 
 vim.o.list = true
 vim.opt.listchars = { space = "⋅", trail = "⋅", tab = "  ↦" }

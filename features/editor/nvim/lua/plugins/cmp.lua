@@ -1,15 +1,11 @@
-local function gh(repo)
-  return "https://github.com/" .. repo
-end
-
 vim.pack.add({
-  gh("L3MON4D3/LuaSnip"),
-  gh("rafamadriz/friendly-snippets"),
-  gh("saghen/blink.lib"),
-  gh("saghen/blink.cmp"),
-  gh("tpope/vim-dadbod"),
-  gh("kristijanhusak/vim-dadbod-ui"),
-  gh("kristijanhusak/vim-dadbod-completion"),
+  "https://github.com/L3MON4D3/LuaSnip",
+  "https://github.com/rafamadriz/friendly-snippets",
+  "https://github.com/saghen/blink.lib",
+  "https://github.com/saghen/blink.cmp",
+  "https://github.com/tpope/vim-dadbod",
+  "https://github.com/kristijanhusak/vim-dadbod-ui",
+  "https://github.com/kristijanhusak/vim-dadbod-completion",
 })
 
 require("luasnip").setup({})

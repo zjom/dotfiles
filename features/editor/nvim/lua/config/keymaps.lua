@@ -65,8 +65,7 @@ vim.keymap.set("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper win
 
 vim.keymap.set("n", "<leader>bp", ":b#<CR>", { desc = "[B]uffer [P]revious", silent = true })
 vim.keymap.set("n", "<leader>bn", ":bn<CR>", { desc = "[B]uffer [N]ext", silent = true })
-vim.keymap.set("n", "<leader>bd", ":bd<CR>", { desc = "[B]uffer [D]elete current", silent = true })
-vim.keymap.set("n", "<leader>bc", ":vs and new_window<CR>", { desc = "[B]uffer [C]reate ", silent = true })
+vim.keymap.set("n", "<leader>bc", "<cmd>vnew<cr>", { desc = "[B]uffer [C]reate ", silent = true })
 vim.keymap.set("n", "<leader>bs", ":Scratch<CR>", { desc = "[B]uffer [Scratch]", silent = true })
 
 vim.keymap.set("n", "<leader>L0", ":set nonu nornu<CR>", { desc = "[L]inenumbers Off", silent = true })

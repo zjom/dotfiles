@@ -23,9 +23,7 @@ return {
 					command = "clippy",
 				},
 			},
-			get_project_rustanalyzer_settings(),
-			{
-			}
+			get_project_rustanalyzer_settings()
 		),
 	},
 }

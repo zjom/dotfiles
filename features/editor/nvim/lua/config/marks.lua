@@ -12,29 +12,30 @@ local function decor_mark(bufnr, mark)
 	})
 end
 
+---@param mark vim.fn.getmarklist.ret.item
+local function is_letter_mark(mark)
+	return mark.mark:match("^.[a-zA-Z]$") ~= nil
+end
+
 vim.api.nvim_set_decoration_provider(ns, {
 	on_win = function(_, _, bufnr, top_row, bot_row)
-		if vim.api.nvim_buf_get_name(bufnr) == "" then
+		local current_file = vim.api.nvim_buf_get_name(bufnr)
+		if current_file == "" then
 			return
 		end
 
 		vim.api.nvim_buf_clear_namespace(bufnr, ns, top_row, bot_row)
 
-		local current_file = vim.api.nvim_buf_get_name(bufnr)
-
-		-- Global marks.
-		for _, mark in ipairs(vim.fn.getmarklist()) do
-			if mark.mark:match("^.[a-zA-Z]$") then
-				local mark_file = vim.fn.fnamemodify(mark.file, ":p:a")
-				if current_file == mark_file then
-					decor_mark(bufnr, mark)
-				end
+		local global_marks = vim.fn.getmarklist()
+		for _, mark in ipairs(global_marks) do
+			if is_letter_mark(mark) and vim.fn.fnamemodify(mark.file, ":p:a") == current_file then
+				decor_mark(bufnr, mark)
 			end
 		end
 
-		-- Local marks.
-		for _, mark in ipairs(vim.fn.getmarklist(bufnr)) do
-			if mark.mark:match("^.[a-zA-Z]$") then
+		local local_marks = vim.fn.getmarklist(bufnr)
+		for _, mark in ipairs(local_marks) do
+			if is_letter_mark(mark) then
 				decor_mark(bufnr, mark)
 			end
 		end

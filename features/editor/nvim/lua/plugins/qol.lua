@@ -1,14 +1,10 @@
-local function gh(repo)
-	return "https://github.com/" .. repo
-end
-
 vim.pack.add({
-	gh("nvim-tree/nvim-web-devicons"),
-	gh("windwp/nvim-autopairs"),
-	gh("windwp/nvim-ts-autotag"),
-	gh("numToStr/Comment.nvim"),
-	gh("christoomey/vim-tmux-navigator"),
-	gh("folke/todo-comments.nvim"),
+	"https://github.com/nvim-tree/nvim-web-devicons",
+	"https://github.com/windwp/nvim-autopairs",
+	"https://github.com/windwp/nvim-ts-autotag",
+	"https://github.com/numToStr/Comment.nvim",
+	"https://github.com/christoomey/vim-tmux-navigator",
+	"https://github.com/folke/todo-comments.nvim",
 })
 require("nvim-autopairs").setup({})
 require("nvim-ts-autotag").setup({})

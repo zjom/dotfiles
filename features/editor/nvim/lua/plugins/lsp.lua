@@ -1,18 +1,43 @@
-local function gh(repo)
-  return "https://github.com/" .. repo
-end
 vim.pack.add({
-  gh("j-hui/fidget.nvim"), -- Shows the status updates of the LSP servers.
-  gh("neovim/nvim-lspconfig"),
+  "https://github.com/j-hui/fidget.nvim", -- Shows the status updates of the LSP servers.
+  "https://github.com/neovim/nvim-lspconfig",
 })
 require("fidget").setup({})
+
+---@param client vim.lsp.Client
+---@param bufnr  integer
+local function enable_reference_highlight(client, bufnr)
+  if not client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, bufnr) then
+    return
+  end
+
+  local highlight_augroup = vim.api.nvim_create_augroup("zjom-lsp-highlight", { clear = false })
+  vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+    buffer = bufnr,
+    group = highlight_augroup,
+    callback = vim.lsp.buf.document_highlight,
+  })
+
+  vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+    buffer = bufnr,
+    group = highlight_augroup,
+    callback = vim.lsp.buf.clear_references,
+  })
+
+  vim.api.nvim_create_autocmd("LspDetach", {
+    group = vim.api.nvim_create_augroup("zjom-lsp-detach", { clear = true }),
+    callback = function(event)
+      vim.lsp.buf.clear_references()
+      vim.api.nvim_clear_autocmds({ group = "zjom-lsp-highlight", buffer = event.buf })
+    end,
+  })
+end
 
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("zjom-lsp-attach", { clear = true }),
   callback = function(event)
     local map = function(keys, func, desc, mode)
-      mode = mode or "n"
-      vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+      vim.keymap.set(mode or "n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
     end
 
     map("grn", vim.lsp.buf.rename, "[R]e[n]ame")
@@ -37,33 +62,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     map("K", vim.lsp.buf.hover, "Hover Documentation")
 
-    -- The two autocommands that follow highlight the references to the word
-    -- under the cursor when the cursor stays on the word for a short time. See
-    -- `:help CursorHold` for the time when this autocommand runs.
-    --
-    -- When the cursor moves, the second autocommand clears the highlights.
     local client = vim.lsp.get_client_by_id(event.data.client_id)
-    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
-      local highlight_augroup = vim.api.nvim_create_augroup("zjom-lsp-highlight", { clear = false })
-      vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.document_highlight,
-      })
+    if client then
+      enable_reference_highlight(client, event.buf)
+    end
 
-      vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-        buffer = event.buf,
-        group = highlight_augroup,
-        callback = vim.lsp.buf.clear_references,
-      })
-
-      vim.api.nvim_create_autocmd("LspDetach", {
-        group = vim.api.nvim_create_augroup("zjom-lsp-detach", { clear = true }),
-        callback = function(event2)
-          vim.lsp.buf.clear_references()
-          vim.api.nvim_clear_autocmds({ group = "zjom-lsp-highlight", buffer = event2.buf })
-        end,
-      })
+    if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_codeAction, event.buf) then
+      require("config.lightbulb").attach_lightbulb(event.buf, client)
     end
 
     if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_codeLens) then
