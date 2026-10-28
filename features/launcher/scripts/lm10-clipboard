@@ -24,7 +24,7 @@ fi
 
 printf -v self %q "$(realpath "$0")"
 list | "${LM10:-lm10}" \
-  --width 50% \
+  --width 40% \
   --prompt '📋  ' \
   --header '^d delete  ^w wipe' \
   --bind "Control+d=execute(echo {4} | cliphist delete)+reload($self --list)" \

@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
-# The sesh picker, based on the sesh_all function of fish. The script connects
-# to each selected session in kitty. The script makes its own lists
-# (`lm10-sesh --list WHAT`), so the reload binds can also run the script. lm10
-# has no preview and cannot read a new name. Thus, this script does not have the
-# preview and the ^r rename of sesh_all.
+# tmux session picker
 set -euo pipefail
 
 # Prints the entries as lines, quoted with %q. lm10 reads these lines back.

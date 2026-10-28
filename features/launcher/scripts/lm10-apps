@@ -1,11 +1,6 @@
 #!/usr/bin/env fish
 # App launcher. The script lists the installed desktop applications (.desktop
-# files) and the other lm10 scripts in the directory of this script. The script
-# runs the selected entry as a detached process, like the app menu of a desktop.
-# The apps part is copied from examples/apps.fish of lm10. Like lm10-sesh, the
-# script makes its own lists (lm10-apps --list [apps|scripts]), so the reload
-# binds can also run the script. lm10-apps apps|scripts opens with only that
-# list. The script needs fd.
+# files) and the other lm10 scripts in the directory of this script. The script runs the selected entry as a detached process, like the app menu of a desktop.
 
 set -q XDG_DATA_HOME; or set XDG_DATA_HOME ~/.local/share
 set -q XDG_DATA_DIRS; or set XDG_DATA_DIRS /usr/local/share:/usr/share
@@ -78,6 +73,7 @@ end
 
 set -l q (string escape -- $self)
 list $self $argv[1] | $LM10 \
+    --width 40% \
     --prompt "$prompt  " \
     --header '^a all  ^o apps  ^s scripts' \
     --bind "Control+a=change-prompt(🚀  )+reload($q --list)" \
