@@ -16,14 +16,17 @@ in
     in
     {
       wrappers.lm10 = {
-        # lm10 has a package only for Linux.
         package = inputs.lm10.packages.${system}.default or (throw "lm10 is not packaged for ${system}");
         flags."--config" = "${pkgs.writeText "lm10.ini" (
           lib.generators.toINI { } {
             main = {
               font = "JetBrains Mono 15";
-              border-width = 1;
-              border-radius = 4;
+              border-width = 2;
+              border-radius = 12;
+              lines = 8;
+              padding = 14;
+              row-padding = 8;
+              selection-radius = 8;
             };
             colors = with colors; {
               background = "#${bg}ff";
