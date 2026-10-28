@@ -10,19 +10,22 @@
         lib.mkOption {
           type = lib.types.str;
           inherit default;
+          description = "A colour of the Vague scheme, as a hex value without the leading `#`.";
         };
     in
     {
-      # The checkout of this repository, relative to the home directory.
       options.settings.flakeDir = lib.mkOption {
         type = lib.types.str;
         default = "dotfiles";
+        description = "The checkout of this repository, relative to the home directory.";
       };
 
-      # The directories that are never useful to search, walk or list. fd,
-      # ripgrep and the walker of fzf skip these directories.
       options.settings.searchIgnores = lib.mkOption {
         type = lib.types.listOf lib.types.str;
+        description = ''
+          The directories that are never useful to search, walk or list. fd,
+          ripgrep and the walker of fzf skip these directories.
+        '';
         default = [
           ".git"
           ".jj"
@@ -33,10 +36,9 @@
         ];
       };
 
-      # The Vague colour scheme, as hex values without the leading `#`. Programs
-      # that need either form can use these values. Neovim uses the upstream
-      # vague.nvim plugin (features/editor/nvim/lua/plugins/init.lua). Thus, a
-      # change to another scheme also changes that file.
+      # Neovim uses the upstream vague.nvim plugin
+      # (features/editor/nvim/lua/plugins/init.lua). Thus, a change to another
+      # scheme also changes that file.
       options.settings.colors = {
         bg = color "141415";
         inactiveBg = color "1c1c24";

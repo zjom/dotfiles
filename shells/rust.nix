@@ -1,5 +1,3 @@
-# Rust toolchain, with rust-analyzer.
-#   nix develop '~/dotfiles#rust'
 { pkgs }:
 
 pkgs.mkShell {

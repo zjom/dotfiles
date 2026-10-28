@@ -1,6 +1,3 @@
-# OpenTofu and related tools.
-#   nix develop '~/dotfiles#infra'
-
 { pkgs }:
 
 pkgs.mkShell {

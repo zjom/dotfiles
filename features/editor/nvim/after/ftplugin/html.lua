@@ -1,12 +1,11 @@
+local ANY_HEADING_LEVEL = "6"
+
 local function jump_heading(forward)
-	-- Find the nearest heading before the cursor, to get the current context.
 	-- 'b' = backward, 'c' = accept a match at the cursor, 'W' = no wrap, 'n' =
 	-- do not move the cursor.
 	local context_lnum = vim.fn.search([[<h[1-6]\(>\|\s\)]], "bcWn")
 
-	-- If there is no heading before the cursor (for example, at the top of the
-	-- file), use "6".
-	local level = "6"
+	local level = ANY_HEADING_LEVEL
 	if context_lnum > 0 then
 		local line = vim.fn.getline(context_lnum)
 		local match = line:match("<h([1-6])")

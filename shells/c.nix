@@ -1,5 +1,3 @@
-# C toolchain, with clangd.
-#   nix develop '~/dotfiles#c'
 { pkgs }:
 
 with pkgs;

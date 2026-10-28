@@ -1,6 +1,5 @@
 # Python toolchain. uv manages the virtualenvs and the dependency resolution.
 # Nix supplies only the tools that are outside the venv of a project.
-#   nix develop '~/dotfiles#python'
 { pkgs }:
 
 pkgs.mkShell {

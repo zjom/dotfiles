@@ -35,14 +35,11 @@ local function treesitter_try_attach(buf, language)
 	if not vim.treesitter.language.add(language) then
 		return
 	end
-	-- Enable syntax highlighting and the other treesitter features.
 	vim.treesitter.start(buf, language)
 
 	vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 	vim.wo.foldmethod = "expr"
 
-	-- If there is no indent query, indentexpr uses the built-in indentation of
-	-- Vim.
 	local has_indent_query = vim.treesitter.query.get(language, "indents") ~= nil
 
 	if has_indent_query then

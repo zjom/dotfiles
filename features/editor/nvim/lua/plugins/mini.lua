@@ -79,9 +79,7 @@ local yank_rel_path = function()
 	vim.fn.setreg(vim.v.register, relpath)
 end
 
--- Open the path with the default handler of the system (for files that are not
--- text files).
-local ui_open = function()
+local open_with_system_handler = function()
 	vim.ui.open(require("mini.files").get_fs_entry().path)
 end
 
@@ -149,8 +147,6 @@ require("mini.files").setup({
 		end,
 	},
 	windows = { width_nofocus = 25 },
-	-- Move deleted entries to the minifiles trash, so that the deleted entries
-	-- are not lost.
 	options = { permanent_delete = false },
 })
 
@@ -199,7 +195,7 @@ vim.api.nvim_create_autocmd("User", {
 		map_split(buf_id, "<C-w>s", "belowright horizontal")
 		map_split(buf_id, "<C-w>v", "belowright vertical")
 		vim.keymap.set("n", "<enter>", require("mini.files").go_in, { buffer = buf_id, desc = "Open" })
-		vim.keymap.set("n", "gx", ui_open, { buffer = buf_id, desc = "OS open" })
+		vim.keymap.set("n", "gx", open_with_system_handler, { buffer = buf_id, desc = "OS open" })
 		vim.keymap.set("n", "gy", yank_path, { buffer = buf_id, desc = "Yank path" })
 		vim.keymap.set("n", "gY", yank_rel_path, { buffer = buf_id, desc = "Yank rel path" })
 		vim.keymap.set("n", "g.", toggle_dotfiles, { buffer = buf_id, desc = "Toggle dotfiles" })

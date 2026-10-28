@@ -1,29 +1,11 @@
 # The aerospace node (aerospace.nix) gives this file to AeroSpace.
 # AeroSpace ignores ~/.aerospace.toml.
 
-# Use this option to add commands that run after the login to the macOS user
-# session.
-# 'after-login-command' works only if 'start-at-login' is 'true'.
-# Available commands: https://nikitabobko.github.io/AeroSpace/commands
-after-login-command = []
-
-# Use this option to add commands that run after AeroSpace starts.
-# 'after-startup-command' runs after 'after-login-command'.
-# Available commands: https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
-
-# Start AeroSpace at login. The value stays false because the Home Manager
-# launchd agent starts AeroSpace. The value true registers a second login item,
-# which starts a second copy.
-start-at-login = false
-
 # Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
 enable-normalization-flatten-containers = true
 enable-normalization-opposite-orientation-for-nested-containers = true
 
 # See: https://nikitabobko.github.io/AeroSpace/guide#layouts
-# 'accordion-padding' sets the size of the accordion padding.
-# To disable the padding, set 0.
 accordion-padding = 0
 
 # Possible values: tiles|accordion
@@ -39,11 +21,15 @@ default-root-container-orientation = "auto"
 key-mapping.preset = "qwerty"
 
 # The mouse follows the focus when the focused monitor changes.
-# If you do not want this behaviour, remove this option.
 # See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
 # See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
 on-focus-changed = ["move-mouse window-lazy-center"]
 on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
+
+# exec-and-forget gets the minimal PATH of launchd. That PATH does not contain
+# the Nix profiles.
+[exec.env-vars]
+PATH = "/etc/profiles/per-user/${USER}/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}"
 
 # Gaps between windows (inner-*) and between the windows and the monitor edges
 # (outer-*).
@@ -53,12 +39,6 @@ on-focused-monitor-changed = ["move-mouse monitor-lazy-center"]
 #                 In this example, 24 is the default value if no pattern matches.
 #                 The monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
 #                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
-
-# exec-and-forget gets the minimal PATH of launchd. That PATH does not contain
-# the Nix profiles.
-[exec.env-vars]
-PATH = "/etc/profiles/per-user/${USER}/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/opt/homebrew/sbin:${PATH}"
-
 [gaps]
 inner.horizontal = 8
 inner.vertical = 0
@@ -67,7 +47,6 @@ outer.right = 2
 outer.top = 0
 outer.bottom = 0
 
-# The declaration of the 'main' binding mode.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 # The 'main' binding mode must always exist.
 [mode.main.binding]
@@ -149,13 +128,15 @@ alt-shift-tab = "move-workspace-to-monitor --wrap-around next"
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = "mode service"
 
-# The declaration of the 'service' binding mode.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
 esc = ["reload-config", "mode main"]
 r = ["flatten-workspace-tree", "mode main"] # reset the layout
 # s = ['layout sticky tiling', 'mode main'] # AeroSpace does not support sticky yet: https://github.com/nikitabobko/AeroSpace/issues/2
-f = ["layout floating tiling", "mode main"] # Toggle between the floating layout and the tiling layout
+f = [
+  "layout floating tiling",
+  "mode main",
+] # Toggle between the floating layout and the tiling layout
 backspace = ["close-all-windows-but-current", "mode main"]
 
 alt-shift-h = ["join-with left", "mode main"]

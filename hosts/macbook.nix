@@ -19,8 +19,7 @@ in
           my.username = "zihanjin";
           my.hostName = "macbook";
 
-          # These files are installed outside Nix. Source each file only if it
-          # exists.
+          # These files are installed outside Nix.
           wrappers.fish.configFile.content = ''
             if status is-interactive
                 test -f ~/.orbstack/shell/init2.fish; and source ~/.orbstack/shell/init2.fish 2>/dev/null

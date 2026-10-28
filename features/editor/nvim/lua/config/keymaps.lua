@@ -5,13 +5,11 @@ vim.keymap.set("i", "jk", "<Esc>")
 vim.keymap.set("n", "j", [[(v:count > 1 ? 'm`' . v:count : 'g') . 'j']], { expr = true })
 vim.keymap.set("n", "k", [[(v:count > 1 ? 'm`' . v:count : 'g') . 'k']], { expr = true })
 
--- Keep the cursor in the center of the window.
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll downwards" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll upwards" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next result" })
 vim.keymap.set("n", "N", "Nzzzv", { desc = "Previous result" })
 
--- Indent and stay in visual mode.
 vim.keymap.set("v", "<", "<gv")
 vim.keymap.set("v", ">", ">gv")
 

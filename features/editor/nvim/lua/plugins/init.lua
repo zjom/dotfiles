@@ -7,9 +7,8 @@ require("vague").setup({
 vim.cmd("colorscheme vague")
 vim.cmd(":hi statusline guibg=NONE")
 
--- Load each Lua file in the plugins directory. The plugins directory is the
--- directory that contains this file, independent of the location of the loaded
--- configuration.
+-- The directory that contains this file, independent of the location of the
+-- loaded configuration.
 local plugins_dir = vim.fs.dirname(debug.getinfo(1, "S").source:sub(2))
 for file_name, type in vim.fs.dir(plugins_dir) do
 	if type == "file" and file_name:match("%.lua$") and file_name ~= "init.lua" then

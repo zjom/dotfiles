@@ -51,18 +51,22 @@ dap.configurations.rust = dap.configurations.c
 
 local saved = {}
 
+local function had_mapping(m)
+  return m.rhs ~= nil or m.callback ~= nil
+end
+
 local function set_temp(mode, lhs, rhs)
-  saved[#saved + 1] = vim.fn.maparg(lhs, mode, false, true) -- a dict, which can be empty
+  saved[#saved + 1] = vim.fn.maparg(lhs, mode, false, true)
   saved[#saved].__lhs, saved[#saved].__mode = lhs, mode
   vim.keymap.set(mode, lhs, rhs)
 end
 
 local function restore()
   for _, m in ipairs(saved) do
-    if m.rhs or m.callback then
+    if had_mapping(m) then
       vim.fn.mapset(m.__mode, false, m)
     else
-      pcall(vim.keymap.del, m.__mode, m.__lhs) -- there was no original mapping
+      pcall(vim.keymap.del, m.__mode, m.__lhs)
     end
   end
   saved = {}

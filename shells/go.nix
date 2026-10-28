@@ -1,5 +1,3 @@
-# Go toolchain, with gopls.
-#   nix develop '~/dotfiles#go'
 { pkgs }:
 
 pkgs.mkShell {
@@ -13,8 +11,6 @@ pkgs.mkShell {
     delve
   ];
 
-  # Keep the module cache and the build cache of each project out of ~/go. Thus,
-  # the global GOPATH contains no files after you exit the shell.
   shellHook = ''
     export GOPATH="$PWD/.go"
     export PATH="$GOPATH/bin:$PATH"

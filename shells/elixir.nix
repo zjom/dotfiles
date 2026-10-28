@@ -1,5 +1,3 @@
-# Elixir and Erlang toolchain, with elixir-ls.
-#   nix develop '~/dotfiles#elixir'
 { pkgs }:
 
 pkgs.mkShell {

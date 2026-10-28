@@ -1,7 +1,6 @@
 vim.pack.add({ "https://github.com/stevearc/conform.nvim" })
--- Use conform for gq.
 vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
--- Enable auto-formatting by default. The ToggleFormat command disables it.
+-- The ToggleFormat command changes this value.
 vim.g.autoformat = true
 local function format_on_save(bufnr)
   local bufname = vim.api.nvim_buf_get_name(bufnr)
@@ -77,7 +76,7 @@ require("conform").setup({
   },
   format_on_save = format_on_save,
   default_format_opts = {
-    lsp_format = "fallback", -- An external formatter below has priority over LSP formatting. To disable LSP formatting fully, set this value to `false`.
+    lsp_format = "fallback", -- An external formatter has priority over LSP formatting. To disable LSP formatting fully, set this value to `false`.
   },
 })
 

@@ -20,9 +20,8 @@
 # Until a remote exists, its mount service fails and tries again every minute.
 # After you create the remote, run `systemctl --user restart rclone-<remote>`.
 let
-  # The name of the rclone remote, and the symlink in ~ to its mount. Each remote
-  # mounts on /run/user/<uid>/<remote>.
-  drives = {
+  # Each remote mounts on /run/user/<uid>/<remote>.
+  homeLinkOfRemote = {
     gdrive = "GoogleDrive";
     icloud = "iCloud";
   };
@@ -52,7 +51,6 @@ in
           };
           Install.WantedBy = [ "default.target" ];
           Service = {
-            # rclone tells systemd when the mount is ready.
             Type = "notify";
             # rclone runs fusermount3, and NixOS has the setuid fusermount3 only
             # in /run/wrappers/bin.
@@ -85,6 +83,6 @@ in
         };
     in
     {
-      systemd.user.services = lib.mapAttrs' mount drives;
+      systemd.user.services = lib.mapAttrs' mount homeLinkOfRemote;
     };
 }

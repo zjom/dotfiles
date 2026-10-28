@@ -1,5 +1,3 @@
-# Web toolchain, with css_ls, html_ls, ts_ls and prettier.
-#   nix develop '~/dotfiles#web'
 { pkgs }:
 
 let

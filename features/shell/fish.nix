@@ -27,8 +27,6 @@
               set -g fish_key_bindings fish_vi_key_bindings
           end
 
-          # The checkout of this repository. Functions that need the checkout
-          # read this variable.
           set -q DOTFILES; or set -gx DOTFILES ~/${config.settings.flakeDir}
         '';
       };

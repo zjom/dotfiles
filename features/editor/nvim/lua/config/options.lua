@@ -23,21 +23,17 @@ vim.wo.relativenumber = true
 
 vim.o.mouse = "a"
 
--- Disable horizontal scrolling.
 vim.o.mousescroll = "ver:3,hor:0"
 
 -- Do not show the mode, because the status line already shows it.
 vim.o.showmode = false
 
--- Wrap long lines at word boundaries.
 vim.o.linebreak = true
 
 vim.o.foldcolumn = "1"
 vim.o.foldlevelstart = 99
 vim.wo.foldtext = ""
 
--- Synchronize the clipboard of the OS with Neovim. To keep the clipboard of the
--- OS separate, remove this option. See `:help 'clipboard'`.
 vim.schedule(function()
 	vim.o.clipboard = "unnamedplus"
 end)
@@ -54,7 +50,7 @@ vim.wo.signcolumn = "yes"
 vim.o.updatetime = 250
 vim.o.timeoutlen = 300
 
--- Diff mode settings. A very large context value disables folding.
+-- A very large context value disables folding.
 vim.opt.diffopt:append("vertical,context:99")
 vim.opt.shortmess:append({
 	w = true,

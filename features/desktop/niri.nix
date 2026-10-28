@@ -2,7 +2,6 @@
 # wrapper validates niri.kdl at build time.
 { leaf, ... }:
 {
-  # niri.kdl takes its background from the colour settings.
   nodes.niri = leaf "niri" (
     { config, ... }:
     {
