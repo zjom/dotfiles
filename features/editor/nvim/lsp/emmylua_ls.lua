@@ -1,5 +1,7 @@
 return {
-	on_init = require("config.lua_workspace").defer_to_workspace_config,
+	on_init = function(client)
+		require("config.lua_workspace").defer_to_workspace_config(client)
+	end,
 	settings = {
 		emmylua = {
 			runtime = { version = "LuaJIT" },
