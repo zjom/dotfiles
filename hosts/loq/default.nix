@@ -14,6 +14,7 @@ in
       nixos.intel-cpu
       nixos.laptop
       nixos.audio
+      nixos.printing
       nixos.nvidia-prime
       nixos.mx-master-3
       nodes.env
