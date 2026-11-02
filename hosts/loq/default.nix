@@ -15,6 +15,7 @@ in
       nixos.laptop
       nixos.audio
       nixos.printing
+      nixos.chrome
       nixos.nvidia-prime
       nixos.mx-master-3
       nodes.env
