@@ -1,6 +1,6 @@
 # The shell: fish and tmux as one session, sesh to select sessions, eza to list
-# files, and the prompt.
-{ config, ... }:
+# files, the prompt, and workmux for git worktrees in tmux windows.
+{ config, inputs, ... }:
 {
   nodes.shell =
     { pkgs, ... }:
@@ -43,6 +43,8 @@
         pkgs.starship
         pkgs.zoxide
         sesh-pick
+        # workmux opens each git worktree in a tmux window.
+        inputs.workmux.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
 
       entry = "fish";

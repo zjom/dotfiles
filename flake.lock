@@ -221,8 +221,29 @@
         "nix-darwin": "nix-darwin",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
+        "workmux": "workmux",
         "wrappers": "wrappers",
         "zen-draw": "zen-draw"
+      }
+    },
+    "workmux": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793660342,
+        "narHash": "sha256-mOIPZYk+6aBAfbx83xbIm0PdJTWCcxEvvA+Xhy8A/30=",
+        "owner": "raine",
+        "repo": "workmux",
+        "rev": "bcef2cbf7519c2e6cc61d8bd6850afb8da93eed8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raine",
+        "repo": "workmux",
+        "type": "github"
       }
     },
     "wrappers": {
