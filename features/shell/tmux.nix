@@ -50,6 +50,9 @@
           unbind M-o
           bind -N "Rotate pane" "#" rotate-window
 
+          # kitty maps Ctrl-Super-l, Ctrl-Super-` and Ctrl-Super-Tab to the D, S and L
+          # bindings below (see features/terminal/kitty.conf).
+          bind -N "Switch to previous session" L switch-client -l
           bind -N "Toggle workmux sidebar" S run-shell "workmux sidebar"
           bind -N "Open workmux dashboard" D display-popup -E -w 90% -h 90% -d "#{pane_current_path}" "workmux dashboard"
 
