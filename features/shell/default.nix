@@ -59,6 +59,7 @@
         shellAliases = {
           do = "doen";
           tm = "tmux";
+          wm = "workmux";
           ls = "eza";
           ll = "eza -l";
           la = "eza -a";

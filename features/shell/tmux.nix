@@ -50,6 +50,9 @@
           unbind M-o
           bind -N "Rotate pane" "#" rotate-window
 
+          bind -N "Toggle workmux sidebar" S run-shell "workmux sidebar"
+          bind -N "Open workmux dashboard" D display-popup -E -w 90% -h 90% -d "#{pane_current_path}" "workmux dashboard"
+
           # Pane navigation in copy mode. These bindings are equal to the C-hjkl
           # bindings outside copy mode.
           bind -T copy-mode-vi C-h select-pane -L
