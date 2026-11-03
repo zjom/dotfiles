@@ -32,6 +32,9 @@
         ];
 
         configAfter = ''
+          set -g detach-on-destroy off     # Stay in tmux when session closes
+          set -g renumber-windows on       # No gaps after closing windows
+
           set -a terminal-features "screen-256color:RGB"
 
           # Since tmux 3.8, popups have a dark grey background by default. Use
