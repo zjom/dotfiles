@@ -43,7 +43,7 @@
                   gestures = [
                     (gesture "None" (keys [
                       "KEY_LEFTALT"
-                      "KEY_O"
+                      "KEY_TAB"
                     ]))
                     (gesture "Left" (keys [
                       "KEY_LEFTALT"
