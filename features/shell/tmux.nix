@@ -55,6 +55,7 @@
           bind -N "Switch to previous session" L switch-client -l
           bind -N "Toggle workmux sidebar" S run-shell "workmux sidebar"
           bind -N "Open workmux dashboard" D display-popup -E -w 90% -h 90% -d "#{pane_current_path}" "workmux dashboard"
+          bind -N "Open doen" t display-popup -E -w 90% -h 90% -d "#{pane_current_path}" "doen i"
 
           # Pane navigation in copy mode. These bindings are equal to the C-hjkl
           # bindings outside copy mode.
