@@ -138,7 +138,21 @@
             "pulseaudio"
             "battery"
           ];
-          clock.format = "{:%a %d %b  %H:%M}";
+          clock = {
+            format = "{:%a %d %b  %H:%M}";
+            tooltip-format = "<tt>{calendar}</tt>";
+            calendar = {
+              mode = "month";
+              weeks-pos = "";
+              on-scroll = 1;
+              format.today = "<span color='#${colors.keyword}'><b><u>{}</u></b></span>";
+            };
+            actions = {
+              on-scroll-up = "shift_up";
+              on-scroll-down = "shift_down";
+              on-click-right = "shift_reset";
+            };
+          };
           network = {
             format-wifi = "{essid}";
             format-ethernet = "wired";
