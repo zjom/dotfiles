@@ -45,6 +45,8 @@ in
           boot.loader.efi.canTouchEfiVariables = true;
           boot.kernelPackages = pkgs.linuxPackages_latest;
 
+          zramSwap.enable = true;
+
           networking.hostName = "loq";
           networking.networkmanager.enable = true;
 
