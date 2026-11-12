@@ -7,7 +7,6 @@
       environment.systemPackages = with pkgs; [
         bluetui
         brightnessctl
-        imv
         # programs.niri registers nautilus only as a D-Bus service (for the file
         # chooser portal). Install it, for the desktop entry and the PATH.
         nautilus

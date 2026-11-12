@@ -15,6 +15,7 @@ in
         mako
         swaylock
         kitty
+        imv
         launcher
       ];
 
