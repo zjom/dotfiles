@@ -20,6 +20,26 @@
         "type": "github"
       }
     },
+    "eep": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794478216,
+        "narHash": "sha256-/DWuYp7yLUY3ZMqG/Nn+BBhkKwoqeulTbs9w5EFxWbE=",
+        "owner": "zjom",
+        "repo": "eep",
+        "rev": "be8622a6db8fa775ed4c87a08d8c91fd67c7fffb",
+        "type": "github"
+      },
+      "original": {
+        "owner": "zjom",
+        "repo": "eep",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -212,6 +232,7 @@
     "root": {
       "inputs": {
         "doen": "doen",
+        "eep": "eep",
         "flake-parts": "flake-parts",
         "get-ignore": "get-ignore",
         "home-manager": "home-manager",

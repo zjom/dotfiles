@@ -55,6 +55,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    eep = {
+      url = "github:zjom/eep";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     workmux = {
       url = "github:raine/workmux";
       inputs.nixpkgs.follows = "nixpkgs";

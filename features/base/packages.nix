@@ -25,6 +25,7 @@ let
 
         inputs.get-ignore.packages.${pkgs.stdenv.hostPlatform.system}.default
         inputs.leeth.packages.${pkgs.stdenv.hostPlatform.system}.default
+        inputs.eep.packages.${pkgs.stdenv.hostPlatform.system}.default
       ];
     };
 in
